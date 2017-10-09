@@ -40,8 +40,6 @@ I should note that O'Brien (2015) describes the study 4 manipulation as a "role 
 
 ##Stimuli & Procedures
 
-###Procedures
-
 This study employs a 2 x 2 design, in which participants are told to use either their past or future self as a role model for a task that is presented either as assessing their capacity for "emotionality" or "rationality". The task itself involved looking at photos as part of a 10-photo slideshow in which participants could exit at any time. The DV was how many photos they clicked through.
 
 Participants were recruited from Amazon's Mechanical Turk. The role-modeling manipulation consisted of having participants reflect on either their past or future self in an open-ended response (the actual instructions for this response is included in the paper). Participants were then told to keep this self in mind as a guide when performing a subsequent task.
@@ -51,17 +49,17 @@ Then, participants were told that they were to to do a task about enjoyment ("fu
 Finally, participants were asked three self-report questions to assess the difficulty of imagining their other self, the detail of this self, and how far away this self seemed. The text of the questions was provided.
 
 
-Complications
+###Challenges
 
 * Stimuli
-    + While the links 10 photos that comprised the slideshow were included, 3 of the 10 links did not work.
+    + While the links 10 photos that comprised the slideshow were included, 3 of the 10 links did not work. Hopefully they are still in on the internet.
 
 * Appearance
-    + It is unclear how exactly the slideshow looked (while it is described, with the appropriate instructions, it is not fully clear).
+    + It is unclear how exactly the slideshow appeared to participants (while it is described, with the appropriate instructions, it is not fully clear).
 
 * Content (while this paper thoroughly describes what they did, the paper does not always explicitly record what exactly what was written)
     + The cover story on Mechanical Turk was not provided
-    + It is not clear how the task itself was described (the paper says "participants thought the task was about enjoyment ... other participanst thought the task was about critical thinking", but it is unclear which words were actually used to describe the ask
+    + It is not clear how the task itself was described (the paper says "participants thought the task was about enjoyment ... other participants thought the task was about critical thinking", but it is unclear which words were actually used to describe the task.
     + It is not clear what exactly participants were told prior to the open-ended response.
     + It is not clear if other questions were asked (paper did not say, for instance, "we collected no other measures")
     
