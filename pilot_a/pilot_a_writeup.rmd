@@ -1,0 +1,115 @@
+---
+title: "pilot_a_writeup"
+author: "Erik Santoro"
+date: "November 19, 2017"
+output: 
+  html_document:
+  toc: true
+---
+
+------
+
+#### Overview
+
+Replication of Study 4 by Sample & Sample (2015, Journal of Experimental Psychology: General)
+
+#### Changes to Make For Pilot B
+
+* Stimuli
+    + I used the original Qualtrics file that Ed O'Brien sent me. After running my pilot, I noticed that the future self manipulations had the wrong wording. They said "who you recall being" but should say "who you imagine being over the next few years" (as indeed the paper pointed out).
+    
+* Measures
+    + For the question asking how far away the self felt during the task, the item descriptions should have been in past tense ("they felt very close to me") and not present ("they feel very close to me")
+    
+* Attenion Check
+    + Add an attention check? I am not sure what the best attention check is to add
+
+
+------
+
+#Introduction
+
+------
+
+#Methods
+
+##Power Analysis
+
+##Planned Sample
+
+##Materials
+
+##Procedure
+
+##Analysis Plan
+
+##Differences from Original Study
+
+###Sample differences
+
+###Setting differences
+
+###Procedure differences
+
+— New questions: manipulation check (did you keep it in mind) & mediator (distance during task); modified other mediator (distance now)
+
+— Added time
+
+— Put demographics at end
+— Added “I prefer another term” for gender
+— Added an education question
+— Did not randomize question order for demo's
+
+###Analysis plan differences
+
+------
+
+#Methods Addendum (Post Data Collection)
+
+##Actual Sample Size
+
+##Differences from pre-data collection methods plan
+
+------
+
+#Results
+
+##Data preparation
+
+### Step 1: Load packages
+
+[Some useful packages are being loaded below. You can add any additional ones you might need too.]
+
+```{r}
+library(tidyverse) # for data munging
+library(knitr) # for kable table formating
+library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
+library(readxl) # import excel files
+```
+
+### Step 2: Load data
+
+```{r}
+```
+
+### Step 3: Tidy data
+
+```{r}
+```
+
+##Confirmatory analysis
+
+##Exploratory analysis
+
+
+
+------
+
+#Discussion
+
+##Summary of Replication Attempt
+
+##Commentary
+
+
+
