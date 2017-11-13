@@ -132,17 +132,15 @@ $(document).ready(function () {
 <div id="changes-to-make-for-pilot-b" class="section level4">
 <h4>Changes to Make For Pilot B</h4>
 <ul>
-<li>Stimuli
-<ul>
-<li>I used the original Qualtrics file that Ed O’Brien sent me. After running my pilot, I noticed that the future self manipulations had the wrong wording. They said “who you recall being” but should say “who you imagine being over the next few years” (as indeed the paper pointed out).</li>
-</ul></li>
-<li>Measures
-<ul>
-<li>For the question asking how far away the self felt during the task, the item descriptions should have been in past tense (“they felt very close to me”) and not present (“they feel very close to me”)</li>
-</ul></li>
-<li>Attenion Chec
+<li><p>Stimuli</p></li>
+<li><p>Measures</p></li>
+<li>Attenion Check
 <ul>
 <li>Add an attention check? I am not sure what the best attention check is to add</li>
+</ul></li>
+<li>Variable naming
+<ul>
+<li>Add flowers time &amp; DV</li>
 </ul></li>
 </ul>
 <hr />
@@ -167,6 +165,24 @@ $(document).ready(function () {
 </div>
 <div id="analysis-plan" class="section level2">
 <h2>Analysis Plan</h2>
+<div id="from-original-paper" class="section level3">
+<h3>From original paper</h3>
+<p>One participant reported confusion because the photos did not load properly. Excluding this participant does not meaningfully affect the results, so the entire sample was retained. Data were submitted to a univariate MANOVA, with Task and Role Model as fixed factors. Number of trials completed before quitting was the dependent variable.</p>
+<p>There was no effect of role model (p = .43), and an incidental effect of task such that participants completed more “fun” tasks (M = 5.92) than “self-control” tasks (M = 4.06), F(1, 220) = 19.91, p &lt; .001, eta squared = .08. Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p &lt; .001, eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M ! 5.03, SD ! 3.43), F(1, 220) ! 9.95, p ! .002, “2 ! .04. However, for the self-control version of the task, future-motivated participants (M ! 4.63, SD ! 2.97) completed more trials than past-motivated participants (M ! 3.45, SD ! 2.74), F(1, 220) ! 3.52, p ! .06,”2 ! .016.</p>
+<p>Finally, for control variables, “past” versus “future” participants did not differ by level of detail (Mpast ! 5.31, Mfuture ! 5.25; p ! .75), difficulty in imagination (Mpast ! 2.88, Mfuture ! 2.80; p ! .77), or subjective distance (Mpast ! 4.10, Mfuture ! 4.16; p ! .78). There were effects of task, however, such that “self-control” participants felt their other selves were harder to imagine (M ! 3.13) than “fun” participants (M ! 2.56), F(1, 220) ! 5.63, p ! .018, “2 ! .02, and farther away (M ! 4.47) than “fun” participants (M ! 3.79), F(1, 220) ! 8.93, p ! .003,”2 ! .04 (detail ratings did not differ, Mselfcontrol ! 5.02, Mfun ! 5.35; p ! .48). Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) ! 11.45, p ! .001, “2 ! .05, as did the reported contrasts for the fun task, F(1, 217) ! 8.98, p ! .003,”2 ! .04, and for the self-control task, F(1, 217) ! 3.35, p ! .068, “2 ! .015.</p>
+</div>
+<div id="simplified-analysis-plan" class="section level3">
+<h3>Simplified analysis plan</h3>
+<ol style="list-style-type: decimal">
+<li>MANOVA to look at</li>
+</ol>
+<ul>
+<li>main effect by task and by role model, and to look at interaction</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li></li>
+</ol>
+</div>
 </div>
 <div id="differences-from-original-study" class="section level2">
 <h2>Differences from Original Study</h2>
@@ -181,6 +197,9 @@ $(document).ready(function () {
 <p>— New questions: manipulation check (did you keep it in mind) &amp; mediator (distance during task); modified other mediator (distance now)</p>
 <p>— Added time</p>
 <p>— Put demographics at end — Added “I prefer another term” for gender — Added an education question — Did not randomize question order for demo’s</p>
+<ul>
+<li>For future, wrote “who you imagine being” rather than “recall being”</li>
+</ul>
 </div>
 <div id="analysis-plan-differences" class="section level3">
 <h3>Analysis plan differences</h3>
@@ -216,18 +235,70 @@ $(document).ready(function () {
 <pre><code>## filter(): dplyr, stats
 ## lag():    dplyr, stats</code></pre>
 <pre class="r"><code>library(knitr) # for kable table formating
-library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
-library(readxl) # import excel files</code></pre>
+library(ggthemes)</code></pre>
 </div>
 <div id="step-2-load-data" class="section level3">
 <h3>Step 2: Load data</h3>
+<pre class="r"><code>d &lt;- read_csv(&quot;data/obrien2015_pilotA_November 12, 2017_15.56.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>#Filter out first two rows
+d &lt;- d %&gt;%
+  filter(!((IPAddress == &quot;IP Address&quot;) |
+           IPAddress == &quot;{\&quot;ImportId\&quot;:\&quot;ipAddress\&quot;}&quot;)) %&gt;% #need the backlash to view the quote
+  select(contains(&quot;DV&quot;), condition, ResponseId)</code></pre>
 </div>
 <div id="step-3-tidy-data" class="section level3">
 <h3>Step 3: Tidy data</h3>
+<pre class="r"><code>#Tidy data and Create a separate column for role model and task
+#Note, this gives the following error, which is fine I think: &quot;the condition has length &gt; 1 and only the first element will be used&quot;
+
+d.tidy &lt;- d %&gt;%
+  gather(dv, dvresponse, contains(&quot;DV&quot;)) %&gt;%
+  mutate(rolemodel = if(
+    condition == &quot;pastrational&quot;) {
+    &quot;past&quot;
+    } else if(task == &quot;pastemotional&quot;) {
+      &quot;past&quot;
+    } else
+      &quot;future&quot;) %&gt;%
+  mutate(task = if(
+    condition == &quot;pastrational&quot;) {
+    &quot;rational&quot;
+    } else if(task == &quot;futurerational&quot;) {
+      &quot;rational&quot;
+    } else
+      &quot;emotional&quot;)</code></pre>
+<pre><code>## Warning in if (condition == &quot;pastrational&quot;) {: the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+<pre><code>## Warning in if (condition == &quot;pastrational&quot;) {: the condition has length &gt; 1
+## and only the first element will be used</code></pre>
+<pre class="r"><code>#Make dv response into a numeric
+
+d.tidy$dvresponse &lt;- as.numeric(d.tidy$dvresponse)
+
+#Summarize by task
+
+d.summarized &lt;- d.tidy %&gt;%
+  group_by(ResponseId, task, rolemodel) %&gt;%
+  summarise(numtrials = sum(dvresponse == 1, na.rm = TRUE))
+ 
+#Convert task &amp; rolemodel to factor
+
+d.summarized$task &lt;- as.factor(d.summarized$task)
+d.summarized$rolemodel &lt;- as.factor(d.summarized$rolemodel)</code></pre>
 </div>
 </div>
 <div id="confirmatory-analysis" class="section level2">
 <h2>Confirmatory analysis</h2>
+<pre class="r"><code>#Reference: https://www.statmethods.net/stats/anova.html
+
+#fit &lt;- manova(d.summarized$numtrials ~ d.summarized$task * d.summarized$rolemodel)
+
+#summary(fit, test = &quot;Pillai&quot;)</code></pre>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory analysis</h2>
