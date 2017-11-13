@@ -16,14 +16,14 @@ Replication of Study 4 by Sample & Sample (2015, Journal of Experimental Psychol
 #### Changes to Make For Pilot B
 
 * Stimuli
-    + I used the original Qualtrics file that Ed O'Brien sent me. After running my pilot, I noticed that the future self manipulations had the wrong wording. They said "who you recall being" but should say "who you imagine being over the next few years" (as indeed the paper pointed out).
-    
+
 * Measures
-    + For the question asking how far away the self felt during the task, the item descriptions should have been in past tense ("they felt very close to me") and not present ("they feel very close to me")
     
 * Attenion Check
     + Add an attention check? I am not sure what the best attention check is to add
 
+* Variable naming
+    + Add flowers time & DV 
 
 ------
 
@@ -60,6 +60,8 @@ Replication of Study 4 by Sample & Sample (2015, Journal of Experimental Psychol
 — Added an education question
 — Did not randomize question order for demo's
 
+- For future, wrote "who you imagine being" rather than "recall being"
+
 ###Analysis plan differences
 
 ------
@@ -83,21 +85,62 @@ Replication of Study 4 by Sample & Sample (2015, Journal of Experimental Psychol
 ```{r}
 library(tidyverse) # for data munging
 library(knitr) # for kable table formating
-library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
-library(readxl) # import excel files
+library(ggthemes)
 ```
 
 ### Step 2: Load data
 
-```{r}
+```{r Load file}
+
+d <- read_csv("data/obrien2015_pilotA_November 12, 2017_15.56.csv")
+
+
 ```
+
+```{r Clean & Filter data}
+
+#Filter out first two rows
+d <- d %>%
+  filter(!((IPAddress == "IP Address") |
+           IPAddress == "{\"ImportId\":\"ipAddress\"}")) %>% #need the backlash to view the quote
+  select(contains("DV"), condition, ResponseId)
+
+
+```
+
 
 ### Step 3: Tidy data
 
-```{r}
+```{r Tidy data}
+
+d.tidy <- d %>%
+  gather(dv, dvresponse, contains("DV")) %>%
+  
+
+d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
+
+
 ```
 
 ##Confirmatory analysis
+
+```{r Sum Data}
+
+d.main <- d.tidy %>%
+  group_by(ResponseId) %>%
+  summarise(test = count(dvresponse,vars = 1)) #need to exclude blank values
+
+  
+
+```
+
+
+
+```{r MANOVA}
+
+```
+
+
 
 ##Exploratory analysis
 
