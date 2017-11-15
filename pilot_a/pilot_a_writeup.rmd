@@ -35,6 +35,11 @@ Replication of Study 4 by Sample & Sample (2015, Journal of Experimental Psychol
 
 ##Power Analysis
 
+The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). With the consultation with Ian, we decided to do a two-way ANOVA.
+
+For effect size, I converted a partial eta squared value 0.05 (I used the eta squared value reported in the paper of 0.05, which we can assume are the same) to cohen's f using G*Power. I used alpha = 0.001 as they found a signifance less than 0.001. I used a total sample size of 224. The numerator DF was 1 (per paper; also (2-1) times (2-1) for a two way anova). And the number of groups is 4.
+
+
 ##Planned Sample
 
 ##Materials
@@ -111,7 +116,7 @@ library(ggthemes)
 
 ```{r Load file}
 
-d <- read_csv("data/obrien2015_pilotA_November 12, 2017_15.56.csv")
+d <- read_csv("data/obrien2015_pilotA_November 14, 2017_10.54.csv")
 
 
 ```
@@ -133,24 +138,27 @@ d <- d %>%
 ```{r Tidy data}
 
 #Tidy data and Create a separate column for role model and task
-#Note, this gives the following error, which is fine I think: "the condition has length > 1 and only the first element will be used"
+
+#Do a for loop!!
+
 
 d.tidy <- d %>%
   gather(dv, dvresponse, contains("DV")) %>%
   mutate(rolemodel = if(
     condition == "pastrational") {
     "past"
-    } else if(task == "pastemotional") {
+    } else if(condition == "pastfun") {
       "past"
     } else
       "future") %>%
   mutate(task = if(
     condition == "pastrational") {
     "self_control"
-    } else if(task == "futurerational") {
+    } else if(condition == "futt?urerational") {
       "self_control"
     } else
       "fun")
+
     
 
 #Make dv response into a numeric

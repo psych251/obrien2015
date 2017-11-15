@@ -1,0 +1,845 @@
+StartDate,EndDate,Status,IPAddress,Progress,Duration (in seconds),Finished,RecordedDate,ResponseId,RecipientLastName,RecipientFirstName,RecipientEmail,ExternalReference,LocationLatitude,LocationLongitude,DistributionChannel,UserLanguage,FREssay,FR_Boats_Time_First Click,FR_Boats_Time_Last Click,FR_Boats_Time_Page Submit,FR_Boats_Time_Click Count,FR_Boats,FR_Boats_DV,FR_Fish_Time_First Click,FR_Fish_Time_Last Click,FR_Fish_Time_Page Submit,FR_Fish_Time_Click Count,FR_Fish,FR_Fish_DV,FR_Trees,FR_Trees_DV,FR_Trees_Time_First Click,FR_Trees_Time_Last Click,FR_Trees_Time_Page Submit,FR_Trees_Time_Click Count,FR_Tiger_Time_First Click,FR_Tiger_Time_Last Click,FR_Tiger_Time_Page Submit,FR_Tiger_Time_Click Count,FR_Tiger,FR_Tiger_DV,FR_Flowers_Time_First Click,FR_Flowers_Time_Last Click,FR_Flowers_Time_Page Submit,FR_Flowers_Time_Click Count,FR_Flowers,FR_Flowers_DV,FR_Bugs_Time_First Click,FR_Bugs_Time_Last Click,FR_Bugs_Time_Page Submit,FR_Bugs_Time_Click Count,FR_Bugs,FR_Bugs_DV,FR_Houses_Time_First Click,FR_Houses_Time_Last Click,FR_Houses_Time_Page Submit,FR_Houses_Time_Click Count,FR_Houses,FR_Houses_DV,FR_Peng_Time_First Click,FR_Peng_Time_Last Click,FR_Peng_Time_Page Submit,FR_Peng_Time_Click Count,FR_Peng,FR_Peng_DV,FR_Dew_Time_First Click,FR_Dew_Time_Last Click,FR_Dew_Time_Page Submit,FR_Dew_Time_Click Count,FR_Dew,FR_Dew_DV,FR_Bfly_Time_First Click,FR_Bfly_Time_Last Click,FR_Bfly_Time_Page Submit,FR_Bfly_Time_Click Count,FR_Bfly,FR_Bfly_DV,FFEssay,FF_Boats_Time_First Click,FF_Boats_Time_Last Click,FF_Boats_Time_Page Submit,FF_Boats_Time_Click Count,FF_Boats,FF_Boats_DV,FF_Fish_Time_First Click,FF_Fish_Time_Last Click,FF_Fish_Time_Page Submit,FF_Fish_Time_Click Count,FF_Fish,FF_Fish_DV,FF_Trees_Time_First Click,FF_Trees_Time_Last Click,FF_Trees_Time_Page Submit,FF_Trees_Time_Click Count,FF_Trees,FF_Trees_DV,FF_Tiger_Time_First Click,FF_Tiger_Time_Last Click,FF_Tiger_Time_Page Submit,FF_Tiger_Time_Click Count,FF_Tiger,FF_Tiger_DV,FF_Flowers_Time_First Click,FF_Flowers_Time_Last Click,FF_Flowers_Time_Page Submit,FF_Flowers_Time_Click Count,FF_Flowers,FF_Flowers_DV,FF_Bugs_Time_First Click,FF_Bugs_Time_Last Click,FF_Bugs_Time_Page Submit,FF_Bugs_Time_Click Count,FF_Bugs,FF_Bugs_DV,FF_Houses_Time_First Click,FF_Houses_Time_Last Click,FF_Houses_Time_Page Submit,FF_Houses_Time_Click Count,FF_Houses,FF_Houses_DV,FF_Peng_Time_First Click,FF_Peng_Time_Last Click,FF_Peng_Time_Page Submit,FF_Peng_Time_Click Count,FF_Peng,FF_Peng_DV,FF_Dew_Time_First Click,FF_Dew_Time_Last Click,FF_Dew_Time_Page Submit,FF_Dew_Time_Click Count,FF_Dew,FF_Dew_DV,FF_Bfly_Time_First Click,FF_Bfly_Time_Last Click,FF_Bfly_Time_Page Submit,FF_Bfly_Time_Click Count,FF_Bfly,FF_Bfly_DV,PFPast,PF_Boats_Time_First Click,PF_Boats_Time_Last Click,PF_Boats_Time_Page Submit,PF_Boats_Time_Click Count,PF_Boats,PF_Boats_DV,PF_Fish_Time_First Click,PF_Fish_Time_Last Click,PF_Fish_Time_Page Submit,PF_Fish_Time_Click Count,PF_Fish,PF_Fish_DV,PF_Trees_Time_First Click,PF_Trees_Time_Last Click,PF_Trees_Time_Page Submit,PF_Trees_Time_Click Count,PF_Trees,PF_Trees_DV,PF_Tiger_Time_First Click,PF_Tiger_Time_Last Click,PF_Tiger_Time_Page Submit,PF_Tiger_Time_Click Count,PF_Tiger,PF_Tiger_DV,PF_Flowers_Time_First Click,PF_Flowers_Time_Last Click,PF_Flowers_Time_Page Submit,PF_Flowers_Time_Click Count,PF_Flowers,PF_Flowers_DV,PF_Bugs_Time_First Click,PF_Bugs_Time_Last Click,PF_Bugs_Time_Page Submit,PF_Bugs_Time_Click Count,PF_Bugs,PF_Bugs_DV,PF_Houses_Time_First Click,PF_Houses_Time_Last Click,PF_Houses_Time_Page Submit,PF_Houses_Time_Click Count,PF_Houses,PF_Houses_DV,PF_Peng_Time_First Click,PF_Peng_Time_Last Click,PF_Peng_Time_Page Submit,PF_Peng_Time_Click Count,PF_Peng,PF_Peng_DV,PF_Dew_Time_First Click,PF_Dew_Time_Last Click,PF_Dew_Time_Page Submit,PF_Dew_Time_Click Count,PF_Dew,PF_Dew_DV,PF_Bfly_Time_First Click,PF_Bfly_Time_Last Click,PF_Bfly_Time_Page Submit,PF_Bfly_Time_Click Count,PF_Bfly,PF_Bfly_DV,PREssay,PR_Boats_Time_First Click,PR_Boats_Time_Last Click,PR_Boats_Time_Page Submit,PR_Boats_Time_Click Count,PR_Boats,PR_Boats_DV,PR_Fish_Time_First Click,PR_Fish_Time_Last Click,PR_Fish_Time_Page Submit,PR_Fish_Time_Click Count,PR_Fish,PR_Fish_DV,PR_Trees_Time_First Click,PR_Trees_Time_Last Click,PR_Trees_Time_Page Submit,PR_Trees_Time_Click Count,PR_Trees,PR_Trees_DV,PR_Tiger_Time_First Click,PR_Tiger_Time_Last Click,PR_Tiger_Time_Page Submit,PR_Tiger_Time_Click Count,PR_Tiger,PR_Tiger_DV,PR_Time_First Click,PR_Time_Last Click,PR_Time_Page Submit,PR_Time_Click Count,PR_Flowers,PR_DV,PR_Bugs_Time_First Click,PR_Bugs_Time_Last Click,PR_Bugs_Time_Page Submit,PR_Bugs_Time_Click Count,PR_Bugs,PR_Bugs_DV,PR_Houses_Time_First Click,PR_Houses_Time_Last Click,PR_Houses_Time_Page Submit,PR_Houses_Time_Click Count,PR_Houses,PR_Houses_DV,PR_Peng_Time_First Click,PR_Peng_Time_Last Click,PR_Peng_Time_Page Submit,PR_Peng_Time_Click Count,PR_Peng,PR_Peng_DV,PR_Dew_Time_First Click,PR_Dew_Time_Last Click,PR_Dew_Time_Page Submit,PR_Dew_Time_Click Count,PR_Dew,PR_Dew_DV,PR_Bfly_Time_First Click,PR_Bfly_Time_Last Click,PR_Bfly_Time_Page Submit,PR_Bfly_Time_Click Count,PR_Bfly,PR_Bfly_DV,Mediate,Keptinmind,MCfun,MCcntrl,difficult,detailed,farawaynow,farawaydurngtask,sex,sex_3_TEXT,ethnic,age,Education,Q_TotalDuration,mTurkCode,condition
+Start Date,End Date,Response Type,IP Address,Progress,Duration (in seconds),Finished,Recorded Date,Response ID,Recipient Last Name,Recipient First Name,Recipient Email,External Data Reference,Location Latitude,Location Longitude,Distribution Channel,User Language,"PART 1:
+
+
+
+THINKING ABOUT YOUR ""FUTURE SELF""
+
+
+
+ 
+
+
+
+In Part 1, your job is to reflect on a role model. Specifically, we want you to think about your ""future self"" - who you imagine being over the next few years. What does this phrase bring to mind?
+
+
+
+Specifically: what do you think are the benefits to feeling connected to your future? When might it actually be good for you to ""act like"" your future self? If you brought to mind your future self as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your future self good at?
+
+
+
+
+
+
+
+So you get a fully formed image of your future self, please write 5-10 full sentences answering these questions. To successfully complete the HIT, you MUST write at least 5-10 sentences so we know you are actually engaged in this task.",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #1
+
+ 
+
+
+
+
+
+
+
+How many boats do you see on this beach?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #2
+
+ 
+
+
+
+
+
+
+
+How many different types of fish do you see in this ocean?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?","Self-Control #3
+
+ 
+
+
+
+
+
+
+
+How many trees do you see in this forest?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #4
+
+ 
+
+
+
+
+
+
+
+How many stripes do you see on this tiger?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #5
+
+ 
+
+
+
+
+
+
+
+How many different colors are in this photo?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #6
+
+ 
+
+
+
+
+
+
+
+How many total black dots on these ladybugs are there?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #7
+
+ 
+
+
+
+
+
+
+
+How many distinct houses do you see?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #8
+
+ 
+
+
+
+
+
+
+
+How many penguins are in this photo?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #9
+
+ 
+
+
+
+
+
+
+
+How many dewdrops are on this leaf?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #10
+
+ 
+
+
+
+
+
+
+
+How many white dots are on this butterfly?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""future self""! How many images would your future self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?","PART 1:
+
+
+
+THINKING ABOUT YOUR ""FUTURE SELF""
+
+
+
+ 
+
+
+
+In Part 1, your job is to reflect on a role model. Specifically, we want you to think about your ""future self"" - who you imagine being over the next few years. What does this phrase bring to mind?
+
+
+
+Specifically: what do you think are the benefits to feeling connected to your future? When might it actually be good for you to ""act like"" your future self? If you brought to mind your future self as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your future self good at?
+
+
+
+
+
+
+
+So you get a fully formed image of your future self, please write 5-10 full sentences answering these questions. To successfully complete the HIT, you MUST write at least 5-10 sentences so we know you are actually engaged in this task.",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #1
+
+ 
+
+
+
+
+
+
+
+Look at the boats on this beach!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #2
+
+ 
+
+
+
+
+
+
+
+Look at the different types of fish in this ocean!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #3
+
+ 
+
+
+
+
+
+
+Look at the trees in this forest!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #4
+
+ 
+
+
+
+
+
+
+
+Look at the stripes on this tiger!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #5
+
+ 
+
+
+
+
+
+
+
+Look at the different colors in this photo!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #6
+
+ 
+
+
+
+
+
+
+
+Look at all the black dots on these ladybugs!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #7
+
+ 
+
+
+
+
+
+
+
+Look at all the distinct houses!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #8
+
+ 
+
+
+
+
+
+
+
+Look at how many penguins are in this photo!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #9
+
+ 
+
+
+
+
+
+
+
+Look at the many dewdrops on this leaf!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #10
+
+ 
+
+
+
+
+
+
+
+Look at all the white dots on this butterfly!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""future self""! How many images would your future self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?","PART 1:
+
+
+
+THINKING ABOUT YOUR ""PAST SELF""
+
+
+
+ 
+
+
+
+In Part 1, your job is to reflect on a role model. Specifically, we want you to think about your ""past self"" - who you recall being over the last few years. What does this phrase bring to mind?
+
+
+
+Specifically: what do you think are the benefits to feeling connected to your past? When might it actually be good for you to ""act like"" your past self? If you brought to mind your past self as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your past self good at?
+
+
+
+
+
+
+
+So you get a fully formed image of your past self, please write 5-10 full sentences answering these questions. To successfully complete the HIT, you MUST write at least 5-10 sentences so we know you are actually engaged in this task.",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #1
+
+ 
+
+
+
+
+
+
+
+Look at the boats on this beach!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #2
+
+ 
+
+
+
+
+
+
+
+Look at the different types of fish in this ocean!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #3
+
+ 
+
+
+
+
+
+
+Look at the trees in this forest!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #4
+
+ 
+
+
+
+
+
+
+
+Look at the stripes on this tiger!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #5
+
+ 
+
+
+
+
+
+
+
+Look at the different colors in this photo!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #6
+
+ 
+
+
+
+
+
+
+
+Look at all the black dots on these ladybugs!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #7
+
+ 
+
+
+
+
+
+
+
+Look at all the distinct houses!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #8
+
+ 
+
+
+
+
+
+
+
+Look at how many penguins are in this photo!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #9
+
+ 
+
+
+
+
+
+
+
+Look at the many dewdrops on this leaf!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Fun #10
+
+ 
+
+
+
+
+
+
+
+Look at all the white dots on this butterfly!
+
+(type ""ok"" in the box when you've sufficiently enjoyed the photo)","Remember: think about your ""past self""! How many images would your past self click thru in this ""fun"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?","PART 1:
+
+
+
+THINKING ABOUT YOUR ""PAST SELF""
+
+
+
+ 
+
+
+
+In Part 1, your job is to reflect on a role model. Specifically, we want you to think about your ""past self"" - who you recall being over the last few years. What does this phrase bring to mind?
+
+
+
+Specifically: what do you think are the benefits to feeling connected to your past? When might it actually be good for you to ""act like"" your past self? If you brought to mind your past self as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your past self good at?
+
+
+
+
+
+
+
+So you get a fully formed image of your past self, please write 5-10 full sentences answering these questions. To successfully complete the HIT, you MUST write at least 5-10 sentences so we know you are actually engaged in this task.",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #1
+
+ 
+
+
+
+
+
+
+
+How many boats do you see on this beach?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #2
+
+ 
+
+
+
+
+
+
+
+How many different types of fish do you see in this ocean?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #3
+
+ 
+
+
+
+
+
+
+
+How many trees do you see in this forest?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #4
+
+ 
+
+
+
+
+
+
+
+How many stripes do you see on this tiger?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #5
+
+ 
+
+
+
+
+
+
+
+How many different colors are in this photo?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #6
+
+ 
+
+
+
+
+
+
+
+How many total black dots on these ladybugs are there?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #7
+
+ 
+
+
+
+
+
+
+
+How many distinct houses do you see?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #8
+
+ 
+
+
+
+
+
+
+
+How many penguins are in this photo?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #9
+
+ 
+
+
+
+
+
+
+
+How many dewdrops are on this leaf?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?",Timing - First Click,Timing - Last Click,Timing - Page Submit,Timing - Click Count,"Self-Control #10
+
+ 
+
+
+
+
+
+
+
+How many white dots are on this butterfly?
+
+(there IS a correct answer; enter it in the box below)","Remember: think about your ""past self""! How many images would your past self click thru in this ""self-control"" slideshow before deciding to move onto the rest of the survey?
+
+
+
+ 
+What would you like to do now?","Remember, this was supposed to be a ""role model"" study.
+ 
+
+To what extent was your ""stopping point"" in the slideshow actually driven by what you thought your ""other self"" would do? (please be honest to help our data analysis; you won't be penalized in any way)","To what extent did you keep your ""other self"" in mind as a guide when doing the slideshow?","In your opinion, how enjoyable was the slideshow task?","In your opinion, how cognitively-engaging was the slideshow task?","How difficult to imagine was your ""other self"" in this study?","How detailed was your mental image of your ""other self"" in this study?","How ""far away"" does this other self feel from you right now?","How ""far away"" did this other self feel from you during the task?",To what gender do you most identify? - Selected Choice,To what gender do you most identify? - I prefer another term - Text,To what ethnicity do you most identify?,What is your current age? Please enter in number only.,"What is
+the highest degree or level of school you have completed?",Q_TotalDuration,mTurkCode,condition
+"{""ImportId"":""startDate"",""timeZone"":""America/Los_Angeles""}","{""ImportId"":""endDate"",""timeZone"":""America/Los_Angeles""}","{""ImportId"":""status""}","{""ImportId"":""ipAddress""}","{""ImportId"":""progress""}","{""ImportId"":""duration""}","{""ImportId"":""finished""}","{""ImportId"":""recordedDate"",""timeZone"":""America/Los_Angeles""}","{""ImportId"":""_recordId""}","{""ImportId"":""recipientLastName""}","{""ImportId"":""recipientFirstName""}","{""ImportId"":""recipientEmail""}","{""ImportId"":""externalDataReference""}","{""ImportId"":""locationLatitude""}","{""ImportId"":""locationLongitude""}","{""ImportId"":""distributionChannel""}","{""ImportId"":""userLanguage""}","{""ImportId"":""QID99_TEXT""}","{""ImportId"":""QID121_FIRST_CLICK""}","{""ImportId"":""QID121_LAST_CLICK""}","{""ImportId"":""QID121_PAGE_SUBMIT""}","{""ImportId"":""QID121_CLICK_COUNT""}","{""ImportId"":""QID2_TEXT""}","{""ImportId"":""QID8""}","{""ImportId"":""QID122_FIRST_CLICK""}","{""ImportId"":""QID122_LAST_CLICK""}","{""ImportId"":""QID122_PAGE_SUBMIT""}","{""ImportId"":""QID122_CLICK_COUNT""}","{""ImportId"":""QID9_TEXT""}","{""ImportId"":""QID10""}","{""ImportId"":""QID11_TEXT""}","{""ImportId"":""QID12""}","{""ImportId"":""QID123_FIRST_CLICK""}","{""ImportId"":""QID123_LAST_CLICK""}","{""ImportId"":""QID123_PAGE_SUBMIT""}","{""ImportId"":""QID123_CLICK_COUNT""}","{""ImportId"":""QID124_FIRST_CLICK""}","{""ImportId"":""QID124_LAST_CLICK""}","{""ImportId"":""QID124_PAGE_SUBMIT""}","{""ImportId"":""QID124_CLICK_COUNT""}","{""ImportId"":""QID13_TEXT""}","{""ImportId"":""QID14""}","{""ImportId"":""QID125_FIRST_CLICK""}","{""ImportId"":""QID125_LAST_CLICK""}","{""ImportId"":""QID125_PAGE_SUBMIT""}","{""ImportId"":""QID125_CLICK_COUNT""}","{""ImportId"":""QID15_TEXT""}","{""ImportId"":""QID16""}","{""ImportId"":""QID126_FIRST_CLICK""}","{""ImportId"":""QID126_LAST_CLICK""}","{""ImportId"":""QID126_PAGE_SUBMIT""}","{""ImportId"":""QID126_CLICK_COUNT""}","{""ImportId"":""QID17_TEXT""}","{""ImportId"":""QID18""}","{""ImportId"":""QID127_FIRST_CLICK""}","{""ImportId"":""QID127_LAST_CLICK""}","{""ImportId"":""QID127_PAGE_SUBMIT""}","{""ImportId"":""QID127_CLICK_COUNT""}","{""ImportId"":""QID19_TEXT""}","{""ImportId"":""QID20""}","{""ImportId"":""QID128_FIRST_CLICK""}","{""ImportId"":""QID128_LAST_CLICK""}","{""ImportId"":""QID128_PAGE_SUBMIT""}","{""ImportId"":""QID128_CLICK_COUNT""}","{""ImportId"":""QID21_TEXT""}","{""ImportId"":""QID22""}","{""ImportId"":""QID129_FIRST_CLICK""}","{""ImportId"":""QID129_LAST_CLICK""}","{""ImportId"":""QID129_PAGE_SUBMIT""}","{""ImportId"":""QID129_CLICK_COUNT""}","{""ImportId"":""QID23_TEXT""}","{""ImportId"":""QID24""}","{""ImportId"":""QID130_FIRST_CLICK""}","{""ImportId"":""QID130_LAST_CLICK""}","{""ImportId"":""QID130_PAGE_SUBMIT""}","{""ImportId"":""QID130_CLICK_COUNT""}","{""ImportId"":""QID25_TEXT""}","{""ImportId"":""QID26""}","{""ImportId"":""QID101_TEXT""}","{""ImportId"":""QID131_FIRST_CLICK""}","{""ImportId"":""QID131_LAST_CLICK""}","{""ImportId"":""QID131_PAGE_SUBMIT""}","{""ImportId"":""QID131_CLICK_COUNT""}","{""ImportId"":""QID58_TEXT""}","{""ImportId"":""QID59""}","{""ImportId"":""QID132_FIRST_CLICK""}","{""ImportId"":""QID132_LAST_CLICK""}","{""ImportId"":""QID132_PAGE_SUBMIT""}","{""ImportId"":""QID132_CLICK_COUNT""}","{""ImportId"":""QID60_TEXT""}","{""ImportId"":""QID61""}","{""ImportId"":""QID133_FIRST_CLICK""}","{""ImportId"":""QID133_LAST_CLICK""}","{""ImportId"":""QID133_PAGE_SUBMIT""}","{""ImportId"":""QID133_CLICK_COUNT""}","{""ImportId"":""QID62_TEXT""}","{""ImportId"":""QID63""}","{""ImportId"":""QID134_FIRST_CLICK""}","{""ImportId"":""QID134_LAST_CLICK""}","{""ImportId"":""QID134_PAGE_SUBMIT""}","{""ImportId"":""QID134_CLICK_COUNT""}","{""ImportId"":""QID64_TEXT""}","{""ImportId"":""QID65""}","{""ImportId"":""QID135_FIRST_CLICK""}","{""ImportId"":""QID135_LAST_CLICK""}","{""ImportId"":""QID135_PAGE_SUBMIT""}","{""ImportId"":""QID135_CLICK_COUNT""}","{""ImportId"":""QID66_TEXT""}","{""ImportId"":""QID67""}","{""ImportId"":""QID136_FIRST_CLICK""}","{""ImportId"":""QID136_LAST_CLICK""}","{""ImportId"":""QID136_PAGE_SUBMIT""}","{""ImportId"":""QID136_CLICK_COUNT""}","{""ImportId"":""QID68_TEXT""}","{""ImportId"":""QID69""}","{""ImportId"":""QID137_FIRST_CLICK""}","{""ImportId"":""QID137_LAST_CLICK""}","{""ImportId"":""QID137_PAGE_SUBMIT""}","{""ImportId"":""QID137_CLICK_COUNT""}","{""ImportId"":""QID70_TEXT""}","{""ImportId"":""QID71""}","{""ImportId"":""QID138_FIRST_CLICK""}","{""ImportId"":""QID138_LAST_CLICK""}","{""ImportId"":""QID138_PAGE_SUBMIT""}","{""ImportId"":""QID138_CLICK_COUNT""}","{""ImportId"":""QID72_TEXT""}","{""ImportId"":""QID73""}","{""ImportId"":""QID139_FIRST_CLICK""}","{""ImportId"":""QID139_LAST_CLICK""}","{""ImportId"":""QID139_PAGE_SUBMIT""}","{""ImportId"":""QID139_CLICK_COUNT""}","{""ImportId"":""QID74_TEXT""}","{""ImportId"":""QID75""}","{""ImportId"":""QID140_FIRST_CLICK""}","{""ImportId"":""QID140_LAST_CLICK""}","{""ImportId"":""QID140_PAGE_SUBMIT""}","{""ImportId"":""QID140_CLICK_COUNT""}","{""ImportId"":""QID76_TEXT""}","{""ImportId"":""QID77""}","{""ImportId"":""QID31_TEXT""}","{""ImportId"":""QID141_FIRST_CLICK""}","{""ImportId"":""QID141_LAST_CLICK""}","{""ImportId"":""QID141_PAGE_SUBMIT""}","{""ImportId"":""QID141_CLICK_COUNT""}","{""ImportId"":""QID79_TEXT""}","{""ImportId"":""QID80""}","{""ImportId"":""QID142_FIRST_CLICK""}","{""ImportId"":""QID142_LAST_CLICK""}","{""ImportId"":""QID142_PAGE_SUBMIT""}","{""ImportId"":""QID142_CLICK_COUNT""}","{""ImportId"":""QID81_TEXT""}","{""ImportId"":""QID82""}","{""ImportId"":""QID143_FIRST_CLICK""}","{""ImportId"":""QID143_LAST_CLICK""}","{""ImportId"":""QID143_PAGE_SUBMIT""}","{""ImportId"":""QID143_CLICK_COUNT""}","{""ImportId"":""QID83_TEXT""}","{""ImportId"":""QID84""}","{""ImportId"":""QID144_FIRST_CLICK""}","{""ImportId"":""QID144_LAST_CLICK""}","{""ImportId"":""QID144_PAGE_SUBMIT""}","{""ImportId"":""QID144_CLICK_COUNT""}","{""ImportId"":""QID85_TEXT""}","{""ImportId"":""QID86""}","{""ImportId"":""QID145_FIRST_CLICK""}","{""ImportId"":""QID145_LAST_CLICK""}","{""ImportId"":""QID145_PAGE_SUBMIT""}","{""ImportId"":""QID145_CLICK_COUNT""}","{""ImportId"":""QID87_TEXT""}","{""ImportId"":""QID88""}","{""ImportId"":""QID146_FIRST_CLICK""}","{""ImportId"":""QID146_LAST_CLICK""}","{""ImportId"":""QID146_PAGE_SUBMIT""}","{""ImportId"":""QID146_CLICK_COUNT""}","{""ImportId"":""QID89_TEXT""}","{""ImportId"":""QID90""}","{""ImportId"":""QID147_FIRST_CLICK""}","{""ImportId"":""QID147_LAST_CLICK""}","{""ImportId"":""QID147_PAGE_SUBMIT""}","{""ImportId"":""QID147_CLICK_COUNT""}","{""ImportId"":""QID91_TEXT""}","{""ImportId"":""QID92""}","{""ImportId"":""QID148_FIRST_CLICK""}","{""ImportId"":""QID148_LAST_CLICK""}","{""ImportId"":""QID148_PAGE_SUBMIT""}","{""ImportId"":""QID148_CLICK_COUNT""}","{""ImportId"":""QID93_TEXT""}","{""ImportId"":""QID94""}","{""ImportId"":""QID149_FIRST_CLICK""}","{""ImportId"":""QID149_LAST_CLICK""}","{""ImportId"":""QID149_PAGE_SUBMIT""}","{""ImportId"":""QID149_CLICK_COUNT""}","{""ImportId"":""QID95_TEXT""}","{""ImportId"":""QID96""}","{""ImportId"":""QID150_FIRST_CLICK""}","{""ImportId"":""QID150_LAST_CLICK""}","{""ImportId"":""QID150_PAGE_SUBMIT""}","{""ImportId"":""QID150_CLICK_COUNT""}","{""ImportId"":""QID97_TEXT""}","{""ImportId"":""QID98""}","{""ImportId"":""QID104_TEXT""}","{""ImportId"":""QID151_FIRST_CLICK""}","{""ImportId"":""QID151_LAST_CLICK""}","{""ImportId"":""QID151_PAGE_SUBMIT""}","{""ImportId"":""QID151_CLICK_COUNT""}","{""ImportId"":""QID37_TEXT""}","{""ImportId"":""QID38""}","{""ImportId"":""QID152_FIRST_CLICK""}","{""ImportId"":""QID152_LAST_CLICK""}","{""ImportId"":""QID152_PAGE_SUBMIT""}","{""ImportId"":""QID152_CLICK_COUNT""}","{""ImportId"":""QID39_TEXT""}","{""ImportId"":""QID40""}","{""ImportId"":""QID153_FIRST_CLICK""}","{""ImportId"":""QID153_LAST_CLICK""}","{""ImportId"":""QID153_PAGE_SUBMIT""}","{""ImportId"":""QID153_CLICK_COUNT""}","{""ImportId"":""QID41_TEXT""}","{""ImportId"":""QID42""}","{""ImportId"":""QID154_FIRST_CLICK""}","{""ImportId"":""QID154_LAST_CLICK""}","{""ImportId"":""QID154_PAGE_SUBMIT""}","{""ImportId"":""QID154_CLICK_COUNT""}","{""ImportId"":""QID43_TEXT""}","{""ImportId"":""QID44""}","{""ImportId"":""QID155_FIRST_CLICK""}","{""ImportId"":""QID155_LAST_CLICK""}","{""ImportId"":""QID155_PAGE_SUBMIT""}","{""ImportId"":""QID155_CLICK_COUNT""}","{""ImportId"":""QID45_TEXT""}","{""ImportId"":""QID46""}","{""ImportId"":""QID156_FIRST_CLICK""}","{""ImportId"":""QID156_LAST_CLICK""}","{""ImportId"":""QID156_PAGE_SUBMIT""}","{""ImportId"":""QID156_CLICK_COUNT""}","{""ImportId"":""QID47_TEXT""}","{""ImportId"":""QID48""}","{""ImportId"":""QID157_FIRST_CLICK""}","{""ImportId"":""QID157_LAST_CLICK""}","{""ImportId"":""QID157_PAGE_SUBMIT""}","{""ImportId"":""QID157_CLICK_COUNT""}","{""ImportId"":""QID49_TEXT""}","{""ImportId"":""QID50""}","{""ImportId"":""QID158_FIRST_CLICK""}","{""ImportId"":""QID158_LAST_CLICK""}","{""ImportId"":""QID158_PAGE_SUBMIT""}","{""ImportId"":""QID158_CLICK_COUNT""}","{""ImportId"":""QID51_TEXT""}","{""ImportId"":""QID52""}","{""ImportId"":""QID159_FIRST_CLICK""}","{""ImportId"":""QID159_LAST_CLICK""}","{""ImportId"":""QID159_PAGE_SUBMIT""}","{""ImportId"":""QID159_CLICK_COUNT""}","{""ImportId"":""QID53_TEXT""}","{""ImportId"":""QID54""}","{""ImportId"":""QID160_FIRST_CLICK""}","{""ImportId"":""QID160_LAST_CLICK""}","{""ImportId"":""QID160_PAGE_SUBMIT""}","{""ImportId"":""QID160_CLICK_COUNT""}","{""ImportId"":""QID55_TEXT""}","{""ImportId"":""QID56""}","{""ImportId"":""QID35""}","{""ImportId"":""QID118""}","{""ImportId"":""QID106""}","{""ImportId"":""QID107""}","{""ImportId"":""QID108""}","{""ImportId"":""QID111""}","{""ImportId"":""QID109""}","{""ImportId"":""QID115""}","{""ImportId"":""QID27""}","{""ImportId"":""QID27_3_TEXT""}","{""ImportId"":""QID28""}","{""ImportId"":""QID29_TEXT""}","{""ImportId"":""QID114""}","{""ImportId"":""Q_TotalDuration""}","{""ImportId"":""mTurkCode""}","{""ImportId"":""condition""}"
+2017-11-12 15:51:42,2017-11-12 15:56:04,IP Address,96.64.244.115,100,261,True,2017-11-12 15:56:04,R_3LgJI3W1jvrYN0G,,,,,37.491394042969,-122.21099853516,anonymous,EN,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"My past self is someone who is confident. It is a person who believes in capitalism and thinks the world of himself. My past self also helps on persisting at tasks at a low level of detail without thinking ""why."" My past self also takes failure hard. My past self is good looking and thin. My past self is also fun.",0.7,12.346,13.192,2,28,Show me another one!,1.941,28.487,29.36,2,4,Show me another one!,1.362,43.341,44.097,3,71,Show me another one!,0.838,27.702,28.806,4,51,Show me another one!,1.274,13.422,14.191,3,4,End this slideshow task; move me to the rest of the survey,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2,5,3,5,2,6,5,5,Male,,Caucasian American,27,Graduated four-year college,261,889262876,pastrational
+2017-11-13 13:32:29,2017-11-13 13:49:13,IP Address,24.147.180.145,100,1004,True,2017-11-13 13:49:14,R_1daA8gX6vUN1DH5,,,,,41.725204467773,-72.829498291016,anonymous,EN,"This is a test.  This is a test.  This is a test.  This is a test.  This is a test.  ",24.531,48.744,50.752,2,35,Show me another one!,7.871,21.854,25.472,2,5,Show me another one!,50,End this slideshow task; move me to the rest of the survey,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"I wasn't driven by my ""role-model"" at all
+
+1",Did not keep in mind   1,"not at all fun
+
+1","not at all cognitively engaging
+
+1","very difficult to imagine
+​
+7","not at all detailed
+
+1","they feel very far from me now
+​
+7","they felt very far away from me during the task
+​
+7",I prefer another term,,Other,39,"Received professional Degree (M.D., J.D., Ph.D)",1004,429358783,futurerational
+2017-11-13 17:02:25,2017-11-13 17:14:52,IP Address,104.129.192.91,100,747,True,2017-11-13 17:14:53,R_73tvu4CYvJH0fSN,,,,,34.054397583008,-118.2440032959,anonymous,EN,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"sadfdsfdsa
+sadf 
+dsadsa
+ ds 
+fdsa 
+fdsa
+ f
+sa f
+dsa f
+dsa f
+dsa fs
+da fds
+ af
+ads 
+dsa 
+fdsa f
+dsa f
+dsa 
+dsa 
+dsa 
+dsa 
+dsa
+ fdsa
+ f
+dsa 
+sdaf
+dsa 
+fdsa 
+fdsa
+ f
+as f
+a
+ds",6.193,13.55,15.267,2,ok,Show me another one!,2.626,6.657,9.465,2,ok,Show me another one!,2.238,2.238,5.456,1,ok,End this slideshow task; move me to the rest of the survey,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"I wasn't driven by my ""role-model"" at all
+
+1",Did not keep in mind   1,"not at all fun
+
+1","not at all cognitively engaging
+
+1","very difficult to imagine
+​
+7","not at all detailed
+
+1","they feel very far from me now
+​
+7","they felt very far away from me during the task
+​
+7",Male,,Caucasian American,25,Graduated four-year college,747,595475047,futurefun
+2017-11-13 17:46:13,2017-11-13 17:49:55,IP Address,171.66.208.5,100,222,True,2017-11-13 17:49:55,R_1MWhyAW2ZQt5pXF,,,,,37.41780090332,-122.17199707031,anonymous,EN,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,My past self was...,4.157,18.657,20.306,3,ok,Show me another one!,5.177,7.57,8.491,2,ok,Show me another one!,9.814,12.297,15.205,2,ok,Show me another one!,20.835,22.248,23.107,2,ok,Show me another one!,2.56,8.485,11.369,3,ok,End this slideshow task; move me to the rest of the survey,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,6,5,5,3,6,6,2,5,Female,,Asian American,25,Graduated four-year college,222,878888601,pastfun
