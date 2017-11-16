@@ -137,28 +137,14 @@ d <- d %>%
 
 ```{r Tidy data}
 
-#Tidy data and Create a separate column for role model and task
-
-#Do a for loop!!
-
-
 d.tidy <- d %>%
   gather(dv, dvresponse, contains("DV")) %>%
-  mutate(rolemodel = if(
-    condition == "pastrational") {
-    "past"
-    } else if(condition == "pastfun") {
-      "past"
-    } else
-      "future") %>%
-  mutate(task = if(
-    condition == "pastrational") {
-    "self_control"
-    } else if(condition == "futt?urerational") {
-      "self_control"
-    } else
-      "fun")
-
+  filter(!is.na(dvresponse)) %>% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
+  mutate(rolemodel = ifelse(condition == "pastrational","past",
+                            ifelse(condition =="pastfun","past","future"))) %>%
+  mutate(task = ifelse(condition == "pastrational","selfcontrol",
+                            ifelse(condition =="futurerational","selfcontrol","fun")))
+  
     
 
 #Make dv response into a numeric
@@ -176,18 +162,22 @@ d.summarized <- d.tidy %>%
 d.summarized$task <- as.factor(d.summarized$task)
 d.summarized$rolemodel <- as.factor(d.summarized$rolemodel)
 
+#Make 
+d.summarized$numtrials <- as.numeric(d.summarized$numtrials)
+
+
 ```
 
 ##Confirmatory analysis
 
 
-```{r MANOVA for Num Trials}
+```{r Two-Way ANOVA for Num Trials}
 
-#Reference: https://www.statmethods.net/stats/anova.html
+fit <- aov(numtrials ~ task * rolemodel, data=d.summarized)
 
-#fit <- manova(d.summarized$numtrials ~ d.summarized$task * d.summarized$rolemodel)
+plot(fit)
 
-#summary(fit, test = "Pillai")
+summary(fit)
 
 ```
 
