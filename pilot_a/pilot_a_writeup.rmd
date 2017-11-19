@@ -127,7 +127,7 @@ d <- read_csv("data/obrien2015_pilotA_November 14, 2017_10.54.csv")
 d <- d %>%
   filter(!((IPAddress == "IP Address") |
            IPAddress == "{\"ImportId\":\"ipAddress\"}")) %>% #need the backlash to view the quote
-  select(contains("DV"), condition, ResponseId)
+  select(contains("DV"), condition, ResponseId, difficult, detailed, farawaynow)
 
 
 ```
@@ -137,14 +137,16 @@ d <- d %>%
 
 ```{r Tidy data}
 
+
+#Tidy data
+
 d.tidy <- d %>%
   gather(dv, dvresponse, contains("DV")) %>%
   filter(!is.na(dvresponse)) %>% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
   mutate(rolemodel = ifelse(condition == "pastrational","past",
                             ifelse(condition =="pastfun","past","future"))) %>%
   mutate(task = ifelse(condition == "pastrational","selfcontrol",
-                            ifelse(condition =="futurerational","selfcontrol","fun")))
-  
+                            ifelse(condition =="futurerational","selfcontrol","fun"))) 
     
 
 #Make dv response into a numeric
@@ -153,17 +155,21 @@ d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
 
 #Summarize by task
 
-d.summarized <- d.tidy %>%
-  group_by(ResponseId, task, rolemodel) %>%
+d.wide <- d.tidy %>%
+  group_by(ResponseId, task, rolemodel, difficult, detailed, farawaynow) %>%
   summarise(numtrials = sum(dvresponse == 1, na.rm = TRUE))
  
-#Convert task & rolemodel to factor
+#Convert task & rolemodel & covariates to factor
 
-d.summarized$task <- as.factor(d.summarized$task)
-d.summarized$rolemodel <- as.factor(d.summarized$rolemodel)
+d.wide$task <- as.factor(d.wide$task)
+d.wide$rolemodel <- as.factor(d.wide$rolemodel)
+d.wide$difficult <- as.factor(d.wide$difficult)
+d.wide$detailed <- as.factor(d.wide$detailed)
+d.wide$farawaynow <- as.factor(d.wide$farawaynow)
+
 
 #Make 
-d.summarized$numtrials <- as.numeric(d.summarized$numtrials)
+d.wide$numtrials <- as.numeric(d.wide$numtrials)
 
 
 ```
@@ -173,11 +179,29 @@ d.summarized$numtrials <- as.numeric(d.summarized$numtrials)
 
 ```{r Two-Way ANOVA for Num Trials}
 
-fit <- aov(numtrials ~ task * rolemodel, data=d.summarized)
 
-plot(fit)
+#Reference: https://www.r-bloggers.com/r-tutorial-series-two-way-anova-with-pairwise-comparisons/
+#Note that this doesn't analysis doesn't yield anything as there is only 1 data point per group; error: "ANOVA F-tests on an essentially perfect fit are unreliable"
 
-summary(fit)
+
+fit <- anova(lm(numtrials ~ task * rolemodel, d.wide))
+
+#fyi, these are the same: aov(numtrials ~ task * rolemodel, d.summarized)
+
+fit
+
+```
+
+
+```{r Two-Way ANOVA for Num Trials with Covariates}
+
+fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult , d.wide))
+fit.detailed.covariate <- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))
+fit.distance.covariate <- anova(lm(numtrials ~ task * rolemodel + farawaynow, d.wide))
+
+fit.difficult.covariate
+fit.detailed.covariate
+fit.distance.covariate
 
 ```
 

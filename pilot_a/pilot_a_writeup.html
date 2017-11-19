@@ -153,6 +153,8 @@ $(document).ready(function () {
 <h1>Methods</h1>
 <div id="power-analysis" class="section level2">
 <h2>Power Analysis</h2>
+<p>The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model – past or future self; task – fun or self-control). With the consultation with Ian, we decided to do a two-way ANOVA.</p>
+<p>For effect size, I converted a partial eta squared value 0.05 (I used the eta squared value reported in the paper of 0.05, which we can assume are the same) to cohen’s f using G*Power. I used alpha = 0.001 as they found a signifance less than 0.001. I used a total sample size of 224. The numerator DF was 1 (per paper; also (2-1) times (2-1) for a two way anova). And the number of groups is 4.</p>
 </div>
 <div id="planned-sample" class="section level2">
 <h2>Planned Sample</h2>
@@ -177,10 +179,12 @@ $(document).ready(function () {
 <li>MANOVA to look at</li>
 </ol>
 <ul>
-<li>main effect by task and by role model, and to look at interaction</li>
+<li>Main effect by task</li>
+<li>Main effect by role model</li>
+<li>Interaction between task &amp; role mode</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li></li>
+<li>T-tests comparing 3 control variables (control, difficulty, subjective distance) by condition (e.g. past vs. future, self-control vs. fun)</li>
 </ol>
 </div>
 </div>
@@ -239,7 +243,7 @@ library(ggthemes)</code></pre>
 </div>
 <div id="step-2-load-data" class="section level3">
 <h3>Step 2: Load data</h3>
-<pre class="r"><code>d &lt;- read_csv(&quot;data/obrien2015_pilotA_November 12, 2017_15.56.csv&quot;)</code></pre>
+<pre class="r"><code>d &lt;- read_csv(&quot;data/obrien2015_pilotA_November 14, 2017_10.54.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_character()
@@ -253,30 +257,17 @@ d &lt;- d %&gt;%
 </div>
 <div id="step-3-tidy-data" class="section level3">
 <h3>Step 3: Tidy data</h3>
-<pre class="r"><code>#Tidy data and Create a separate column for role model and task
-#Note, this gives the following error, which is fine I think: &quot;the condition has length &gt; 1 and only the first element will be used&quot;
-
-d.tidy &lt;- d %&gt;%
+<pre class="r"><code>d.tidy &lt;- d %&gt;%
   gather(dv, dvresponse, contains(&quot;DV&quot;)) %&gt;%
-  mutate(rolemodel = if(
-    condition == &quot;pastrational&quot;) {
-    &quot;past&quot;
-    } else if(task == &quot;pastemotional&quot;) {
-      &quot;past&quot;
-    } else
-      &quot;future&quot;) %&gt;%
-  mutate(task = if(
-    condition == &quot;pastrational&quot;) {
-    &quot;rational&quot;
-    } else if(task == &quot;futurerational&quot;) {
-      &quot;rational&quot;
-    } else
-      &quot;emotional&quot;)</code></pre>
-<pre><code>## Warning in if (condition == &quot;pastrational&quot;) {: the condition has length &gt; 1
-## and only the first element will be used</code></pre>
-<pre><code>## Warning in if (condition == &quot;pastrational&quot;) {: the condition has length &gt; 1
-## and only the first element will be used</code></pre>
-<pre class="r"><code>#Make dv response into a numeric
+  filter(!is.na(dvresponse)) %&gt;% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
+  mutate(rolemodel = ifelse(condition == &quot;pastrational&quot;,&quot;past&quot;,
+                            ifelse(condition ==&quot;pastfun&quot;,&quot;past&quot;,&quot;future&quot;))) %&gt;%
+  mutate(task = ifelse(condition == &quot;pastrational&quot;,&quot;selfcontrol&quot;,
+                            ifelse(condition ==&quot;futurerational&quot;,&quot;selfcontrol&quot;,&quot;fun&quot;)))
+  
+    
+
+#Make dv response into a numeric
 
 d.tidy$dvresponse &lt;- as.numeric(d.tidy$dvresponse)
 
@@ -289,16 +280,35 @@ d.summarized &lt;- d.tidy %&gt;%
 #Convert task &amp; rolemodel to factor
 
 d.summarized$task &lt;- as.factor(d.summarized$task)
-d.summarized$rolemodel &lt;- as.factor(d.summarized$rolemodel)</code></pre>
+d.summarized$rolemodel &lt;- as.factor(d.summarized$rolemodel)
+
+#Make 
+d.summarized$numtrials &lt;- as.numeric(d.summarized$numtrials)</code></pre>
 </div>
 </div>
 <div id="confirmatory-analysis" class="section level2">
 <h2>Confirmatory analysis</h2>
-<pre class="r"><code>#Reference: https://www.statmethods.net/stats/anova.html
+<pre class="r"><code>#Reference: https://www.r-bloggers.com/r-tutorial-series-two-way-anova-with-pairwise-comparisons/
+#Note that this doesn't analysis doesn't yield anything as there is only 1 data point per group; error: &quot;ANOVA F-tests on an essentially perfect fit are unreliable&quot;
 
-#fit &lt;- manova(d.summarized$numtrials ~ d.summarized$task * d.summarized$rolemodel)
 
-#summary(fit, test = &quot;Pillai&quot;)</code></pre>
+fit &lt;- anova(lm(numtrials ~ task * rolemodel, d.summarized))</code></pre>
+<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel, d.summarized)): ANOVA
+## F-tests on an essentially perfect fit are unreliable</code></pre>
+<pre class="r"><code>#same? aov(numtrials ~ task * rolemodel, d.summarized)
+
+fit</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: numtrials
+##                Df Sum Sq Mean Sq F value Pr(&gt;F)
+## task            1      0       0               
+## rolemodel       1      4       4               
+## task:rolemodel  1      0       0               
+## Residuals       0      0</code></pre>
+<pre class="r"><code>fit &lt;- anova(lm(numtrials ~ task * rolemodel, d.summarized))</code></pre>
+<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel, d.summarized)): ANOVA
+## F-tests on an essentially perfect fit are unreliable</code></pre>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory analysis</h2>
