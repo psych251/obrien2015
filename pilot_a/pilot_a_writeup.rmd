@@ -47,24 +47,31 @@ For effect size, I converted a partial eta squared value 0.05 (I used the eta sq
 ##Procedure
 
 ##Analysis Plan
+	**Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.**  
 
-###From original paper
+**Overview:**
+
+There are two confirmatory replicaiton analyses. The first confirmatory analysis is to replicate the significant interaction by task and role model. The second confirmatory analysis is to replicate the finding that the interaction was still signficant after adding the three covariates (difficulty imainging self, the level of detail of the self, and the distance from the self). 
+
+Importantly, whereas the original paper used a MANOVA to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed, we decided to use a two-way ANOVA as there is only one dependent variable not two (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
+
+**Relevant Excerpts from Paper:**
 
 One participant reported confusion because the photos did not load properly. Excluding this participant does not meaningfully affect the results, so the entire sample was retained. Data were submitted to a univariate MANOVA, with Task and Role Model as fixed factors. Number of trials completed before quitting was the dependent variable.
 
-There was no effect of role model (p = .43), and an incidental effect of task such that participants completed more “fun” tasks (M = 5.92) than “self-control” tasks (M = 4.06), F(1, 220) = 19.91, p < .001,  eta squared = .08. Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p < .001,  eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M ! 5.03, SD ! 3.43), F(1, 220) ! 9.95, p ! .002, "2 ! .04. However, for the self-control version of the task, future-motivated participants (M ! 4.63, SD ! 2.97) completed more trials than past-motivated participants (M ! 3.45, SD ! 2.74), F(1, 220) ! 3.52, p ! .06, "2 ! .016. 
+... Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p < .001, eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M = 5.03, SD = 3.43), F(1, 220) = 9.95, p = .002, eta squared = .04. However, for the self-control version of the task, future-motivated participants (M = 4.63, SD = 2.97) completed more trials than past-motivated participants (M = 3.45, SD = 2.74), F(1, 220) = 3.52, p = .06, eta squared = .016.
 
-Finally, for control variables, “past” versus “future” participants did not differ by level of detail (Mpast ! 5.31, Mfuture ! 5.25; p ! .75), difficulty in imagination (Mpast ! 2.88, Mfuture ! 2.80; p ! .77), or subjective distance (Mpast ! 4.10, Mfuture ! 4.16; p ! .78). There were effects of task, however, such that “self-control” participants felt their other selves were harder to imagine (M ! 3.13) than “fun” participants (M ! 2.56), F(1, 220) ! 5.63, p ! .018, "2 ! .02, and farther away (M ! 4.47) than “fun” participants (M ! 3.79), F(1, 220) ! 8.93, p ! .003, "2 ! .04 (detail ratings did not differ, Mselfcontrol ! 5.02, Mfun ! 5.35; p ! .48). Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) ! 11.45, p ! .001, "2 ! .05, as did the reported contrasts for the fun task, F(1, 217) ! 8.98, p ! .003, "2 ! .04, and for the self-control task, F(1, 217) ! 3.35, p ! .068, "2 ! .015. 
+... Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) = 11.45, p = .001, eta squared = .05, as did the reported contrasts for the fun task, F(1, 217) = 8.98, p = .003, eta squared = .04, and for the self-control task, F(1, 217) = 3.35, p = .068, eta squared = .015.
 
 
-### Simplified analysis plan
+**Analysis Steps**
 
-1) MANOVA to look at
-  + Main effect by task 
-  + Main effect by role model
-  + Interaction between task & role mode
 
-2) T-tests comparing 3 control variables (control, difficulty, subjective distance) by condition (e.g. past vs. future, self-control vs. fun)
+1) Exclusion: No exclusion of participants, unless there is confusion over the procedures
+
+2) Data Cleaning: Summarize the data so that for each participant, their task (fun or self-control), role model (past or future self), number of trials completed (need to summarize), and their responses for the three covariates (difficulty, detail, distance) are included. The number of trials will be a range from 0 to 10, and is equal to the number of times the participant selected the option "show me another one"; as O'Brien (2015) notes, this is equal to the number of photos the participant viewed *before* choosing to end the slideshow.
+
+3) Analysis: Conduct a two-way anova such that find the main effect of task, the main effect of role model, and the interaction between the two on the number of trials. Then, conduct the same two-way anova separately for each of the three covariates: difficulty, detail, and distance.
 
 
 ##Differences from Original Study
@@ -165,7 +172,7 @@ d.wide$task <- as.factor(d.wide$task)
 d.wide$rolemodel <- as.factor(d.wide$rolemodel)
 d.wide$difficult <- as.factor(d.wide$difficult)
 d.wide$detailed <- as.factor(d.wide$detailed)
-d.wide$farawaynow <- as.factor(d.wide$farawaynow)
+d.wide$distancenow <- as.factor(d.wide$farawaynow)
 
 
 #Make 
@@ -197,11 +204,11 @@ fit
 
 fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult , d.wide))
 fit.detailed.covariate <- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))
-fit.distance.covariate <- anova(lm(numtrials ~ task * rolemodel + farawaynow, d.wide))
+fit.distancenow.covariate <- anova(lm(numtrials ~ task * rolemodel + distancenow, d.wide))
 
 fit.difficult.covariate
 fit.detailed.covariate
-fit.distance.covariate
+fit.distancenow.covariate
 
 ```
 

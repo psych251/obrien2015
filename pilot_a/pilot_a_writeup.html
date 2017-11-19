@@ -167,26 +167,20 @@ $(document).ready(function () {
 </div>
 <div id="analysis-plan" class="section level2">
 <h2>Analysis Plan</h2>
-<div id="from-original-paper" class="section level3">
-<h3>From original paper</h3>
+<pre><code>**Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.**  </code></pre>
+<p><strong>Overview:</strong></p>
+<p>There are two confirmatory replicaiton analyses. The first confirmatory analysis is to replicate the significant interaction by task and role model. The second confirmatory analysis is to replicate the finding that the interaction was still signficant after adding the three covariates (difficulty imainging self, the level of detail of the self, and the distance from the self).</p>
+<p>Importantly, whereas the original paper used a MANOVA to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed, we decided to use a two-way ANOVA as there is only one dependent variable not two (see here for reference: <a href="http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova" class="uri">http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova</a>).</p>
+<p><strong>Relevant Excerpts from Paper:</strong></p>
 <p>One participant reported confusion because the photos did not load properly. Excluding this participant does not meaningfully affect the results, so the entire sample was retained. Data were submitted to a univariate MANOVA, with Task and Role Model as fixed factors. Number of trials completed before quitting was the dependent variable.</p>
-<p>There was no effect of role model (p = .43), and an incidental effect of task such that participants completed more “fun” tasks (M = 5.92) than “self-control” tasks (M = 4.06), F(1, 220) = 19.91, p &lt; .001, eta squared = .08. Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p &lt; .001, eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M ! 5.03, SD ! 3.43), F(1, 220) ! 9.95, p ! .002, “2 ! .04. However, for the self-control version of the task, future-motivated participants (M ! 4.63, SD ! 2.97) completed more trials than past-motivated participants (M ! 3.45, SD ! 2.74), F(1, 220) ! 3.52, p ! .06,”2 ! .016.</p>
-<p>Finally, for control variables, “past” versus “future” participants did not differ by level of detail (Mpast ! 5.31, Mfuture ! 5.25; p ! .75), difficulty in imagination (Mpast ! 2.88, Mfuture ! 2.80; p ! .77), or subjective distance (Mpast ! 4.10, Mfuture ! 4.16; p ! .78). There were effects of task, however, such that “self-control” participants felt their other selves were harder to imagine (M ! 3.13) than “fun” participants (M ! 2.56), F(1, 220) ! 5.63, p ! .018, “2 ! .02, and farther away (M ! 4.47) than “fun” participants (M ! 3.79), F(1, 220) ! 8.93, p ! .003,”2 ! .04 (detail ratings did not differ, Mselfcontrol ! 5.02, Mfun ! 5.35; p ! .48). Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) ! 11.45, p ! .001, “2 ! .05, as did the reported contrasts for the fun task, F(1, 217) ! 8.98, p ! .003,”2 ! .04, and for the self-control task, F(1, 217) ! 3.35, p ! .068, “2 ! .015.</p>
-</div>
-<div id="simplified-analysis-plan" class="section level3">
-<h3>Simplified analysis plan</h3>
+<p>… Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p &lt; .001, eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M = 5.03, SD = 3.43), F(1, 220) = 9.95, p = .002, eta squared = .04. However, for the self-control version of the task, future-motivated participants (M = 4.63, SD = 2.97) completed more trials than past-motivated participants (M = 3.45, SD = 2.74), F(1, 220) = 3.52, p = .06, eta squared = .016.</p>
+<p>… Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) = 11.45, p = .001, eta squared = .05, as did the reported contrasts for the fun task, F(1, 217) = 8.98, p = .003, eta squared = .04, and for the self-control task, F(1, 217) = 3.35, p = .068, eta squared = .015.</p>
+<p><strong>Analysis Steps</strong></p>
 <ol style="list-style-type: decimal">
-<li>MANOVA to look at</li>
+<li><p>Exclusion: No exclusion of participants, unless there is confusion over the procedures</p></li>
+<li><p>Data Cleaning: Summarize the data so that for each participant, their task (fun or self-control), role model (past or future self), number of trials completed (need to summarize), and their responses for the three covariates (difficulty, detail, distance) are included. The number of trials will be a range from 0 to 10, and is equal to the number of times the participant selected the option “show me another one”; as O’Brien (2015) notes, this is equal to the number of photos the participant viewed <em>before</em> choosing to end the slideshow.</p></li>
+<li><p>Analysis: Conduct a two-way anova such that find the main effect of task, the main effect of role model, and the interaction between the two on the number of trials. Then, conduct the same two-way anova separately for each of the three covariates: difficulty, detail, and distance.</p></li>
 </ol>
-<ul>
-<li>Main effect by task</li>
-<li>Main effect by role model</li>
-<li>Interaction between task &amp; role mode</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li>T-tests comparing 3 control variables (control, difficulty, subjective distance) by condition (e.g. past vs. future, self-control vs. fun)</li>
-</ol>
-</div>
 </div>
 <div id="differences-from-original-study" class="section level2">
 <h2>Differences from Original Study</h2>
@@ -253,18 +247,19 @@ library(ggthemes)</code></pre>
 d &lt;- d %&gt;%
   filter(!((IPAddress == &quot;IP Address&quot;) |
            IPAddress == &quot;{\&quot;ImportId\&quot;:\&quot;ipAddress\&quot;}&quot;)) %&gt;% #need the backlash to view the quote
-  select(contains(&quot;DV&quot;), condition, ResponseId)</code></pre>
+  select(contains(&quot;DV&quot;), condition, ResponseId, difficult, detailed, farawaynow)</code></pre>
 </div>
 <div id="step-3-tidy-data" class="section level3">
 <h3>Step 3: Tidy data</h3>
-<pre class="r"><code>d.tidy &lt;- d %&gt;%
+<pre class="r"><code>#Tidy data
+
+d.tidy &lt;- d %&gt;%
   gather(dv, dvresponse, contains(&quot;DV&quot;)) %&gt;%
   filter(!is.na(dvresponse)) %&gt;% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
   mutate(rolemodel = ifelse(condition == &quot;pastrational&quot;,&quot;past&quot;,
                             ifelse(condition ==&quot;pastfun&quot;,&quot;past&quot;,&quot;future&quot;))) %&gt;%
   mutate(task = ifelse(condition == &quot;pastrational&quot;,&quot;selfcontrol&quot;,
-                            ifelse(condition ==&quot;futurerational&quot;,&quot;selfcontrol&quot;,&quot;fun&quot;)))
-  
+                            ifelse(condition ==&quot;futurerational&quot;,&quot;selfcontrol&quot;,&quot;fun&quot;))) 
     
 
 #Make dv response into a numeric
@@ -273,17 +268,21 @@ d.tidy$dvresponse &lt;- as.numeric(d.tidy$dvresponse)
 
 #Summarize by task
 
-d.summarized &lt;- d.tidy %&gt;%
-  group_by(ResponseId, task, rolemodel) %&gt;%
+d.wide &lt;- d.tidy %&gt;%
+  group_by(ResponseId, task, rolemodel, difficult, detailed, farawaynow) %&gt;%
   summarise(numtrials = sum(dvresponse == 1, na.rm = TRUE))
  
-#Convert task &amp; rolemodel to factor
+#Convert task &amp; rolemodel &amp; covariates to factor
 
-d.summarized$task &lt;- as.factor(d.summarized$task)
-d.summarized$rolemodel &lt;- as.factor(d.summarized$rolemodel)
+d.wide$task &lt;- as.factor(d.wide$task)
+d.wide$rolemodel &lt;- as.factor(d.wide$rolemodel)
+d.wide$difficult &lt;- as.factor(d.wide$difficult)
+d.wide$detailed &lt;- as.factor(d.wide$detailed)
+d.wide$distancenow &lt;- as.factor(d.wide$farawaynow)
+
 
 #Make 
-d.summarized$numtrials &lt;- as.numeric(d.summarized$numtrials)</code></pre>
+d.wide$numtrials &lt;- as.numeric(d.wide$numtrials)</code></pre>
 </div>
 </div>
 <div id="confirmatory-analysis" class="section level2">
@@ -292,10 +291,10 @@ d.summarized$numtrials &lt;- as.numeric(d.summarized$numtrials)</code></pre>
 #Note that this doesn't analysis doesn't yield anything as there is only 1 data point per group; error: &quot;ANOVA F-tests on an essentially perfect fit are unreliable&quot;
 
 
-fit &lt;- anova(lm(numtrials ~ task * rolemodel, d.summarized))</code></pre>
-<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel, d.summarized)): ANOVA
-## F-tests on an essentially perfect fit are unreliable</code></pre>
-<pre class="r"><code>#same? aov(numtrials ~ task * rolemodel, d.summarized)
+fit &lt;- anova(lm(numtrials ~ task * rolemodel, d.wide))</code></pre>
+<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel, d.wide)): ANOVA F-
+## tests on an essentially perfect fit are unreliable</code></pre>
+<pre class="r"><code>#fyi, these are the same: aov(numtrials ~ task * rolemodel, d.summarized)
 
 fit</code></pre>
 <pre><code>## Analysis of Variance Table
@@ -306,9 +305,42 @@ fit</code></pre>
 ## rolemodel       1      4       4               
 ## task:rolemodel  1      0       0               
 ## Residuals       0      0</code></pre>
-<pre class="r"><code>fit &lt;- anova(lm(numtrials ~ task * rolemodel, d.summarized))</code></pre>
-<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel, d.summarized)): ANOVA
-## F-tests on an essentially perfect fit are unreliable</code></pre>
+<pre class="r"><code>fit.difficult.covariate &lt;- anova(lm(numtrials ~ task * rolemodel + difficult , d.wide))</code></pre>
+<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel + difficult, d.wide)):
+## ANOVA F-tests on an essentially perfect fit are unreliable</code></pre>
+<pre class="r"><code>fit.detailed.covariate &lt;- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))</code></pre>
+<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel + detailed, d.wide)):
+## ANOVA F-tests on an essentially perfect fit are unreliable</code></pre>
+<pre class="r"><code>fit.distancenow.covariate &lt;- anova(lm(numtrials ~ task * rolemodel + distancenow, d.wide))</code></pre>
+<pre><code>## Warning in anova.lm(lm(numtrials ~ task * rolemodel + distancenow,
+## d.wide)): ANOVA F-tests on an essentially perfect fit are unreliable</code></pre>
+<pre class="r"><code>fit.difficult.covariate</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: numtrials
+##           Df Sum Sq Mean Sq F value Pr(&gt;F)
+## task       1      0       0               
+## rolemodel  1      4       4               
+## difficult  1      0       0               
+## Residuals  0      0</code></pre>
+<pre class="r"><code>fit.detailed.covariate</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: numtrials
+##                Df Sum Sq Mean Sq F value Pr(&gt;F)
+## task            1      0       0               
+## rolemodel       1      4       4               
+## task:rolemodel  1      0       0               
+## Residuals       0      0</code></pre>
+<pre class="r"><code>fit.distancenow.covariate</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: numtrials
+##             Df Sum Sq Mean Sq F value Pr(&gt;F)
+## task         1      0       0               
+## rolemodel    1      4       4               
+## distancenow  1      0       0               
+## Residuals    0      0</code></pre>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory analysis</h2>
