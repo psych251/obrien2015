@@ -1,10 +1,14 @@
+
 ---
-title: "pilot_a_writeup"
+title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
 author: "Erik Santoro"
-date: "November 19, 2017"
-output: 
+date: "`r format(Sys.time(), '%November %22, %2017')`"
+output:
   html_document:
-  toc: true
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
 ---
 
 ```{r Load Packages, echo=FALSE}
@@ -13,26 +17,7 @@ library(knitr) # for kable table formating
 library(ggthemes)
 ```
 
-
-------
-
-#### Overview
-
-Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)
-
-Citation: O'Brien, E. (2015). Mapping out past and future minds: The perceived trajectory of rationality versus emotionality over time. Journal of Experimental Psychology: General, 144(3), 624.
-
-#### Changes to Make For Pilot B
-    
-* Attenion Check
-    + Add an attention check? I am not sure what the best attention check is to add
-
-* Variable naming
-    + Change the naming of the flowers time & DV variables
-
-------
-
-#Introduction
+##Introduction
 
 Expanding on the findings that people view their past and future selves as others and that people view the future as better and past  as worse, O'Brien(2015) found that people view their past self as more rational and their future self as more emotional. Study 1 revealed this basic finding across a variety of ways of asking people about their past and future selves. Study 2 showed that this is a self-other difference; people did not show the same representations of past or future others as they did of their past and future selves. Study 3 studied one implication: when people role played their past or future self, their preferences changed such that they prefered intellectual enrichment when role playing their future self. Study 4 studied another implication: when people role modeled their past or future self, they were more likely to perform better on tasks that were fun or rational respectively. 
 
@@ -40,9 +25,9 @@ The goal of the replication is to replicate study 4, and specifically replicate 
 
 ------
 
-#Methods
+##Methods
 
-##Power Analysis
+###Power Analysis
 
 The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). Given there is one dependent variable, I decided to do a two-way ANOVA.
 
@@ -62,11 +47,11 @@ include_graphics("screenshots/Apriori_95.png")
 
 
 
-##Planned Sample
+###Planned Sample
 
 I plan to recruit 150 participants from Amazon's Mechanical Turk. This will give 80% power (79.7%). There will be no specific recruitment parameters.
 
-##Materials
+###Materials
 
 Participants were presented the same materials from the original study, namely 10 different photos in which pariticipants were asked to either enjoy the photos ("fun" task) or do some computational task ("self-control" task). See a screenshot from the original paper.
 
@@ -77,7 +62,7 @@ include_graphics("screenshots/Materials.png")
 ```
 
 
-##Procedure
+###Procedure
 
 The following procedures from the original article were followed precisely. There are some exceptions in the questions asked or how they were asked; see "Differences from Original Study" section.
 	
@@ -90,7 +75,7 @@ Participants were randomly assigned into a 2 (task: fun or self-control) x 2 (ro
 *Role model manipulation.* Critically, before knowing about or completing the slideshow task, participants completed the very first part of the study. They were asked to reflect on the positive attributes of either their “past self: who you recall being over the	last few years,” or their “future self: who you imagine being over the next few years.” To get into the mind-set, they were asked to write open-ended responses to this prompt: "What do you think are the benefits to feeling connected to your future (past)? When might it actually be good for you to “act like” your future self (past self)? If you brought to mind your future self (past self) as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your future self (past self) good at?” After writing, participants were instructed to keep this other self in mind as a guide in performing subsequent tasks in the study (e.g., “Think about what she would motivate you to do, for better or for worse”). At that point, participants were informed about the slideshow task and completed it as described. Finally, at the end of the entire study, participants rated how difficult it was to imagine their other self (1 = very easy to imagine, to 7 = very difficult to imagine), the detail level of the mental image of their other self (1 = not at all detailed, to 7 = very detailed), and how far away their other self seemed (1 = they feel very close to me now, to 7 = they feel very far from me now). 
 
 
-##Analysis Plan
+###Analysis Plan
 
 **Overview:**
 
@@ -106,6 +91,15 @@ One participant reported confusion because the photos did not load properly. Exc
 
 ... Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) = 11.45, p = .001, eta squared = .05, as did the reported contrasts for the fun task, F(1, 217) = 8.98, p = .003, eta squared = .04, and for the self-control task, F(1, 217) = 3.35, p = .068, eta squared = .015.
 
+**Relevant Graph from Paper:**
+
+```{r Graph from paper, echo=FALSE}
+
+include_graphics("screenshots/Apriori_80.png")
+
+```
+
+
 
 **Analysis Steps**
 
@@ -116,19 +110,19 @@ One participant reported confusion because the photos did not load properly. Exc
 3) Analysis: Conduct a two-way anova such that find the main effect of task, the main effect of role model, and their interaction on the number of trials. Then, conduct the same two-way anova separately for each of the three covariates: difficulty, detail, and distance from the self that was role modeled.
 
 
-##Differences from Original Study
+###Differences from Original Study
 
 There are several slight differences from the original study, as noted below. Since all are minor, none are expectd to make a difference on the two confirmator analyses.
 
-###Sample differences
+**Sample differences**
 
 None intended: We are recruiting Amazon Mechanical Turkers, and so there should be the same types of people (e.g. original study had 57.1% women; 79.0% White; M age = 34.09).
 
-###Setting differences
+**Setting differences**
 
 None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical Turk. The one slight difference is that we are paying participants $0.85 for completing the task, whereas the original study paid participants $1.00 per hit.
 
-###Procedure differences
+**Procedure differences**
 
 1) New Questions
    
@@ -157,34 +151,33 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
     * I added the demographics questions after the control variable questions.
 
 
-###Analysis plan differences
+**Analysis plan differences**
 
 As noted above, I am conducted a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
 
-------
 
-#Methods Addendum (Post Data Collection)
+### Methods Addendum (Post Data Collection)
 
-##Actual Sample Size
+You can comment this section out prior to final report with data collection.
 
-##Differences from pre-data collection methods plan
+#### Actual Sample
+  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
 
-------
+#### Differences from pre-data collection methods plan
+  Any differences from what was described as the original plan, or “none”.
 
-#Results
 
-##Data preparation
+##Results
 
-### Step 1: Load data
+###Data preparation
 
-```{r Load file}
+```{r Import data, echo = FALSE}
 
 d <- read_csv("data/obrien2015_pilotA_November 14, 2017_10.54.csv")
 
-
 ```
 
-```{r Clean & Filter data}
+```{r Data cleaning & filtering, echo=FALSE}
 
 #Filter out first two rows and select relevant variables
 d <- d %>%
@@ -195,10 +188,7 @@ d <- d %>%
 
 ```
 
-
-### Step 2: Tidy data
-
-```{r Tidy data}
+```{r Tidy data, echo=FALSE}
 
 
 #Tidy data
@@ -219,10 +209,7 @@ d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
 ```
 
 
-### Step 3: Summarized data
-
-
-```{r Wide data}
+```{r Wide data, echo=FALSE}
 
 #Summarize by task
 
@@ -245,7 +232,7 @@ d.wide$numtrials <- as.numeric(d.wide$numtrials)
 ```
 
 
-##Confirmatory analysis
+###Confirmatory analysis
 
 
 ```{r Two-Way ANOVA for Num Trials}
@@ -264,6 +251,16 @@ fit
 ```
 
 
+```{r Main Chart}
+
+```
+
+
+```{r Picture of original chart}
+
+```
+
+
 ```{r Two-Way ANOVA for Num Trials with Covariates}
 
 fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult, d.wide))
@@ -277,18 +274,21 @@ fit.distancenow.covariate
 ```
 
 
+---
 
-##Exploratory analysis
+###Exploratory analyses
 
+Any follow-up analyses desired (not required).  
 
+## Discussion
 
-------
+### Summary of Replication Attempt
 
-#Discussion
+Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
 
-##Summary of Replication Attempt
+### Commentary
 
-##Commentary
+Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
 
 
 
