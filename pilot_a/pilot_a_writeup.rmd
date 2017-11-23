@@ -1,8 +1,8 @@
 
 ---
 title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
-author: "Erik Santoro"
-date: "`r format(Sys.time(), '%November %22, %2017')`"
+author: "Erik Santoro (esantoro@stanford.edu)"
+date: "`r format(Sys.time(), '%November %23, %2017')`"
 output:
   html_document:
     toc: yes
@@ -12,10 +12,11 @@ output:
 ---
 
 ```{r Load Packages, echo=FALSE}
+library(ggplot2)
 library(tidyverse) # for data munging
 library(knitr) # for kable table formating
 library(ggthemes)
-library(ggplot2)
+
 ```
 
 ##Introduction
@@ -49,7 +50,7 @@ include_graphics("screenshots/Apriori_95.png")
 
 ###Planned Sample
 
-I plan to recruit 150 participants from Amazon's Mechanical Turk. This will give 80% power (79.7%). There will be no specific recruitment parameters.
+I plan to recruit 150 participants from Amazon's Mechanical Turk. This will give 80% power (79.7%). There will be no specific recruitment parameters in terms of demographics, though I will assess participant demographics.
 
 
 ###Materials
@@ -75,31 +76,31 @@ Participants were randomly assigned into a 2 (task: fun or self-control) x 2 (ro
 
 *Role model manipulation.* Critically, before knowing about or completing the slideshow task, participants completed the very first part of the study. They were asked to reflect on the positive attributes of either their “past self: who you recall being over the	last few years,” or their “future self: who you imagine being over the next few years.” To get into the mind-set, they were asked to write open-ended responses to this prompt: "What do you think are the benefits to feeling connected to your future (past)? When might it actually be good for you to “act like” your future self (past self)? If you brought to mind your future self (past self) as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your future self (past self) good at?” After writing, participants were instructed to keep this other self in mind as a guide in performing subsequent tasks in the study (e.g., “Think about what she would motivate you to do, for better or for worse”). At that point, participants were informed about the slideshow task and completed it as described. Finally, at the end of the entire study, participants rated how difficult it was to imagine their other self (1 = very easy to imagine, to 7 = very difficult to imagine), the detail level of the mental image of their other self (1 = not at all detailed, to 7 = very detailed), and how far away their other self seemed (1 = they feel very close to me now, to 7 = they feel very far from me now). 
 
+**Working Replication Links:**
+
+Pilot A link: https://stanforduniversity.qualtrics.com/jfe/form/SV_8xm6BKpzcNwIeyx
+
+Pilot B link: https://stanforduniversity.qualtrics.com/jfe/form/SV_8w9OAMAFEPFNSM5
+
 
 ###Analysis Plan
 
 **Overview:**
 
-There are two confirmatory replicaiton analyses. The first confirmatory analysis is to replicate the significant interaction by task and role model. The second confirmatory analysis is to replicate the finding that the interaction was still signficant after adding the three covariates (difficulty imainging self, the level of detail of the self, and the distance from the self). 
+There are two confirmatory replicaiton analyses. The *key analysis of interest* is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
+
+The second confirmatory analysis is to replicate the finding that the interaction was still signficant after adding the three covariates (difficulty imainging self, the level of detail of the self, and the distance from the self). 
 
 Importantly, whereas the original paper used a MANOVA to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed, we decided to use a two-way ANOVA as there is only one dependent variable not two (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
 
+
 **Relevant Excerpts from Paper:**
 
-One participant reported confusion because the photos did not load properly. Excluding this participant does not meaningfully affect the results, so the entire sample was retained. Data were submitted to a univariate MANOVA, with Task and Role Model as fixed factors. Number of trials completed before quitting was the dependent variable.
+"One participant reported confusion because the photos did not load properly. Excluding this participant does not meaningfully affect the results, so the entire sample was retained. Data were submitted to a univariate MANOVA, with Task and Role Model as fixed factors. Number of trials completed before quitting was the dependent variable.
 
 ... Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p < .001, eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M = 5.03, SD = 3.43), F(1, 220) = 9.95, p = .002, eta squared = .04. However, for the self-control version of the task, future-motivated participants (M = 4.63, SD = 2.97) completed more trials than past-motivated participants (M = 3.45, SD = 2.74), F(1, 220) = 3.52, p = .06, eta squared = .016.
 
-... Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) = 11.45, p = .001, eta squared = .05, as did the reported contrasts for the fun task, F(1, 217) = 8.98, p = .003, eta squared = .04, and for the self-control task, F(1, 217) = 3.35, p = .068, eta squared = .015.
-
-**Relevant Graph from Paper:**
-
-```{r Graph from paper, echo=FALSE}
-
-include_graphics("screenshots/Apriori_80.png")
-
-```
-
+... Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) = 11.45, p = .001, eta squared = .05, as did the reported contrasts for the fun task, F(1, 217) = 8.98, p = .003, eta squared = .04, and for the self-control task, F(1, 217) = 3.35, p = .068, eta squared = .015."
 
 
 **Analysis Steps**
@@ -129,7 +130,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
    
     * Participants were asked a new control variable: how far away their other self seemed during the task (1 = they felt very close to me then, to 7 = they felt very far from me then).
 
-    * Participants were asked a new manipulation check: the extent to which they kept in mind their "other self" as a guide when doing the slideshow (1 = did not keep in mind, 7 = kept in mind).
+    * Participants were asked a new manipulation check: the extent to which they kept in mind their "other self" as a guide when doing the task (1 = did not keep in mind, 7 = kept in mind).
   
     * A measure that logged time spent per photo was added. This will be used for an exploratory hypothesis, which is that participants in the fun condition who role model their past selves will spend more time 'enjoying' the task than participants in the same condition who role model their future selves.  
   
@@ -154,7 +155,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 
 **Analysis plan differences**
 
-As noted above, I am conducted a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
+As noted in the "Analysis Plan" section, I am conducted a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
 
 
 ### Methods Addendum (Post Data Collection)
@@ -234,22 +235,13 @@ d.wide$numtrials <- as.numeric(d.wide$numtrials)
 
 ```{r Summarized data, echo=FALSE}
 
-
-#Option 1 -- When have more data points, need to verify that this computes confidence interval
-
-d.ci <- summarySE(data=d.wide, measurevar = "numtrials", groupvars = c("task", "rolemodel"))
-
-d.ci$rolemodel <- as.factor(d.ci$rolemodel)
-d.ci$task <- as.factor(d.ci$task)
-d.ci$rolemodel <- factor(d.ci$rolemodel, levels=c("past", "future")) #re-orders past & future for plot
-
-#Option 2 
-
 d.summarized <- d.wide %>%
   group_by(task, rolemodel) %>%
   summarise(avgtrials = mean(numtrials))
 
-
+d.summarized$rolemodel <- as.factor(d.summarized$rolemodel)
+d.summarized$task <- as.factor(d.summarized$task)
+d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels=c("past", "future")) #re-orders past & future for plot
  
 ```
 
@@ -272,40 +264,37 @@ fit
 
 ```
 
+This is the original chart from the paper for the key analysis:
 
-```{r Original Main Chart}
+```{r Original Main Chart, echo = FALSE}
 
 include_graphics("screenshots/MainChart.png")
 
 ```
 
+This is my replicated finding:
 
-```{r Main Analysis Chart}
+```{r Main Analysis Chart, echo=FALSE}
 
-cols <- c("future" = "grey34","past" = "gray69") #future is dark grey, past is light grey
-labls <-c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")
+#Note: Still need to add 95% confidence intervals!
 
 
-ggplot(data = d.ci,
-       aes(x = task, y = numtrials, fill = rolemodel)) +
+ggplot(data = d.summarized,
+       aes(x = task, y = avgtrials, fill = rolemodel)) +
   geom_bar(stat="identity", width = 0.5, position = "dodge") +
-  #geom_errorbar(aes(ymin=numtrials-ci,
-                    #ymax=numtrials+ci), width=.1) + #when have more data and error bars, this will plot 95% confidence intervals
   scale_fill_manual(name="",
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
                     labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
   scale_y_continuous(breaks = 1:10)+
-  coord_cartesian(ylim=c(1,8)) +                    #makes limit of 10
+  coord_cartesian(ylim=c(1,8)) +                                      #makes limit of 10
   labs(x = "Task Frame", 
        y = "Trials completed (min 1, max 10)") +
-  ggthemes::theme_few() #removes gridlines
-
+  ggthemes::theme_few()                                               #removes gridlines
 
 
 #Reference
 #setting labels: http://www.cookbook-r.com/Graphs/Legends_(ggplot2)/
-#plotting error bars: http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/
 
 
 ```
