@@ -87,11 +87,9 @@ Pilot B link: https://stanforduniversity.qualtrics.com/jfe/form/SV_8w9OAMAFEPFNS
 
 **Overview:**
 
-There are two confirmatory replicaiton analyses. The *key analysis of interest* is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
+The *key analysis of interest* is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
 
-The second confirmatory analysis is to replicate the finding that the interaction was still signficant after adding the three covariates (difficulty imainging self, the level of detail of the self, and the distance from the self). 
-
-Importantly, as noted earlier, I analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
+Importantly, as noted earlier, I plan to analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
 
 
 **Relevant Excerpts from Paper:**
@@ -157,7 +155,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 
 **Analysis plan differences**
 
-As noted in the "Analysis Plan" section, I conducted a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
+As noted in the "Analysis Plan" section, I conduct a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
 
 
 ### Methods Addendum (Post Data Collection)
@@ -312,18 +310,6 @@ ggplot(data = d.summarized,
 ```
 
 
-```{r Two-Way ANOVA for Num Trials with Covariates}
-
-fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult, d.wide))
-fit.detailed.covariate <- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))
-fit.distancenow.covariate <- anova(lm(numtrials ~ task * rolemodel + distancenow, d.wide))
-
-fit.difficult.covariate
-fit.detailed.covariate
-fit.distancenow.covariate
-
-```
-
 
 ---
 
@@ -343,6 +329,20 @@ Exploratory analysis 3: Test main confirmatory analysis excluding participants f
 Exploratory analysis 4: Test main confirmatory analysis excluding participants who did not do task correctly, e.g.
       * fun task: did not type "ok", "okay", or "k"
       * control task: did not type a number, or, number was below 3 or above 50 for any one trial
+
+
+
+```{r Two-Way ANOVA for Num Trials with Covariates}
+
+fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult, d.wide))
+fit.detailed.covariate <- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))
+fit.distancenow.covariate <- anova(lm(numtrials ~ task * rolemodel + distancenow, d.wide))
+
+fit.difficult.covariate
+fit.detailed.covariate
+fit.distancenow.covariate
+
+```
 
 
 
