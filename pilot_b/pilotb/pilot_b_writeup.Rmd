@@ -30,7 +30,7 @@ The goal of the replication is to replicate study 4, and specifically replicate 
 
 ###Power Analysis
 
-The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). Given there is one dependent variable, I decided to do a two-way ANOVA.
+The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). Given there is one outcome variable, I to use a two-way ANOVA, which I believe is a more appropriate statistical test to use.
 
 In terms of effect size, the original effect size was eta squared = 0.05, or cohen's f of 0.23 (converted partial eta squared to cohen's f using G Power; assumed that partial eta squared and eta squared were equivalent in this case). 
 
@@ -91,7 +91,7 @@ There are two confirmatory replicaiton analyses. The *key analysis of interest* 
 
 The second confirmatory analysis is to replicate the finding that the interaction was still signficant after adding the three covariates (difficulty imainging self, the level of detail of the self, and the distance from the self). 
 
-Importantly, whereas the original paper used a MANOVA to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed, we decided to use a two-way ANOVA as there is only one dependent variable not two (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
+Importantly, as noted earlier, I analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
 
 
 **Relevant Excerpts from Paper:**
@@ -105,7 +105,7 @@ Importantly, whereas the original paper used a MANOVA to look at the interaction
 
 **Analysis Steps**
 
-1) Exclusion: No exclusion of participants, unless there is confusion over the procedures
+1) Exclusion: No participants will be excluded in the confirmatory analysis as none were excluded in the original paper (one person in the original study reported confusion with photos loading; however. However, exploratory analyses 
 
 2) Data Cleaning: Summarize the data so that for each participant, their task (fun or self-control), role model (past or future self), number of trials completed (need to summarize), and their responses for the three covariates (difficulty, detail, distance) are included as separate columns. The number of trials will be a range from 0 to 10, and is equal to the number of times the participant selected the option "show me another one"; as O'Brien (2015) notes, this is equal to the number of photos the participant viewed *before* choosing to end the slideshow.
 
@@ -157,7 +157,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 
 **Analysis plan differences**
 
-As noted in the "Analysis Plan" section, I am conducted a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
+As noted in the "Analysis Plan" section, I conducted a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
 
 
 ### Methods Addendum (Post Data Collection)
@@ -192,6 +192,7 @@ d <- d %>%
 
 ```
 
+I created a tidy data set
 ```{r Tidy data, echo=FALSE}
 
 #Tidy data
@@ -209,9 +210,12 @@ d.tidy <- d %>%
 
 d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
 
+#Display data
+head(d.tidy)
+
 ```
 
-
+I created a wide data set, to be used in the anova
 ```{r Wide data, echo=FALSE}
 
 #Summarize by task
@@ -232,9 +236,13 @@ d.wide$distancenow <- as.factor(d.wide$farawaynow)
 #Convert number of trials to a numeric variable
 d.wide$numtrials <- as.numeric(d.wide$numtrials)
 
+#Display data
+head(d.wide)
+
+
 ```
 
-
+I created a wide data set, to be used in the ggplot
 ```{r Summarized data, echo=FALSE}
 
 d.summarized <- d.wide %>%
@@ -244,9 +252,11 @@ d.summarized <- d.wide %>%
 d.summarized$rolemodel <- as.factor(d.summarized$rolemodel)
 d.summarized$task <- as.factor(d.summarized$task)
 d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels=c("past", "future")) #re-orders past & future for plot
+
+#Display data
+head(d.summarized)
  
 ```
-
 
 ###Confirmatory analysis
 
@@ -276,7 +286,7 @@ include_graphics("screenshots/MainChart.png")
 
 This is my replicated finding:
 
-```{r Main Analysis Chart, echo=FALSE}
+```{r Main Analysis Chart}
 
 #Note: Still need to add 95% confidence intervals!
 
@@ -319,11 +329,22 @@ fit.distancenow.covariate
 
 ###Exploratory analyses
 
-Any follow-up analyses desired (not required).  
+Exploratory analysis 1: T-test comparing average time spent per trial on fun task, past vs. future role model ; Hypothesis: people on past should spend more time
 
-Exploratory analysis 1: 
+Exploratory analysis 2: Test main confirmatory analysis with various with
 
-*
+  * Difficulty imagining the self
+  * Detail of self
+  * Distance from self now
+  * Distance from self during task [new co-variate]
+
+Exploratory analysis 3: Test main confirmatory analysis excluding participants for failing the manipulation check, e.g. 1, 2, or 3 on the question asking if participants kept the other self in mind
+
+Exploratory analysis 4: Test main confirmatory analysis excluding participants who did not do task correctly, e.g.
+      * fun task: did not type "ok", "okay", or "k"
+      * control task: did not type a number, or, number was below 3 or above 50 for any one trial
+
+
 
 ## Discussion
 
