@@ -145,12 +145,17 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 
   
 3) Other changes
-
-    * For the future self condition, I changed the wording from "who you recall being" to "who you imagine being."
   
     * I added the demographics questions after the control variable questions.
     
-    * I fixed several typos, including: (a) "your" not "you're" on page 1, (b) your job is [to] complete a "fun" task, 
+    * I eliminated three questions that were asked in the original survey, but that are not predicted to affect the way in which a participant proceeds through the survey.
+    
+    * I fixed several typos, including: 
+      * (a) For the future self condition, I changed the wording from "who you recall being" to "who you imagine being."
+      * (b) "your" not "you're" on page 1
+      * (c) your job is [to] complete a "fun" task
+      * (d) for the past fun condition, changed the end of the phrase to say "want you to quit" from "move onto other things" for the fun conditions
+      * (e) how difficult [was it] to imagine your "other self"
 
 
 **Analysis plan differences**
@@ -317,7 +322,7 @@ ggplot(data = d.summarized,
 
 Exploratory analysis 1: T-test comparing average time spent per trial on fun task, past vs. future role model ; Hypothesis: people on past should spend more time
 
-Exploratory analysis 2: Test main confirmatory analysis with various with
+Exploratory analysis 2: Test main confirmatory analysis with various covariates:
 
   * Difficulty imagining the self
   * Detail of self
@@ -329,6 +334,8 @@ Exploratory analysis 3: Test main confirmatory analysis excluding participants f
 Exploratory analysis 4: Test main confirmatory analysis excluding participants who did not do task correctly, e.g.
       * fun task: did not type "ok", "okay", or "k"
       * control task: did not type a number, or, number was below 3 or above 50 for any one trial
+      
+Exploratory analysis 5: Test main confirmatory analysis excluding participants who spent less than 2 seconds per task (the minimum a priori time to ) ; Could verify by looking at distribution 
 
 
 
