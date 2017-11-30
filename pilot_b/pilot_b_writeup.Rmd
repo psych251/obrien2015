@@ -2,7 +2,7 @@
 ---
 title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
 author: "Erik Santoro (esantoro@stanford.edu)"
-date: "`r format(Sys.time(), '%November %23, %2017')`"
+date: "`r format(Sys.time(), '%December %15, %2017')`"
 output:
   html_document:
     toc: yes
@@ -156,6 +156,8 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
       * (c) your job is [to] complete a "fun" task
       * (d) for the past fun condition, changed the end of the phrase to say "want you to quit" from "move onto other things" for the fun conditions
       * (e) how difficult [was it] to imagine your "other self"
+      
+    * I inserted my own images so that they would load quicker (I set the dimensions to be width = 700 ahead of time)
 
 
 **Analysis plan differences**
@@ -180,81 +182,97 @@ You can comment this section out prior to final report with data collection.
 
 ```{r Import data, echo = FALSE}
 
-d <- read_csv("data/obrien2015_pilotA_November 14, 2017_10.54.csv")
+d <- read_csv("data/obrien2015_pilotB_final_November 29, 2017_10.48_text_deidentified.csv")
 
 ```
 
 ```{r Data cleaning & filtering, echo=FALSE}
 
 #Filter out first two rows and select relevant variables
+
 d <- d %>%
   filter(!((IPAddress == "IP Address") |
            IPAddress == "{\"ImportId\":\"ipAddress\"}")) %>% #need the backlash to view the quote
-  select(contains("DV"), condition, ResponseId, difficult, detailed, farawaynow)
+  mutate(subid = row_number()) %>% #create subid
+  select(contains("DV"),condition, subid, difficult, detailed, distancenow, distancetask, ManipulationCheck)
+
+```
+
+
+How many people did we collect?
+
+```{r Distribution by N}
+
+d %>%
+  group_by(condition) %>%
+  summarise(n = n())
 
 
 ```
 
-I created a tidy data set
-```{r Tidy data, echo=FALSE}
 
-#Tidy data
+I created a tidy data set to be used in the confirmatory analysis
+
+```{r Tidy data Part 1, echo=FALSE}
+
+#Gather data
 
 d.tidy <- d %>%
   gather(dv, dvresponse, contains("DV")) %>%
-  filter(!is.na(dvresponse)) %>% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
+  filter(!is.na(dvresponse))%>% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
   mutate(rolemodel = ifelse(condition == "pastrational","past",
                             ifelse(condition =="pastfun","past","future"))) %>%
   mutate(task = ifelse(condition == "pastrational","selfcontrol",
-                            ifelse(condition =="futurerational","selfcontrol","fun"))) 
-    
+                            ifelse(condition =="futurerational","selfcontrol","fun"))) #rational is the same as control
+
 
 #Make dv response into a numeric
 
 d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
+d.tidy$time <- as.numeric(d.tidy$time)
 
-#Display data
-head(d.tidy)
 
 ```
 
-I created a wide data set, to be used in the anova
-```{r Wide data, echo=FALSE}
 
-#Summarize by task
+```{r Tidy data Part 2, echo=FALSE}
 
-d.wide <- d.tidy %>%
-  group_by(ResponseId, task, rolemodel, difficult, detailed, farawaynow) %>%
+#Summarize by task; we want one line per variable
+
+d.tidy <- d.tidy %>%
+  group_by(subid, task, rolemodel, difficult, detailed, distancenow, distancetask, ManipulationCheck) %>%
   summarise(numtrials = sum(((dvresponse == 1) | (dvresponse== 2)), na.rm = TRUE))
  
 #Convert task & rolemodel & covariates to factor
 
-d.wide$task <- as.factor(d.wide$task)
-d.wide$rolemodel <- as.factor(d.wide$rolemodel)
-d.wide$difficult <- as.factor(d.wide$difficult)
-d.wide$detailed <- as.factor(d.wide$detailed)
-d.wide$distancenow <- as.factor(d.wide$farawaynow)
+d.tidy$task <- as.factor(d.tidy$task)
+d.tidy$rolemodel <- as.factor(d.tidy$rolemodel)
+d.tidy$difficult <- as.factor(d.tidy$difficult)
+d.tidy$detailed <- as.factor(d.tidy$detailed)
+d.tidy$distancenow <- as.factor(d.tidy$distancenow)
+d.tidy$distancetask <- as.factor(d.tidy$distancetask)
+d.tidy$ManipulationCheck <- as.factor(d.tidy$ManipulationCheck)
 
 
 #Convert number of trials to a numeric variable
-d.wide$numtrials <- as.numeric(d.wide$numtrials)
+d.tidy$numtrials <- as.numeric(d.tidy$numtrials)
 
 #Display data
-head(d.wide)
+head(d.tidy)
 
 
 ```
 
-I created a wide data set, to be used in the ggplot
-```{r Summarized data, echo=FALSE}
+I created a summarized data set to be used to plot findings
+```{r Summarized Data, echo=FALSE}
 
-d.summarized <- d.wide %>%
+d.summarized <- d.tidy %>%
   group_by(task, rolemodel) %>%
   summarise(avgtrials = mean(numtrials))
 
-d.summarized$rolemodel <- as.factor(d.summarized$rolemodel)
-d.summarized$task <- as.factor(d.summarized$task)
-d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels=c("past", "future")) #re-orders past & future for plot
+#re-orders past & future for plot
+d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels = rev(levels(d.summarized$rolemodel))) 
+
 
 #Display data
 head(d.summarized)
@@ -263,7 +281,7 @@ head(d.summarized)
 
 ###Confirmatory analysis
 
-
+First, let's look at the two way anova, looking at the number of trials completed comparing task by role model
 ```{r Two-Way ANOVA for Num Trials}
 
 
@@ -271,7 +289,7 @@ head(d.summarized)
 #Note that this doesn't analysis doesn't yield anything as there is only 1 data point per group; error: "ANOVA F-tests on an essentially perfect fit are unreliable"
 
 
-fit <- anova(lm(numtrials ~ task * rolemodel, d.wide))
+fit <- anova(lm(numtrials ~ task * rolemodel, d.tidy))
 
 #fyi, these are the same: aov(numtrials ~ task * rolemodel, d.summarized)
 
@@ -302,7 +320,7 @@ ggplot(data = d.summarized,
                     labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
   scale_y_continuous(breaks = 1:10)+
-  coord_cartesian(ylim=c(1,8)) +                                      #makes limit of 10
+  coord_cartesian(ylim=c(1,10)) +                                      #makes limit of 10
   labs(x = "Task Frame", 
        y = "Trials completed (min 1, max 10)") +
   ggthemes::theme_few()                                               #removes gridlines
@@ -336,6 +354,8 @@ Exploratory analysis 4: Test main confirmatory analysis excluding participants w
       * control task: did not type a number, or, number was below 3 or above 50 for any one trial
       
 Exploratory analysis 5: Test main confirmatory analysis excluding participants who spent less than 2 seconds per task (the minimum a priori time to ) ; Could verify by looking at distribution 
+
+Exploratory analysis 6: Test main confirmatory analysis where only give people credit for a trial if they hit "1"; thus the range would be 0 through 10, not 1 to 10
 
 
 

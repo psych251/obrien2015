@@ -262,6 +262,9 @@ fit <- anova(lm(numtrials ~ task * rolemodel, d.wide))
 
 fit
 
+#aov --> Error(subj/(Emotion))
+#lmer --> (Emotion|subj)
+
 ```
 
 This is the original chart from the paper for the key analysis:
