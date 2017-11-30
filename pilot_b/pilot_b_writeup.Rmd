@@ -2,7 +2,7 @@
 ---
 title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
 author: "Erik Santoro (esantoro@stanford.edu)"
-date: "`r format(Sys.time(), '%December %15, %2017')`"
+date: "`r format(Sys.time(), '%November %29, %2017')`"
 output:
   html_document:
     toc: yes
@@ -80,8 +80,6 @@ Participants were randomly assigned into a 2 (task: fun or self-control) x 2 (ro
 
 Pilot A link: https://stanforduniversity.qualtrics.com/jfe/form/SV_8xm6BKpzcNwIeyx
 
-Pilot B link: https://stanforduniversity.qualtrics.com/jfe/form/SV_8w9OAMAFEPFNSM5
-
 
 ###Analysis Plan
 
@@ -137,7 +135,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
   
 2) Question modifications
 
-    * For the question that assessed how far away the self felt from them, I bolded the words "does" and "right now".
+    * For the question that assessed how far away the self felt from them right now, I bolded the words "does" and "right now".
   
     * I added "I prefer another term" for the gender question.
   
@@ -148,7 +146,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
   
     * I added the demographics questions after the control variable questions.
     
-    * I eliminated three questions that were asked in the original survey, but that are not predicted to affect the way in which a participant proceeds through the survey.
+    * I eliminated three control variable questions that were asked in the original survey, but that are not predicted to affect the way in which a participant proceeds through the survey.
     
     * I fixed several typos, including: 
       * (a) For the future self condition, I changed the wording from "who you recall being" to "who you imagine being."
@@ -182,7 +180,7 @@ You can comment this section out prior to final report with data collection.
 
 ```{r Import data, echo = FALSE}
 
-d <- read_csv("data/obrien2015_pilotB_final_November 29, 2017_10.48_text_deidentified.csv")
+d <- read_csv("data/obrien2015_pilotB_final_November 29, 2017_10.57_numeric_deidentified.csv")
 
 ```
 
@@ -190,9 +188,9 @@ d <- read_csv("data/obrien2015_pilotB_final_November 29, 2017_10.48_text_deident
 
 #Filter out first two rows and select relevant variables
 
-d <- d %>%
-  filter(!((IPAddress == "IP Address") |
-           IPAddress == "{\"ImportId\":\"ipAddress\"}")) %>% #need the backlash to view the quote
+d.tidy <- d %>%
+  filter(!((DistributionChannel == "Distribution Channel") |
+           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% #need the backlash to view the quote
   mutate(subid = row_number()) %>% #create subid
   select(contains("DV"),condition, subid, difficult, detailed, distancenow, distancetask, ManipulationCheck)
 
@@ -203,10 +201,9 @@ How many people did we collect?
 
 ```{r Distribution by N}
 
-d %>%
+d.tidy %>%
   group_by(condition) %>%
   summarise(n = n())
-
 
 ```
 
@@ -217,7 +214,7 @@ I created a tidy data set to be used in the confirmatory analysis
 
 #Gather data
 
-d.tidy <- d %>%
+d.tidy <- d.tidy %>%
   gather(dv, dvresponse, contains("DV")) %>%
   filter(!is.na(dvresponse))%>% #filters out n/a responses ; to be tidy, we could modify the dv repsonse label to clean up
   mutate(rolemodel = ifelse(condition == "pastrational","past",
@@ -229,7 +226,6 @@ d.tidy <- d %>%
 #Make dv response into a numeric
 
 d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
-d.tidy$time <- as.numeric(d.tidy$time)
 
 
 ```
@@ -309,8 +305,6 @@ This is my replicated finding:
 
 ```{r Main Analysis Chart}
 
-#Note: Still need to add 95% confidence intervals!
-
 
 ggplot(data = d.summarized,
        aes(x = task, y = avgtrials, fill = rolemodel)) +
@@ -336,7 +330,7 @@ ggplot(data = d.summarized,
 
 ---
 
-###Exploratory analyses
+###Exploratory analyses (preli)
 
 Exploratory analysis 1: T-test comparing average time spent per trial on fun task, past vs. future role model ; Hypothesis: people on past should spend more time
 
@@ -361,15 +355,19 @@ Exploratory analysis 6: Test main confirmatory analysis where only give people c
 
 ```{r Two-Way ANOVA for Num Trials with Covariates}
 
-fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult, d.wide))
-fit.detailed.covariate <- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))
-fit.distancenow.covariate <- anova(lm(numtrials ~ task * rolemodel + distancenow, d.wide))
+#fit.difficult.covariate <- anova(lm(numtrials ~ task * rolemodel + difficult, d.wide))
+#fit.detailed.covariate <- anova(lm(numtrials ~ task * rolemodel + detailed, d.wide))
+#fit.distancenow.covariate <- anova(lm(numtrials ~ task * rolemodel + distancenow, d.wide))
 
-fit.difficult.covariate
-fit.detailed.covariate
-fit.distancenow.covariate
+#fit.difficult.covariate
+#fit.detailed.covariate
+#fit.distancenow.covariate
 
 ```
+
+
+### Exploratory Analysis #1 -- Look at time
+
 
 
 

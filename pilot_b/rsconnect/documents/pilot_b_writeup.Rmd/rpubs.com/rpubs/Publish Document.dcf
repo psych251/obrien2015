@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/335745/357c37bf621f46ed9f6a424019580c53
+bundleId: https://api.rpubs.com/api/v1/document/335745/357c37bf621f46ed9f6a424019580c53
+url: http://rpubs.com/eriksantoro/335745
+when: 1512026072.16617
