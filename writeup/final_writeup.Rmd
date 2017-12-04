@@ -1,0 +1,433 @@
+
+---
+title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
+author: "Erik Santoro (esantoro@stanford.edu)"
+date: "`r format(Sys.time(), '%November %29, %2017')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+---
+
+```{r Load Packages, echo=FALSE}
+library(ggplot2)
+library(tidyverse) # for data munging
+library(knitr) # for kable table formatting
+library(ggthemes)
+sem <- function(x) {sd(x, na.rm=TRUE) / sqrt(sum(!is.na((x))))}
+ci <- function(x) {sem(x) * 1.96} # reasonable approximation 
+
+```
+
+##Introduction
+
+Expanding on the findings that people view their past and future selves as others and that people view the future as better and past  as worse, O'Brien(2015) found that people view their past self as more rational and their future self as more emotional. Study 1 revealed this basic finding across a variety of ways of asking people about their past and future selves. Study 2 showed that this is a self-other difference; people did not show the same representations of past or future others as they did of their past and future selves. Study 3 studied one implication: when people role played their past or future self, their preferences changed such that they preferred intellectual enrichment when role playing their future self. Study 4 studied another implication: when people role modeled their past or future self, they were more likely to perform better on tasks that were fun or rational respectively. 
+
+The goal of the replication is to replicate study 4, and specifically replicate the main finding that there was a significant interaction between the self participants role modeled and the task, such that participants role modeling their past self completed more trials than participants role modeling their future self when the task was described as a "fun" task, whereas participants role modeling their future self completed more trials than participants role modeling their past self for a very similar, yet more involved task described as a "self-control" task. This replication will investigate this finding, as the original paper did, both with and without using the three control variables as covariates; the control variables assessed the extent to which participants felt it was difficult to imagine their other self, the level of detail of their other self, and how far away the other self felt.
+
+
+##Methods
+
+###Power Analysis
+
+The goal is to replicate the main finding, that there was a significant interaction between task (fun and self-control) and role model (past or futur self).
+
+The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). Given there is one outcome variable, I to use a two-way ANOVA, which I believe is a more appropriate statistical test to use.
+
+In terms of effect size, the original effect size was eta squared = 0.05, or cohen's f of 0.23 (converted partial eta squared to cohen's f using G Power; assumed that partial eta squared and eta squared were equivalent in this case). To achieve an effect size of partial eta squared of 0.05, we would need 152 participants (80% power), 202 participants (90% power), or 249 participants (95% power). The power calculations are below. 80% power is shown below. This sample size is large, given that in my pilot participants took ~ 8 minutes; achieving a power of 80%, we would need to spend ~ $130 (e.g. $0.85 per participant). 
+
+
+```{r A Priori Power Analysis, echo=FALSE}
+
+include_graphics("screenshots/Apriori_80.png")
+
+```
+
+
+
+###Planned Sample
+
+I plan to recruit 150 participants from Amazon's Mechanical Turk. This will give approximately 80% power (79.7%). There will be no specific recruitment parameters in terms of demographics, though I will assess participant demographics.
+
+
+###Materials
+
+Participants were presented the same materials from the original study, namely 10 different photos in which participants were asked to either enjoy the photos ("fun" task) or do some computational task ("self-control" task). See a screenshot from the original paper.
+
+```{r Materials screenshot, echo=FALSE}
+
+include_graphics("screenshots/Materials.png")
+
+```
+
+
+###Procedure
+
+The following procedures from the original article were followed precisely. There are some exceptions in the questions asked or how they were asked; see "Differences from Original Study" section.
+	
+**Excerpts from paper:**
+
+>Participants were randomly assigned into a 2 (task: fun or self-control) x 2 (role model: past or future self) between-subjects design in a study about motivation. For the main part, all participants completed a slideshow task. Participants were told they would view a series of nature photos one by one, and all saw the same photos in the same order. Under each, they were given a choice to “Show me another one!” or “End this slideshow task; move me to the rest of the survey.” It was made clear that participants could go as long as they wished without affecting payment. They were unaware of a ceiling, but the slideshow was capped at 10 before ending automatically (even if they clicked “Show me another one!” at the 10th photo). There were five wildlife photos and five still-life photos. 
+
+>*Task manipulation.* The purpose of the task, however, varied across participants (see Table 1). Some participants thought the task was about enjoyment (fun condition). Specifically, they were instructed: “This task is somewhat boring, but it is designed to assess your capacity for emotionality (i.e., feelings and enjoyment; being reactive). The more photos you choose to click through, the higher your ‘fun’ score.” They were asked to simply look at each photo (e.g., “Look at the stripes on this tiger!”). Under each photo was a text box in which they were instructed to type “ok” after they had “sufficiently enjoyed” it, and under the text box was the choice (i.e., to see another photo or to end the slideshow). The target measure was how many photos participants clicked through before opting out of the slideshow. Other participants thought the task was about critical thinking (self-control condition). They were instructed: “This task is somewhat boring, but it is designed to assess your capacity for rationality (i.e., concentration and thinking skills; being proactive). The more photos you choose to click through, the higher your ‘self-control’ score.” They were asked to make a difficult calculation about the contents in the photo (e.g., “How many stripes do you see on this tiger?”). Under the photo was a text box in which they were instructed to type their actual answer, and under the text box was the choice. Again, the target measure was how many photos they viewed before choosing to move on. Otherwise, the actual slideshow was identical for all participants.
+
+>*Role model manipulation.* Critically, before knowing about or completing the slideshow task, participants completed the very first part of the study. They were asked to reflect on the positive attributes of either their “past self: who you recall being over the	last few years,” or their “future self: who you imagine being over the next few years.” To get into the mind-set, they were asked to write open-ended responses to this prompt: "What do you think are the benefits to feeling connected to your future (past)? When might it actually be good for you to “act like” your future self (past self)? If you brought to mind your future self (past self) as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your future self (past self) good at?” After writing, participants were instructed to keep this other self in mind as a guide in performing subsequent tasks in the study (e.g., “Think about what she would motivate you to do, for better or for worse”). At that point, participants were informed about the slideshow task and completed it as described. Finally, at the end of the entire study, participants rated how difficult it was to imagine their other self (1 = very easy to imagine, to 7 = very difficult to imagine), the detail level of the mental image of their other self (1 = not at all detailed, to 7 = very detailed), and how far away their other self seemed (1 = they feel very close to me now, to 7 = they feel very far from me now). 
+
+**Working Replication Links:**
+
+Link: https://stanforduniversity.qualtrics.com/jfe/form/SV_e54EyBPR54x3vsF
+
+###Analysis Plan
+
+**Overview:**
+
+The *key analysis of interest* is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
+
+Importantly, as noted earlier, I plan to analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
+
+
+**Relevant Excerpts from Paper:**
+
+>"One participant reported confusion because the photos did not load properly. Excluding this participant does not meaningfully affect the results, so the entire sample was retained. Data were submitted to a univariate MANOVA, with Task and Role Model as fixed factors. Number of trials completed before quitting was the dependent variable. ... Importantly, this effect was qualified by a predicted interaction with role model, F(1, 220) = 12.45, p < .001, eta squared = .05 (see Figure 3). For the fun version of the task, participants motivated by their past self completed more trials (M = 6.90, SD = 3.57) than did participants motivated by their future self (M = 5.03, SD = 3.43), F(1, 220) = 9.95, p = .002, eta squared = .04. However, for the self-control version of the task, future-motivated participants (M = 4.63, SD = 2.97) completed more trials than past-motivated participants (M = 3.45, SD = 2.74), F(1, 220) = 3.52, p = .06, eta squared = .016. ... Importantly, when entering these items as covariates in the model, all results were essentially identical: The critical interaction remained significant, F(1, 217) = 11.45, p = .001, eta squared = .05, as did the reported contrasts for the fun task, F(1, 217) = 8.98, p = .003, eta squared = .04, and for the self-control task, F(1, 217) = 3.35, p = .068, eta squared = .015."
+
+
+**Analysis Steps**
+
+1) Exclusion: No participants will be excluded in the confirmatory analysis as none were excluded in the original paper (one person in the original study reported confusion with photos loading; however they were not excluded in the original paper as excluding did not change results).
+
+2) Data Cleaning: Summarize the data so that for each participant, their task (fun or self-control), role model (past or future self), number of trials completed (need to summarize), and their responses for the three covariates (difficulty, detail, distance) are included as separate columns. The number of trials will be a range from 0 to 10, and is equal to the number of times the participant selected the option "show me another one"; as O'Brien (2015) notes, this is equal to the number of photos the participant viewed *before* choosing to end the slideshow.
+
+3) Analysis: Conduct a two-way anova such that find the main effect of task, the main effect of role model, and their interaction on the number of trials. Then, conduct the same two-way anova separately for each of the three covariates: difficulty, detail, and distance from the self that was role modeled.
+
+
+###Differences from Original Study
+
+There are several slight differences from the original study, as noted below. Since all are minor, none are expected to make a difference on the two confirmatory analyses.
+
+**Sample differences**
+
+None intended: We are recruiting Amazon Mechanical Turkers, and so there should be the same demographic distribution (e.g. original study had 57.1% women; 79.0% White; M age = 34.09).
+
+**Setting differences**
+
+None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical Turk. The one slight difference is that we are paying participants $0.85 for completing the task, whereas the original study paid participants $1.00 per hit.
+
+**Procedure differences**
+
+1. New Questions
+   
+* Participants were asked a new control variable: how far away their other self seemed during the task (1 = they felt very close to me then, to 7 = they felt very far from me then).
+
+* Participants were asked a new manipulation check: the extent to which they kept in mind their "other self" as a guide when doing the task (1 = did not keep in mind, 7 = kept in mind).
+  
+* A measure that logged time spent per photo was added. This will be used for an exploratory hypothesis, which is that participants in the fun condition who role model their past selves will spend more time 'enjoying' the task than participants in the same condition who role model their future selves.  
+  
+* In demographics, a question was added to assess education levels.
+  
+  
+2. Question modifications
+
+* Response questions
+      + For the response question in which participants were asked to write 5-10 sentences about their role model, I created a minimum of 250 characters, assuming conservatively 50 characters per question (and in piloting, no one was below this threshold).
+      + For the self-control task response questions, in which participants had to do some sort of counting task, I changed it from an essay box to a single line box, and I also required that participants write a number.
+      + For the fun task response questions, in which participants had to write "ok", I required that participants type in "ok".
+    
+* Control variables
+      + For the question that assessed how far away the self felt from them right now, I bolded the words "does" and "right now".
+      
+      + I eliminated three control variable questions that were asked in the original survey, but that are not predicted to affect the way in which a participant proceeds through the survey.
+
+  
+* Appearance
+      + I inserted my own images so that they would load quicker (I set the dimensions to be width = 700 ahead of time)
+      + I deleted the white space above and below the images so easier to see all at once on one page
+    
+* Demographics
+      + For the gender question, I added "I prefer another term" and phrased as "What gender do you most identify with?"
+
+      + For the ethnicity question, I used different options.
+  
+      + I did not randomize the question order for demographics, and I made all as "request response" rather than "force response"
+      
+      + I added the demographics questions after the control variable questions.
+
+
+3. Other changes
+  
+* I fixed several typos, including: 
+      + For the future self condition, I changed the wording from "who you recall being" to "who you imagine being."
+      + "your" not "you're" on page 1
+      + your job is [to] complete a "fun" task
+      + for the past fun condition, changed the end of the phrase to say "want you to quit" from "move onto other things" for the fun conditions
+      + how difficult [was it] to imagine your "other self"
+      
+
+**Analysis plan differences**
+
+As noted in the "Analysis Plan" section, I conduct a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
+
+
+### Methods Addendum (Post Data Collection)
+
+You can comment this section out prior to final report with data collection.
+
+#### Actual Sample
+  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+
+#### Differences from pre-data collection methods plan
+  Any differences from what was described as the original plan, or “none”.
+
+
+##Results
+
+###Data preparation
+
+```{r Import data, echo = FALSE}
+
+d <- read_csv("data/obrien2015_pilotB_final_November 29, 2017_10.57_numeric_deidentified.csv")
+
+```
+
+```{r Data cleaning & filtering, echo=FALSE}
+
+#Filter out first two rows and select relevant variables
+
+d.tidy <- d %>%
+  filter(!((DistributionChannel == "Distribution Channel") |
+           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
+  mutate(subid = row_number()) %>% #create subject id column
+  select(contains("DV"),condition, subid, difficult, detailed, distancenow, distancetask, ManipulationCheck)
+
+```
+
+
+How many people did we collect?
+
+```{r Distribution by N}
+
+number <- d.tidy %>%
+  group_by(condition) %>%
+  summarise(n = n())
+
+kable(number)
+
+```
+
+
+I created a tidy data set to be used in the confirmatory analysis:
+
+```{r Tidy data Confirmatory Analysis, echo=FALSE}
+
+#Gather data
+d.tidy <- d.tidy %>%
+  gather(dv, dvresponse, contains("DV")) %>%
+  filter(!is.na(dvresponse))%>% 
+  mutate(rolemodel = ifelse(condition == "pastrational","past",
+                            ifelse(condition =="pastfun","past","future"))) %>%
+  mutate(task = ifelse(condition == "pastrational","selfcontrol",
+                            ifelse(condition =="futurerational","selfcontrol","fun"))) #rational is the same as self-control
+
+
+#Make dv response into a numeric
+
+d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
+
+#Summarize by task; we want one line per variable
+
+d.tidy <- d.tidy %>%
+  group_by(subid, task, rolemodel, difficult, detailed, distancenow, distancetask, ManipulationCheck) %>%
+  summarise(numtrials = sum(((dvresponse == 1) | (dvresponse== 2)), na.rm = TRUE))
+ 
+#Convert task & rolemodel & covariates to factor
+
+d.tidy$task <- as.factor(d.tidy$task)
+d.tidy$rolemodel <- as.factor(d.tidy$rolemodel)
+d.tidy$difficult <- as.factor(d.tidy$difficult)
+d.tidy$detailed <- as.factor(d.tidy$detailed)
+d.tidy$distancenow <- as.factor(d.tidy$distancenow)
+d.tidy$distancetask <- as.factor(d.tidy$distancetask)
+d.tidy$ManipulationCheck <- as.factor(d.tidy$ManipulationCheck)
+
+
+#Convert number of trials to a numeric variable
+d.tidy$numtrials <- as.numeric(d.tidy$numtrials)
+
+#Display data
+kable(head(d.tidy))
+
+
+
+```
+
+
+I created a summarized data set to be used to plot findings:
+```{r Summarized Data, echo=FALSE}
+
+d.summarized <- d.tidy %>%
+  group_by(task, rolemodel) %>%
+  summarise(avgtrials = mean(numtrials),
+            ci = ci(numtrials),
+            n = n()) %>%
+  mutate(condition = row_number())
+  
+
+#re-orders past & future for plot
+d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels = rev(levels(d.summarized$rolemodel))) 
+
+
+#Display data
+kable(head(d.summarized),digits = 2)
+ 
+```
+
+###Confirmatory analysis
+
+####Main Finding -- Two Way Interaction
+
+First, let's look at the two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
+```{r Two-Way ANOVA for Num Trials}
+
+fit <- anova(lm(numtrials ~ task * rolemodel, d.tidy))
+
+kable(fit, digits = 2)
+
+```
+
+####Graph of Main Finding -- Two Way Interaction
+
+This is the original chart from the paper for the key analysis:
+
+```{r Original Main Chart, echo = FALSE}
+
+include_graphics("screenshots/MainChart.png")
+
+```
+
+This is my replicated finding:
+
+```{r Main Analysis Chart}
+
+ggplot(data = d.summarized,
+       aes(x = task, y = avgtrials, fill = rolemodel)) +
+  geom_bar(stat="identity", width = 0.5, position = "dodge") +
+  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
+  scale_fill_manual(name="",
+                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
+                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")) +
+  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
+  scale_y_continuous(breaks = 1:10)+
+  coord_cartesian(ylim=c(1,10)) +                                      
+  labs(x = "Task Frame", 
+       y = "Trials completed (min 1, max 10)") +
+  ggthemes::theme_few()                                               
+
+```
+
+
+
+---
+
+###Potential Exploratory Analyses -- Overview
+
+Exploratory analysis 1: Compare average time spent per trial across tasks; Hypothesis: participants in past-fun condition should spend more time enjoying the fun task
+
+Exploratory analysis 2: Test main confirmatory analysis with various covariates:
+
+  * Difficulty imagining the self
+  * Detail of self
+  * Distance from self now
+  * Distance from self during task [new co-variate]
+
+Exploratory analysis 3: Test main confirmatory analysis excluding participants for failing the manipulation check, e.g. 1, 2, or 3 on the question asking if participants kept the other self in mind
+
+Exploratory Analyses -- Potential:
+  
+  * Exploratory analysis 4: Test main confirmatory analysis excluding participants who spent less than 2 seconds per task (the minimum a priori time to ) ; Could verify by looking at distribution 
+
+  * Exploratory analysis 5: Make sure conditions did not differ by demographics
+
+
+### Exploratory Analysis #1 -- Time differences by condition
+
+
+```{r Time Analysis, echo=FALSE}
+
+
+#Filter Data
+
+d.tidy.time <- d %>%
+  filter(!((DistributionChannel == "Distribution Channel") |
+           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
+  mutate(subid = row_number()) %>% #create subid
+  select(contains("Time_Page Submit"),condition, subid)
+
+
+#Gather Data
+
+d.tidy.time <- d.tidy.time %>%
+  gather(image, timesubmit, contains("Time_Page Submit")) %>%
+  filter(!is.na(timesubmit)) %>%
+  mutate(rolemodel = ifelse(condition == "pastrational","past",
+                            ifelse(condition =="pastfun","past","future"))) %>%
+  mutate(task = ifelse(condition == "pastrational","selfcontrol",
+                            ifelse(condition =="futurerational","selfcontrol","fun"))) 
+
+
+d.tidy.time$timesubmit <- as.numeric(d.tidy.time$timesubmit)
+
+#Summarize by subid; we want one line per variable
+
+d.tidy.time <- d.tidy.time %>%
+  group_by(subid) %>%
+  summarise(avgtime = mean(timesubmit))
+
+
+#Join with d.tidy (which has tasks summarized)
+
+d.tidy.time <- right_join(d.tidy,d.tidy.time)
+
+
+#Summarize data
+d.summarized.time <- d.tidy.time %>%
+  group_by(task, rolemodel) %>%
+  summarise(timeduration = mean(avgtime),
+            ci = ci(numtrials),
+            n = n()) %>%
+  mutate(condition = row_number())
+  
+
+#re-orders past & future for plot
+d.summarized.time$rolemodel <- factor(d.summarized.time$rolemodel, levels = rev(levels(d.summarized.time$rolemodel))) 
+
+
+#Graph the time
+ggplot(data = d.summarized.time,
+       aes(x = task, y = timeduration, fill = rolemodel)) +
+  geom_bar(stat="identity", width = 0.5, position = "dodge") +
+  geom_errorbar(aes(ymin = (timeduration - ci), ymax = (timeduration + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
+  scale_fill_manual(name="",
+                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
+                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")) +
+  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
+  labs(x = "Task Frame", 
+       y = "Average time spent on picture (seconds)") +
+  ggthemes::theme_few()  
+
+```
+
+
+
+## Discussion
+
+### Summary of Replication Attempt
+
+Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+
+### Commentary
+
+Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
+
+
+
