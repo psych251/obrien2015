@@ -2,7 +2,7 @@
 ---
 title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
 author: "Erik Santoro (esantoro@stanford.edu)"
-date: "`r format(Sys.time(), '%November %29, %2017')`"
+date: "`r format(Sys.time(), '%December %4, %2017')`"
 output:
   html_document:
     toc: yes
@@ -130,8 +130,10 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 2. Question modifications
 
 * Response questions
-      + For the response question in which participants were asked to write 5-10 sentences about their role model, I created a minimum of 250 characters, assuming conservatively 50 characters per question (and in piloting, no one was below this threshold).
+      + For the response question in which participants were asked to write 5-10 sentences about their role model, I created a minimum of 250 characters, assuming conservatively 50 characters per question (and in piloting, no one was below this threshold). In the text description of the task, I added
+      
       + For the self-control task response questions, in which participants had to do some sort of counting task, I changed it from an essay box to a single line box, and I also required that participants write a number.
+      
       + For the fun task response questions, in which participants had to write "ok", I required that participants type in "ok".
     
 * Control variables
@@ -142,7 +144,8 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
   
 * Appearance
       + I inserted my own images so that they would load quicker (I set the dimensions to be width = 700 ahead of time)
-      + I deleted the white space above and below the images so easier to see all at once on one page
+      
+      + I deleted the white space above and below the images so easier to see all at once on one page. I also deleted extra spacing in the intro slide.
     
 * Demographics
       + For the gender question, I added "I prefer another term" and phrased as "What gender do you most identify with?"
@@ -158,10 +161,16 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
   
 * I fixed several typos, including: 
       + For the future self condition, I changed the wording from "who you recall being" to "who you imagine being."
-      + "your" not "you're" on page 1
-      + your job is [to] complete a "fun" task
-      + for the past fun condition, changed the end of the phrase to say "want you to quit" from "move onto other things" for the fun conditions
-      + how difficult [was it] to imagine your "other self"
+      
+      + I changed it to "your" not "you're" on page 1.
+      
+      + I inserted the word "to" in the following phrase: your job is [to] complete a "fun" task.
+      
+      + For the past fun condition, I changed the end of the phrase to say "want you to quit" from "move onto other things" for the fun conditions
+      
+      + I inserted the words "was it" in the following phrase: how difficult [was it] to imagine your "other self"
+      
+      + I changed from "click continue" to "click the arrow" throughout.
       
 
 **Analysis plan differences**

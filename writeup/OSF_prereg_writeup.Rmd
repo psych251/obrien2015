@@ -258,7 +258,6 @@ d.tidy$numtrials <- as.numeric(d.tidy$numtrials)
 kable(head(d.tidy))
 
 
-
 ```
 
 
