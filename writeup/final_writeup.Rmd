@@ -195,7 +195,7 @@ You can comment this section out prior to final report with data collection.
 
 ```{r Import data, echo = FALSE}
 
-d <- read_csv("data/obrien2015_pilotB_final_November 29, 2017_10.57_numeric_deidentified.csv")
+d <- read_csv("data/obrien2015_final_December 6, 2017_16.22_numeric_deidentified.csv")
 
 ```
 
@@ -212,7 +212,7 @@ d.tidy <- d %>%
 ```
 
 
-How many people did we collect?
+How many people did we collect per condition?
 
 ```{r Distribution by N}
 
@@ -224,8 +224,84 @@ kable(number)
 
 ```
 
+Why was there a difference by condition? Did time vary? 
 
-I created a tidy data set to be used in the confirmatory analysis:
+```{r Time by condition, echo = "FALSE"}
+
+#Create Data set to "check"
+d.check <- d %>%
+  filter(!((DistributionChannel == "Distribution Channel") |
+           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
+  mutate(subid = row_number()) %>% #create subject id column
+  select(condition, sex, Ethnicity, age, Education, Q_TotalDuration)
+
+#Make variables to be correct
+d.check$Q_TotalDuration <- as.numeric(d.check$Q_TotalDuration)
+d.check$age <- as.numeric(d.check$age)
+d.check$sex <- as.factor(d.check$sex)
+levels(d.check$sex) <- c("male", "female")
+
+#Create dataset to plot
+d.time <- d.check %>%
+  group_by(condition) %>%
+  summarise(mean_time = mean(Q_TotalDuration),
+            ci = ci(Q_TotalDuration),
+            n = n())
+
+#Plot time
+ggplot(d.time,
+       aes(x=condition,
+           y=mean_time))+
+  geom_bar(stat="identity") +
+  geom_errorbar(aes(ymin = (mean_time - ci), ymax = (mean_time + ci)),width = 0.1) +
+  labs(title = "Time by condition",
+       x = "Condition", 
+       y = "Time (seconds)",
+       caption = "95% confidence interval") +
+  ggthemes::theme_few()    
+
+```
+
+
+No, differences in time doesn't seem to explain why this happened based on the 95% confidence intervals. It could just be a random variation in the timing of when people finished.
+
+This leads to another question: Did people people vary by condition? Specifically, did they differ along gender or age?
+
+```{r}
+
+#Create columns
+d.demographics <- d.check %>%
+  group_by(condition) %>%
+  summarise(mean_age = mean(age),
+            ci_age = ci(age),
+            sex_males = sum(sex =="male"),
+            n = n(),
+            prct_males = (sex_males/n))
+
+#Plot Age
+ggplot(d.demographics,
+       aes(x=condition,
+           y=mean_age))+
+  geom_bar(stat="identity") +
+  geom_errorbar(aes(ymin = (mean_age - ci_age), ymax = (mean_age + ci_age)),width = 0.1) +
+  labs(title = "Age by condition",
+       x = "Condition", 
+       y = "Average Age (years)",
+       caption = "95% confidence interval") +
+  ggthemes::theme_few()    
+
+#Chi-squared for percentage males
+
+chisq_gender <- chisq.test(x=d.demographics$condition, y = d.demographics$prct_males)
+
+chisq_gender
+
+
+
+```
+
+
+Based on the above, there doesn't seem to need to be any corrections to the data. Thus, I created a tidy data set to be used in the confirmatory analysis:
 
 ```{r Tidy data Confirmatory Analysis, echo=FALSE}
 
@@ -278,9 +354,7 @@ d.summarized <- d.tidy %>%
   group_by(task, rolemodel) %>%
   summarise(avgtrials = mean(numtrials),
             ci = ci(numtrials),
-            n = n()) %>%
-  mutate(condition = row_number())
-  
+            n = n())
 
 #re-orders past & future for plot
 d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels = rev(levels(d.summarized$rolemodel))) 
@@ -324,13 +398,18 @@ ggplot(data = d.summarized,
   geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
   scale_fill_manual(name="",
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
-                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")) +
+                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self                  ")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
   scale_y_continuous(breaks = 1:10)+
-  coord_cartesian(ylim=c(1,10)) +                                      
+  coord_cartesian(ylim=c(1,8)) +                                      
   labs(x = "Task Frame", 
        y = "Trials completed (min 1, max 10)") +
-  ggthemes::theme_few()                                               
+  ggthemes::theme_few() +
+  theme(aspect.ratio=3/5,
+        legend.direction = "horizontal",
+        legend.justification = c("right", "top"),
+        legend.position = c(0.8,.97),
+        legend.text = element_text(size=12))
 
 ```
 
