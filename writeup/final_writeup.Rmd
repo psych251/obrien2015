@@ -16,6 +16,8 @@ library(ggplot2)
 library(tidyverse) # for data munging
 library(knitr) # for kable table formatting
 library(ggthemes)
+library(sjstats)
+library(kableExtra)
 sem <- function(x) {sd(x, na.rm=TRUE) / sqrt(sum(!is.na((x))))}
 ci <- function(x) {sem(x) * 1.96} # reasonable approximation 
 
@@ -97,7 +99,7 @@ Importantly, as noted earlier, I plan to analyze the results using a two-way ANO
 
 1) Exclusion: No participants will be excluded in the confirmatory analysis as none were excluded in the original paper (one person in the original study reported confusion with photos loading; however they were not excluded in the original paper as excluding did not change results).
 
-2) Data Cleaning: Summarize the data so that for each participant, their task (fun or self-control), role model (past or future self), number of trials completed (need to summarize), and their responses for the three covariates (difficulty, detail, distance) are included as separate columns. The number of trials will be a range from 0 to 10, and is equal to the number of times the participant selected the option "show me another one"; as O'Brien (2015) notes, this is equal to the number of photos the participant viewed *before* choosing to end the slideshow.
+2) Data Cleaning: Summarize the data so that for each participant, their task (fun or self-control), role model (past or future self), number of trials completed (need to summarize), and their responses for the three covariates (difficulty, detail, distance) are included as separate columns. The number of trials will be a range from 1 to 10, and is equal to the number of times the participant selected the option "show me another one" or "end this slideshow"; as O'Brien (2015) notes, this is equal to the number of photos the participant viewed before choosing to end the slideshow. Note that I have clarified this after submitting my pre-registration (there was a typo in which I described that the range would be from 0 to 10, and it would be equal to the number of times "show me another one" was selected).
 
 3) Analysis: Conduct a two-way anova such that find the main effect of task, the main effect of role model, and their interaction on the number of trials. Then, conduct the same two-way anova separately for each of the three covariates: difficulty, detail, and distance from the self that was role modeled.
 
@@ -218,11 +220,182 @@ How many people did we collect per condition?
 
 number <- d.tidy %>%
   group_by(condition) %>%
-  summarise(n = n())
+  summarise(n = n()) %>%
+  kable("html", caption = "Participants Per Condition")
 
-kable(number)
+number 
 
 ```
+
+I created a tidy data set to be used in the confirmatory analysis:
+
+```{r Tidy data Confirmatory Analysis, echo=FALSE}
+
+#Gather data
+d.tidy <- d.tidy %>%
+  gather(dv, dvresponse, contains("DV")) %>%
+  filter(!is.na(dvresponse))%>% 
+  mutate(rolemodel = ifelse(condition == "pastrational","past",
+                            ifelse(condition =="pastfun","past","future"))) %>%
+  mutate(task = ifelse(condition == "pastrational","selfcontrol",
+                            ifelse(condition =="futurerational","selfcontrol","fun"))) #rational is the same as self-control
+
+
+#Make dv response into a numeric
+
+d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
+
+#Summarize by task; we want one line per variable
+
+d.tidy <- d.tidy %>%
+  group_by(subid, task, rolemodel, difficult, detailed, distancenow, distancetask, ManipulationCheck) %>%
+  summarise(numtrials = sum(((dvresponse == 1) | (dvresponse== 2)), na.rm = TRUE))
+ 
+#Make factor variables
+
+d.tidy$task <- as.factor(d.tidy$task)
+d.tidy$rolemodel <- as.factor(d.tidy$rolemodel)
+d.tidy$difficult <- as.factor(d.tidy$difficult)
+d.tidy$detailed <- as.factor(d.tidy$detailed)
+d.tidy$distancenow <- as.factor(d.tidy$distancenow)
+d.tidy$distancetask <- as.factor(d.tidy$distancetask)
+d.tidy$ManipulationCheck <- as.factor(d.tidy$ManipulationCheck)
+
+
+#Convert number of trials to a numeric variable
+d.tidy$numtrials <- as.numeric(d.tidy$numtrials)
+
+#Display data
+kable(head(d.tidy), format = "html", caption = "Tidy Data")
+
+
+
+```
+
+
+I created a summarized data set to be used to plot findings:
+```{r Summarized Data, echo=FALSE}
+
+#Summarize data
+d.summarized <- d.tidy %>%
+  group_by(task, rolemodel) %>%
+  summarise(avgtrials = mean(numtrials),
+            ci = ci(numtrials),
+            n = n())
+
+#re-orders past & future for plot
+d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels = rev(levels(d.summarized$rolemodel))) 
+
+
+#Display data
+kable(head(d.summarized),digits = 2, format = "html", caption = "Summarized Data")
+ 
+```
+
+###Confirmatory analysis
+
+####Graph of Main Finding -- Two Way Interaction
+
+This is the original chart from the paper for the key analysis:
+
+```{r Original Main Chart, echo = FALSE, fig.width=10}
+
+include_graphics("screenshots/MainChart.png")
+
+```
+
+This is my replicated finding:
+
+```{r Main Analysis Chart, fig.width=9}
+
+ggplot(data = d.summarized,
+       aes(x = task, y = avgtrials, fill = rolemodel)) +
+  geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
+  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
+  scale_fill_manual(name="",
+                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
+                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self     ")) +
+  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
+  scale_y_continuous(breaks = 1:10)+
+  coord_cartesian(ylim=c(1,8)) +
+  labs(x = "Task Frame", 
+       y = "Trials completed (min 1, max 10)",
+       caption = " Results of Replication. Mean number of photos viewed before opting to \nend the slideshow. Error bars are 95% confidence intervals.") +
+  ggthemes::theme_few() +
+  theme(aspect.ratio=3/5,
+        legend.direction = "horizontal",
+        legend.justification = c("right", "top"),
+        legend.position = c(0.8,.97),
+        legend.text = element_text(size=16),
+        plot.caption = element_text(hjust=0.05, vjust=0.1, size = 16),
+        axis.text.y = element_text(size=14),
+        axis.title.y = element_text(size = 14, face="bold"),
+        axis.text.x = element_text(size=18, colour = "black"),
+        axis.title.x = element_text(size=16))
+
+
+```
+
+####Main Finding -- Two Way Interaction
+
+First, let's look at the two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
+```{r Two-Way ANOVA for Num Trials}
+
+#Anova
+fit <- anova(lm(numtrials ~ task * rolemodel, d.tidy))
+
+kable(fit, digits = 2, format = "html", caption = "ANOVA output")
+
+```
+
+This analysis confirmed what we saw in the chart: the interaction was not signficant. Moreover, as we saw, there was a main effect by task.
+
+Even though the interaction was not signficant, and seemed to be in the opposite direction, let's look at the effect size (eta squared).
+
+```{r Effect Sizes, echo = FALSE}
+
+kable(eta_sq(fit), digits = 3, format = "html", caption = "Eta Squared Values")
+
+kable(eta_sq(fit, partial = TRUE), digits = 5, format = "html", caption = "Partial Eta Squared Values")
+
+
+```
+
+
+---
+
+###Potential Exploratory Analyses -- Overview
+
+Exploratory analysis 1: Compare average time spent per trial across tasks; Hypothesis: participants in past-fun condition should spend more time enjoying the fun task
+
+Exploratory analysis 2: Test main confirmatory analysis with various covariates:
+
+  * Difficulty imagining the self
+  * Detail of self
+  * Distance from self now
+  * Distance from self during task [new co-variate]
+
+Exploratory analysis 3: Test main confirmatory analysis excluding participants for failing the manipulation check, e.g. 1, 2, or 3 on the question asking if participants kept the other self in mind
+
+Exploratory Analyses -- Potential:
+  
+  * Exploratory analysis 4: Test main confirmatory analysis excluding participants who spent less than 2 seconds per task (the minimum a priori time to ) ; Could verify by looking at distribution 
+
+  * Exploratory analysis 5: Make sure conditions did not differ by demographics
+
+
+###Exploratory Analysis #1 -- Posthoc test
+
+Given there was no interaction, let's do a post-hoc comparison test to confirm that more trials were completed in the fun task over the self-control task.
+
+```{r}
+pairwise.t.test(d.tidy$numtrials,d.tidy$task, p.adj = "none")
+```
+
+This confirms there was a difference by treatment.
+
+
+###Exploratory Analysis #1 -- Why was there a difference in N by condition?
 
 Why was there a difference by condition? Did time vary? 
 
@@ -301,143 +474,10 @@ chisq_gender
 ```
 
 
-Based on the above, there doesn't seem to need to be any corrections to the data. Thus, I created a tidy data set to be used in the confirmatory analysis:
-
-```{r Tidy data Confirmatory Analysis, echo=FALSE}
-
-#Gather data
-d.tidy <- d.tidy %>%
-  gather(dv, dvresponse, contains("DV")) %>%
-  filter(!is.na(dvresponse))%>% 
-  mutate(rolemodel = ifelse(condition == "pastrational","past",
-                            ifelse(condition =="pastfun","past","future"))) %>%
-  mutate(task = ifelse(condition == "pastrational","selfcontrol",
-                            ifelse(condition =="futurerational","selfcontrol","fun"))) #rational is the same as self-control
+Based on the above, there doesn't seem to need to be any corrections to the data.
 
 
-#Make dv response into a numeric
-
-d.tidy$dvresponse <- as.numeric(d.tidy$dvresponse)
-
-#Summarize by task; we want one line per variable
-
-d.tidy <- d.tidy %>%
-  group_by(subid, task, rolemodel, difficult, detailed, distancenow, distancetask, ManipulationCheck) %>%
-  summarise(numtrials = sum(((dvresponse == 1) | (dvresponse== 2)), na.rm = TRUE))
- 
-#Convert task & rolemodel & covariates to factor
-
-d.tidy$task <- as.factor(d.tidy$task)
-d.tidy$rolemodel <- as.factor(d.tidy$rolemodel)
-d.tidy$difficult <- as.factor(d.tidy$difficult)
-d.tidy$detailed <- as.factor(d.tidy$detailed)
-d.tidy$distancenow <- as.factor(d.tidy$distancenow)
-d.tidy$distancetask <- as.factor(d.tidy$distancetask)
-d.tidy$ManipulationCheck <- as.factor(d.tidy$ManipulationCheck)
-
-
-#Convert number of trials to a numeric variable
-d.tidy$numtrials <- as.numeric(d.tidy$numtrials)
-
-#Display data
-kable(head(d.tidy))
-
-
-
-```
-
-
-I created a summarized data set to be used to plot findings:
-```{r Summarized Data, echo=FALSE}
-
-d.summarized <- d.tidy %>%
-  group_by(task, rolemodel) %>%
-  summarise(avgtrials = mean(numtrials),
-            ci = ci(numtrials),
-            n = n())
-
-#re-orders past & future for plot
-d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels = rev(levels(d.summarized$rolemodel))) 
-
-
-#Display data
-kable(head(d.summarized),digits = 2)
- 
-```
-
-###Confirmatory analysis
-
-####Main Finding -- Two Way Interaction
-
-First, let's look at the two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
-```{r Two-Way ANOVA for Num Trials}
-
-fit <- anova(lm(numtrials ~ task * rolemodel, d.tidy))
-
-kable(fit, digits = 2)
-
-```
-
-####Graph of Main Finding -- Two Way Interaction
-
-This is the original chart from the paper for the key analysis:
-
-```{r Original Main Chart, echo = FALSE}
-
-include_graphics("screenshots/MainChart.png")
-
-```
-
-This is my replicated finding:
-
-```{r Main Analysis Chart}
-
-ggplot(data = d.summarized,
-       aes(x = task, y = avgtrials, fill = rolemodel)) +
-  geom_bar(stat="identity", width = 0.5, position = "dodge") +
-  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
-  scale_fill_manual(name="",
-                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
-                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self                  ")) +
-  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
-  scale_y_continuous(breaks = 1:10)+
-  coord_cartesian(ylim=c(1,8)) +                                      
-  labs(x = "Task Frame", 
-       y = "Trials completed (min 1, max 10)") +
-  ggthemes::theme_few() +
-  theme(aspect.ratio=3/5,
-        legend.direction = "horizontal",
-        legend.justification = c("right", "top"),
-        legend.position = c(0.8,.97),
-        legend.text = element_text(size=12))
-
-```
-
-
-
----
-
-###Potential Exploratory Analyses -- Overview
-
-Exploratory analysis 1: Compare average time spent per trial across tasks; Hypothesis: participants in past-fun condition should spend more time enjoying the fun task
-
-Exploratory analysis 2: Test main confirmatory analysis with various covariates:
-
-  * Difficulty imagining the self
-  * Detail of self
-  * Distance from self now
-  * Distance from self during task [new co-variate]
-
-Exploratory analysis 3: Test main confirmatory analysis excluding participants for failing the manipulation check, e.g. 1, 2, or 3 on the question asking if participants kept the other self in mind
-
-Exploratory Analyses -- Potential:
-  
-  * Exploratory analysis 4: Test main confirmatory analysis excluding participants who spent less than 2 seconds per task (the minimum a priori time to ) ; Could verify by looking at distribution 
-
-  * Exploratory analysis 5: Make sure conditions did not differ by demographics
-
-
-### Exploratory Analysis #1 -- Time differences by condition
+### Exploratory Analysis #2 -- Time differences by condition
 
 
 ```{r Time Analysis, echo=FALSE}
@@ -448,9 +488,9 @@ Exploratory Analyses -- Potential:
 d.tidy.time <- d %>%
   filter(!((DistributionChannel == "Distribution Channel") |
            DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
-  mutate(subid = row_number()) %>% #create subid
+  mutate(subid = row_number()) %>%
   select(contains("Time_Page Submit"),condition, subid)
-
+  
 
 #Gather Data
 
@@ -476,6 +516,13 @@ d.tidy.time <- d.tidy.time %>%
 
 d.tidy.time <- right_join(d.tidy,d.tidy.time)
 
+#Plot Raw data
+ggplot(data = d.tidy.time,
+       aes(x=avgtime))+
+  geom_histogram(binwidth = 4)+
+  coord_cartesian(xlim=c(1,100))+
+  facet_grid(rolemodel~task)
+
 
 #Summarize data
 d.summarized.time <- d.tidy.time %>%
@@ -493,15 +540,30 @@ d.summarized.time$rolemodel <- factor(d.summarized.time$rolemodel, levels = rev(
 #Graph the time
 ggplot(data = d.summarized.time,
        aes(x = task, y = timeduration, fill = rolemodel)) +
-  geom_bar(stat="identity", width = 0.5, position = "dodge") +
+  geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
   geom_errorbar(aes(ymin = (timeduration - ci), ymax = (timeduration + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
-  scale_fill_manual(name="",
+  scale_fill_manual(name="", 
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
-                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self")) +
+                    labels = c("future" = "Motivated by Future Self   ", "past" = "Motivated by Past Self")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
   labs(x = "Task Frame", 
-       y = "Average time spent on picture (seconds)") +
-  ggthemes::theme_few()  
+       y = "Average Time Spent Per Trial (seconds)",
+       caption = "Error bars are 95% confidence intervals.") +
+  ggthemes::theme_few()
+
+#Anova
+fit2 <- anova(lm(avgtime ~ task * rolemodel, d.tidy.time))
+
+kable(fit2, digits = 2, format = "html", caption = "Two-Way ANOVA output")
+
+#Pairwise t-test
+
+d.tidy.time.subset <- subset(d.tidy.time, task == "selfcontrol")
+
+pairwise.t.test(d.tidy.time.subset$avgtime, d.tidy.time.subset$rolemodel)
+
+t.test(d.tidy.time.subset$avgtime~d.tidy.time.subset$rolemodel)
+
 
 ```
 
