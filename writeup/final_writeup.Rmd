@@ -311,7 +311,7 @@ This is my replicated finding:
 ggplot(data = d.summarized,
        aes(x = task, y = avgtrials, fill = rolemodel)) +
   geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
-  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.07, position = position_dodge(width = 0.5)) +
   scale_fill_manual(name="",
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
                     labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self     ")) +
@@ -384,7 +384,104 @@ Exploratory Analyses -- Potential:
   * Exploratory analysis 5: Make sure conditions did not differ by demographics
 
 
-###Exploratory Analysis #1 -- Posthoc test
+
+###Exploratory Analysis #1 -- Poisson Regression
+
+Let's see if the trial data was normally distributed.
+
+```{r Histogram of Number of Trials, echo=FALSE}
+
+d.tidy.2 <- d.tidy %>%
+  mutate(condition = paste(task,rolemodel))
+
+
+ggplot(d.tidy.2,
+       aes(x=numtrials)) +
+  geom_histogram(binwidth = 1)+
+  labs(y="Number of Participants",
+       title = "Histogram of Number of Trials Overall") +
+  scale_x_discrete("Number of Photos Viewed (1-10)", limits = c(1,2,3,4,5,6,7,8,9,10))
+
+
+ggplot(d.tidy.2,
+       aes(x=numtrials)) +
+  geom_histogram(binwidth = 1)+
+  labs(y="Number of Participants",
+       title = "Histogram of Number of Trials by Condition") +
+  scale_x_discrete("Number of Photos Viewed (1-10)", limits = c(1,2,3,4,5,6,7,8,9,10))+
+  facet_grid(~condition)
+ 
+```
+
+
+From these two charts, we can see that the number of trials is not normally distributed and has spikes at 1 photo (minimum) and at 10 potos (the maximium), and there wsa  slight bump around 3 photos. This overall pattern appeared the same by condition.
+
+If we log transform our data by taking a logarithm, will that help with the distribution? 
+
+```{r Transfomration via log, echo = FALSE}
+
+d.tidy.log <- d.tidy %>%
+  mutate(log10numtrials = log10(numtrials))
+
+
+ggplot(d.tidy.log,
+       aes(x=log10numtrials)) +
+  geom_histogram(binwidth = 0.1)+
+  labs(y="Number of Participants",
+       x = "Log Transformation of Number of Trials",
+       title = "Histogram of Log of Number of Trials")
+```
+
+This did not effectively transform our data. 
+
+Alternatively, let's try modeling this with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set; in the log-transformed data set there is still the problem that the data is not normally distributed).
+
+```{r Poisson Regression}
+
+#Poisson Regression
+summary(poissonml <- glm(numtrials ~ task * rolemodel, family = "poisson", d.tidy))
+
+```
+
+
+The interaction does not seem to be significant.
+
+
+###Exploratory Analysis #2 -- Binary Outcomes
+
+What if we viewed the outcome as a binary: do people do just one trial or persist? While this is not quite how the original author viewed the study, it would be interesting if task-role model fit would lead to a greater completion of trials.
+
+Let's transform the data into a binary: were the number of trials above 1 or not.
+
+```{r Creation of Binary Data Set, echo = FALSE}
+
+#Create binary data set
+d.tidy.binary <- d.tidy %>%
+  mutate(binarynumtrialsforchart = ifelse(numtrials == 1,1,2),
+         binarynumtrialsforanalysis = ifelse(numtrials == 1,0,1))
+
+
+#Histogram
+
+ggplot(d.tidy.binary,
+       aes(x=binarynumtrialsforchart)) +
+  geom_histogram(stat="count")+
+  labs(y="Number of Participants",
+       title = "Histogram of Binary Trial Outcome") +
+  scale_x_discrete("Photos Viewed (One photo (1) or More than one (2))", limits = c(1,2))+
+  facet_grid(task~rolemodel)
+
+
+#Logistic regression
+
+summary(model.logistic <- glm(binarynumtrialsforanalysis ~ task * rolemodel, data=d.tidy.binary, family =binomial(link="logit")))
+           
+```
+
+There appears to be no interaction among conditions. Interestingly, in this analysis, there is no main effect by condition either.
+
+
+###Exploratory Analysis #3 -- Posthoc test
 
 Given there was no interaction, let's do a post-hoc comparison test to confirm that more trials were completed in the fun task over the self-control task.
 
@@ -541,7 +638,7 @@ d.summarized.time$rolemodel <- factor(d.summarized.time$rolemodel, levels = rev(
 ggplot(data = d.summarized.time,
        aes(x = task, y = timeduration, fill = rolemodel)) +
   geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
-  geom_errorbar(aes(ymin = (timeduration - ci), ymax = (timeduration + ci)),width = 0.1, position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = (timeduration - ci), ymax = (timeduration + ci)),width = 0.7, position = position_dodge(width = 0.5)) +
   scale_fill_manual(name="", 
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
                     labels = c("future" = "Motivated by Future Self   ", "past" = "Motivated by Past Self")) +
