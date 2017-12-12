@@ -2,7 +2,7 @@
 ---
 title: "Replication of Study 4 by O'Brien (2015, Journal of Experimental Psychology: General)"
 author: "Erik Santoro (esantoro@stanford.edu)"
-date: "`r format(Sys.time(), '%December %4, %2017')`"
+date: "`r format(Sys.time(), '%December %11, %2017')`"
 output:
   html_document:
     toc: yes
@@ -259,7 +259,6 @@ d.tidy$difficult <- as.factor(d.tidy$difficult)
 d.tidy$detailed <- as.factor(d.tidy$detailed)
 d.tidy$distancenow <- as.factor(d.tidy$distancenow)
 d.tidy$distancetask <- as.factor(d.tidy$distancetask)
-d.tidy$ManipulationCheck <- as.factor(d.tidy$ManipulationCheck)
 
 
 #Convert number of trials to a numeric variable
@@ -366,26 +365,7 @@ kable(eta_sq(fit, partial = TRUE), digits = 5, format = "html", caption = "Parti
 
 ###Potential Exploratory Analyses -- Overview
 
-Exploratory analysis 1: Compare average time spent per trial across tasks; Hypothesis: participants in past-fun condition should spend more time enjoying the fun task
-
-Exploratory analysis 2: Test main confirmatory analysis with various covariates:
-
-  * Difficulty imagining the self
-  * Detail of self
-  * Distance from self now
-  * Distance from self during task [new co-variate]
-
-Exploratory analysis 3: Test main confirmatory analysis excluding participants for failing the manipulation check, e.g. 1, 2, or 3 on the question asking if participants kept the other self in mind
-
-Exploratory Analyses -- Potential:
-  
-  * Exploratory analysis 4: Test main confirmatory analysis excluding participants who spent less than 2 seconds per task (the minimum a priori time to ) ; Could verify by looking at distribution 
-
-  * Exploratory analysis 5: Make sure conditions did not differ by demographics
-
-
-
-###Exploratory Analysis #1 -- Poisson Regression
+###Exploratory Analysis #1 -- New Analytical Approach to Confirmatory Analysis (Log of Data, Poisson Regression)
 
 Let's see if the trial data was normally distributed.
 
@@ -439,7 +419,7 @@ Alternatively, let's try modeling this with poisson regression (note: zero infla
 ```{r Poisson Regression}
 
 #Poisson Regression
-summary(poissonml <- glm(numtrials ~ task * rolemodel, family = "poisson", d.tidy))
+summary(poissonml <- glm(numtrials ~ task * rolemodel, family = "poisson"(link=log), d.tidy))
 
 ```
 
@@ -481,18 +461,208 @@ summary(model.logistic <- glm(binarynumtrialsforanalysis ~ task * rolemodel, dat
 There appears to be no interaction among conditions. Interestingly, in this analysis, there is no main effect by condition either.
 
 
-###Exploratory Analysis #3 -- Posthoc test
+###Exploratory Analysis #3 -- Covariates
 
-Given there was no interaction, let's do a post-hoc comparison test to confirm that more trials were completed in the fun task over the self-control task.
-
+What if we performed the same two-way anova, using the different covariates O'Brien (2015) used, as well as the new covariate I created? We try this below, substituting a poisson regression for a two-way anova.
 ```{r}
-pairwise.t.test(d.tidy$numtrials,d.tidy$task, p.adj = "none")
+
+summary(poissonml_difficultcov <- glm(numtrials ~ task * rolemodel + difficult, family = "poisson"(link=log), d.tidy))
+
+summary(poissonml_detailedcov <- glm(numtrials ~ task * rolemodel + detailed, family = "poisson"(link=log), d.tidy))
+
+summary(poissonml_distancenowcov <- glm(numtrials ~ task * rolemodel + distancenow, family = "poisson"(link=log), d.tidy))
+
+summary(poissonml_distancetaskcov <- glm(numtrials ~ task * rolemodel + distancetask, family = "poisson"(link=log), d.tidy))
+
+
+
 ```
 
-This confirms there was a difference by treatment.
+This shows that regardless of covariate used, the criticial interaction was never significant.
 
 
-###Exploratory Analysis #1 -- Why was there a difference in N by condition?
+###Exploratory Analysis #4 -- Manipulation check
+
+It might be that this experiment did not "work" because people did not use their past or future self as a role model. Let's see how participants scored on the manipulation check I created:
+
+```{r Manipulation Check Distribution, echo = FALSE}
+
+ggplot(data =d.tidy,
+       aes(x=ManipulationCheck))+
+  geom_histogram(stat="count")+
+  labs(y="Number of Participants",
+       x = "To what extent did you keep your 'other self' in mind as a guide? \n (1=did not keep in mind, 7=kept in mind)",
+       title = "Histogram of Manipulation Check")
+
+```
+
+From this chart, we can see that the majority of participants scored at or above the midpoint. However, I think we really want to look at participants who actually tried to do this experiment. So, let's keep only people who scored a 5 or higher on the manipulation check.
+
+How does this affect our analyses? Let's chart the data.
+
+
+```{r Creation of Manipulation DataSet, echo = FALSE}
+
+#Create binary data set
+d.tidy.manipcheck <- d.tidy %>%
+  mutate(keep = ifelse(ManipulationCheck >= 5,1,0)) %>%
+  filter(keep != 0)
+
+
+#Summarize data
+d.summarized.manipcheck <- d.tidy.manipcheck %>%
+  group_by(task, rolemodel) %>%
+  summarise(avgtrials = mean(numtrials),
+            ci = ci(numtrials),
+            n = n())
+
+#re-orders past & future for plot
+d.summarized.manipcheck$rolemodel <- factor(d.summarized.manipcheck$rolemodel, levels = rev(levels(d.summarized.manipcheck$rolemodel))) 
+
+
+#Chart
+ggplot(data = d.summarized.manipcheck,
+       aes(x = task, y = avgtrials, fill = rolemodel)) +
+  geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
+  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.07, position = position_dodge(width = 0.5)) +
+  scale_fill_manual(name="",
+                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
+                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self     ")) +
+  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
+  scale_y_continuous(breaks = 1:10)+
+  coord_cartesian(ylim=c(1,8)) +
+  labs(x = "Task Frame", 
+       y = "Trials completed (min 1, max 10)",
+       title = "Number of Photos Viewed (include p's who pass manipulation check) ",
+       caption = "Mean number of photos viewed before opting to \nend the slideshow. Error bars are 95% confidence intervals.") +
+  ggthemes::theme_few() +
+  theme(legend.direction = "horizontal",
+        legend.justification = c("right", "top"),
+        legend.position = c(0.8,.97),
+        legend.text = element_text(size=12),
+        plot.caption = element_text(hjust=0.05, vjust=0.1, size = 10),
+        axis.text.y = element_text(size=14),
+        axis.title.y = element_text(size = 14, face="bold"),
+        axis.text.x = element_text(size=18, colour = "black"),
+        axis.title.x = element_text(size=16))
+           
+```
+
+There is no difference, even after accounting for the manipulation check.
+
+
+### Exploratory Analysis #5 -- Time differences by condition
+
+One implication of using your past self (future self) as a role model for the fun (self-control) task is that you spend longer on each slide enjoying it (counting) than when you use your future (past) self as a role model.
+
+How much time were participants spending on each page before submitting?
+
+```{r Time Analysis, echo=FALSE}
+
+
+#Filter Data
+
+d.tidy.time <- d %>%
+  filter(!((DistributionChannel == "Distribution Channel") |
+           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
+  mutate(subid = row_number()) %>%
+  select(contains("Time_Page Submit"),condition, subid)
+  
+
+#Gather Data
+
+d.tidy.time <- d.tidy.time %>%
+  gather(image, timesubmit, contains("Time_Page Submit")) %>%
+  filter(!is.na(timesubmit)) %>%
+  mutate(rolemodel = ifelse(condition == "pastrational","past",
+                            ifelse(condition =="pastfun","past","future"))) %>%
+  mutate(task = ifelse(condition == "pastrational","selfcontrol",
+                            ifelse(condition =="futurerational","selfcontrol","fun"))) 
+
+
+d.tidy.time$timesubmit <- as.numeric(d.tidy.time$timesubmit)
+
+#Summarize by subid; we want one line per variable
+
+d.tidy.time <- d.tidy.time %>%
+  group_by(subid) %>%
+  summarise(avgtime = mean(timesubmit))
+
+
+#Join with d.tidy (which has tasks summarized)
+
+d.tidy.time <- right_join(d.tidy,d.tidy.time)
+
+#Plot Raw data
+ggplot(data = d.tidy.time,
+       aes(x=avgtime))+
+  geom_histogram(binwidth = 5)+
+  facet_grid(rolemodel~task)+
+  labs(x="Average time per photo (seconds)",
+       y="Number of participants",
+       title = "Average Time Spent on Page by Condition")
+
+```
+
+The data is clearly not normally distributed. So, let's take the log of the data, and then look at time.
+
+
+```{r Time Data Summary, echo=FALSE}
+
+#Take log of data
+d.tidy.time <- d.tidy.time %>%
+  mutate(log10avgtime = log10(avgtime))
+
+
+ggplot(data = d.tidy.time,
+       aes(x=log10avgtime))+
+  geom_histogram()+
+  facet_grid(rolemodel~task)+
+  labs(x="Average time per photo (seconds)",
+       y="Number of participants",
+       title = "Average Time Spent on Page by Condition")
+
+
+#Summarize data
+d.summarized.time <- d.tidy.time %>%
+  group_by(task, rolemodel) %>%
+  summarise(timeduration = mean(log10avgtime),
+            ci = ci(numtrials),
+            n = n()) %>%
+  mutate(condition = row_number())
+  
+
+#re-orders past & future for plot
+d.summarized.time$rolemodel <- factor(d.summarized.time$rolemodel, levels = rev(levels(d.summarized.time$rolemodel))) 
+
+
+#Graph the time
+ggplot(data = d.summarized.time,
+       aes(x = task, y = timeduration, fill = rolemodel)) +
+  geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
+  scale_fill_manual(name="", 
+                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
+                    labels = c("future" = "Motivated by Future Self   ", "past" = "Motivated by Past Self")) +
+  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
+  labs(x = "Task Frame", 
+       y = "Average of Log Time Spent Per Trial",
+       title = "Log Time per Page") +
+  ggthemes::theme_few()
+
+#Anova
+fit2 <- anova(lm(log10avgtime ~ task * rolemodel, d.tidy.time))
+
+kable(fit2, digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+
+
+
+```
+
+There does not seem to be any interaction, although it does seem to be the case that participants in the self-control task spent slightly more time per page when role modeling their future self (potentially why they viewed fewer pages).
+
+
+
+###ROUGH (move some up to methods) Exploratory 6 -- Why was there a difference in N by condition?
 
 Why was there a difference by condition? Did time vary? 
 
@@ -572,98 +742,6 @@ chisq_gender
 
 
 Based on the above, there doesn't seem to need to be any corrections to the data.
-
-
-### Exploratory Analysis #2 -- Time differences by condition
-
-
-```{r Time Analysis, echo=FALSE}
-
-
-#Filter Data
-
-d.tidy.time <- d %>%
-  filter(!((DistributionChannel == "Distribution Channel") |
-           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
-  mutate(subid = row_number()) %>%
-  select(contains("Time_Page Submit"),condition, subid)
-  
-
-#Gather Data
-
-d.tidy.time <- d.tidy.time %>%
-  gather(image, timesubmit, contains("Time_Page Submit")) %>%
-  filter(!is.na(timesubmit)) %>%
-  mutate(rolemodel = ifelse(condition == "pastrational","past",
-                            ifelse(condition =="pastfun","past","future"))) %>%
-  mutate(task = ifelse(condition == "pastrational","selfcontrol",
-                            ifelse(condition =="futurerational","selfcontrol","fun"))) 
-
-
-d.tidy.time$timesubmit <- as.numeric(d.tidy.time$timesubmit)
-
-#Summarize by subid; we want one line per variable
-
-d.tidy.time <- d.tidy.time %>%
-  group_by(subid) %>%
-  summarise(avgtime = mean(timesubmit))
-
-
-#Join with d.tidy (which has tasks summarized)
-
-d.tidy.time <- right_join(d.tidy,d.tidy.time)
-
-#Plot Raw data
-ggplot(data = d.tidy.time,
-       aes(x=avgtime))+
-  geom_histogram(binwidth = 4)+
-  coord_cartesian(xlim=c(1,100))+
-  facet_grid(rolemodel~task)
-
-
-#Summarize data
-d.summarized.time <- d.tidy.time %>%
-  group_by(task, rolemodel) %>%
-  summarise(timeduration = mean(avgtime),
-            ci = ci(numtrials),
-            n = n()) %>%
-  mutate(condition = row_number())
-  
-
-#re-orders past & future for plot
-d.summarized.time$rolemodel <- factor(d.summarized.time$rolemodel, levels = rev(levels(d.summarized.time$rolemodel))) 
-
-
-#Graph the time
-ggplot(data = d.summarized.time,
-       aes(x = task, y = timeduration, fill = rolemodel)) +
-  geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
-  geom_errorbar(aes(ymin = (timeduration - ci), ymax = (timeduration + ci)),width = 0.7, position = position_dodge(width = 0.5)) +
-  scale_fill_manual(name="", 
-                    values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
-                    labels = c("future" = "Motivated by Future Self   ", "past" = "Motivated by Past Self")) +
-  scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
-  labs(x = "Task Frame", 
-       y = "Average Time Spent Per Trial (seconds)",
-       caption = "Error bars are 95% confidence intervals.") +
-  ggthemes::theme_few()
-
-#Anova
-fit2 <- anova(lm(avgtime ~ task * rolemodel, d.tidy.time))
-
-kable(fit2, digits = 2, format = "html", caption = "Two-Way ANOVA output")
-
-#Pairwise t-test
-
-d.tidy.time.subset <- subset(d.tidy.time, task == "selfcontrol")
-
-pairwise.t.test(d.tidy.time.subset$avgtime, d.tidy.time.subset$rolemodel)
-
-t.test(d.tidy.time.subset$avgtime~d.tidy.time.subset$rolemodel)
-
-
-```
-
 
 
 ## Discussion
