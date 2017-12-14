@@ -182,24 +182,96 @@ As noted in the "Analysis Plan" section, I conduct a two-way ANOVA rather than a
 
 ### Methods Addendum (Post Data Collection)
 
-You can comment this section out prior to final report with data collection.
 
 #### Actual Sample
   Sample size, demographics, data exclusions based on rules spelled out in analysis plan
-
-#### Differences from pre-data collection methods plan
-  Any differences from what was described as the original plan, or “none”.
-
-
-##Results
-
-###Data preparation
-
+  
 ```{r Import data, echo = FALSE}
 
 d <- read_csv("data/obrien2015_final_December 6, 2017_16.22_numeric_deidentified.csv")
 
 ```
+
+```{r Demographics, echo = FALSE}
+
+
+#Create Dataframe
+d.demographics <- d %>%
+    filter(!((DistributionChannel == "Distribution Channel") |
+           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
+  mutate(subid = row_number()) %>%
+  select(subid, condition, sex, Ethnicity, age, Education, Q_TotalDuration) %>%
+  mutate(ethnicity_simplified = as.numeric(Ethnicity)) %>%
+  mutate(ethnicity_simplified = ifelse(is.na(ethnicity_simplified),9,ethnicity_simplified)) %>%
+  mutate(edu_simplified = as.numeric(Education)) %>%
+  mutate(edu_simplified = ifelse(edu_simplified <3,0,1))
+
+
+#N
+
+d.demographics$su <- as.numeric(d.demographics$subid)
+
+numberp <- sum(d.demographics$subid>0)
+  
+
+#Summarize age
+
+d.demographics$age <- as.numeric(d.demographics$age)
+
+mean_age <- round(mean(d.demographics$age), digits = 1)
+
+sd_age <- round(sd(d.demographics$age), digits = 1)
+
+#Summarize gender
+
+prcnt_female <- round(100*(sum(d.demographics$sex == "2") / numberp),digits = 1)
+
+#Summarize ethnicity
+
+d.demographics$ethnicity_simplified[(d.demographics$ethnicity_simplified==7)] <- "White"
+
+d.demographics$ethnicity_simplified <- as.factor(d.demographics$ethnicity_simplified)
+
+prcnt_white <- round(100*(sum(d.demographics$ethnicity_simplified == "White") / numberp), digits = 1)
+
+#Summarize education
+
+
+d.demographics$edu_simplified[(d.demographics$edu_simplified==1)] <- "Some college or more"
+
+prcnt_college <- round(100*(sum(d.demographics$edu_simplified == "Some college or more") / numberp), digits = 1)
+
+```
+  
+
+```{r Number per Condition, echo = FALSE}
+
+number <- d.demographics %>%
+  group_by(condition) %>%
+  summarise(n = n()) %>%
+  kable("html", caption = "Participants Per Condition")
+
+```
+  
+  We collected `r numberp` participants from Amazon's Mechanical Turk. These participants were `r prcnt_female`% women; `r prcnt_white`% White; mean age = `r mean_age` years (SD age = `r sd_age` years); `r prcnt_college`% had some college or more. Of note, these demographics are comparable to the participants recruited in the original study:
+
+>Two hundred twenty-four people (57.1% women; 79.0% White; mean age = 34.09, sd age= 10.58) completed an online task for $1.00 via Amazon’s Mechanical Turk.
+
+  There were no exclusions. Please note that one participant indicated that they had difficulty "counting the boats", but this was the point of the task and so they were not excluded.
+  
+  Of note, the number of participants per condition was slightly uneven: `r number`. 
+  
+  While the Qualtrics randomizer worked, many more Mechanical Turkers "accepted" the HIT, and often did not start filling it out but terminated. Due to random chance, this resulted in a slightly different n per condition. However, there were no differences by age, gender or total time per condition, and so no correctional analyses are needed. 
+
+
+#### Differences from pre-data collection methods plan
+  
+  There was one difference from the pre-data collection methods plan. The plan was to collect 150 participants, but only 148 participants were collected. While 150 Mechanical Turk workers took HITs, two of the surveys were blank. Since participants were paid within 15 minutes of submitting the HIT, these two blank surveys were not caught until after the participants had been paid. Due to funding reasons and because 148 was approximately 80% power, we decided to keep 148.
+
+##Results
+
+###Data preparation
+
 
 ```{r Data cleaning & filtering, echo=FALSE}
 
@@ -210,20 +282,6 @@ d.tidy <- d %>%
            DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
   mutate(subid = row_number()) %>% #create subject id column
   select(contains("DV"),condition, subid, difficult, detailed, distancenow, distancetask, ManipulationCheck)
-
-```
-
-
-How many people did we collect per condition?
-
-```{r Distribution by N}
-
-number <- d.tidy %>%
-  group_by(condition) %>%
-  summarise(n = n()) %>%
-  kable("html", caption = "Participants Per Condition")
-
-number 
 
 ```
 
@@ -381,40 +439,13 @@ ggplot(d.tidy.2,
   labs(y="Number of Participants",
        title = "Histogram of Number of Trials Overall") +
   scale_x_discrete("Number of Photos Viewed (1-10)", limits = c(1,2,3,4,5,6,7,8,9,10))
-
-
-ggplot(d.tidy.2,
-       aes(x=numtrials)) +
-  geom_histogram(binwidth = 1)+
-  labs(y="Number of Participants",
-       title = "Histogram of Number of Trials by Condition") +
-  scale_x_discrete("Number of Photos Viewed (1-10)", limits = c(1,2,3,4,5,6,7,8,9,10))+
-  facet_grid(~condition)
  
 ```
 
 
-From these two charts, we can see that the number of trials is not normally distributed and has spikes at 1 photo (minimum) and at 10 potos (the maximium), and there wsa  slight bump around 3 photos. This overall pattern appeared the same by condition.
+From this chart, we can see that the number of trials is not normally distributed and has spikes at 1 photo (minimum) and at 10 potos (the maximium), and there was a slight bump around 3 photos.
 
-If we log transform our data by taking a logarithm, will that help with the distribution? 
-
-```{r Transfomration via log, echo = FALSE}
-
-d.tidy.log <- d.tidy %>%
-  mutate(log10numtrials = log10(numtrials))
-
-
-ggplot(d.tidy.log,
-       aes(x=log10numtrials)) +
-  geom_histogram(binwidth = 0.1)+
-  labs(y="Number of Participants",
-       x = "Log Transformation of Number of Trials",
-       title = "Histogram of Log of Number of Trials")
-```
-
-This did not effectively transform our data. 
-
-Alternatively, let's try modeling this with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set; in the log-transformed data set there is still the problem that the data is not normally distributed).
+Since this is count data, let's modeling this with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set).
 
 ```{r Poisson Regression}
 
@@ -423,45 +454,10 @@ summary(poissonml <- glm(numtrials ~ task * rolemodel, family = "poisson"(link=l
 
 ```
 
-
 The interaction does not seem to be significant.
 
 
-###Exploratory Analysis #2 -- Binary Outcomes
-
-What if we viewed the outcome as a binary: do people do just one trial or persist? While this is not quite how the original author viewed the study, it would be interesting if task-role model fit would lead to a greater completion of trials.
-
-Let's transform the data into a binary: were the number of trials above 1 or not.
-
-```{r Creation of Binary Data Set, echo = FALSE}
-
-#Create binary data set
-d.tidy.binary <- d.tidy %>%
-  mutate(binarynumtrialsforchart = ifelse(numtrials == 1,1,2),
-         binarynumtrialsforanalysis = ifelse(numtrials == 1,0,1))
-
-
-#Histogram
-
-ggplot(d.tidy.binary,
-       aes(x=binarynumtrialsforchart)) +
-  geom_histogram(stat="count")+
-  labs(y="Number of Participants",
-       title = "Histogram of Binary Trial Outcome") +
-  scale_x_discrete("Photos Viewed (One photo (1) or More than one (2))", limits = c(1,2))+
-  facet_grid(task~rolemodel)
-
-
-#Logistic regression
-
-summary(model.logistic <- glm(binarynumtrialsforanalysis ~ task * rolemodel, data=d.tidy.binary, family =binomial(link="logit")))
-           
-```
-
-There appears to be no interaction among conditions. Interestingly, in this analysis, there is no main effect by condition either.
-
-
-###Exploratory Analysis #3 -- Covariates
+###Exploratory Analysis #2 -- Covariates
 
 What if we performed the same two-way anova, using the different covariates O'Brien (2015) used, as well as the new covariate I created? We try this below, substituting a poisson regression for a two-way anova.
 ```{r}
@@ -481,7 +477,7 @@ summary(poissonml_distancetaskcov <- glm(numtrials ~ task * rolemodel + distance
 This shows that regardless of covariate used, the criticial interaction was never significant.
 
 
-###Exploratory Analysis #4 -- Manipulation check
+###Exploratory Analysis #3 -- Manipulation check
 
 It might be that this experiment did not "work" because people did not use their past or future self as a role model. Let's see how participants scored on the manipulation check I created:
 
@@ -551,7 +547,7 @@ ggplot(data = d.summarized.manipcheck,
 There is no difference, even after accounting for the manipulation check.
 
 
-### Exploratory Analysis #5 -- Time differences by condition
+### Exploratory Analysis #4 -- Time differences by condition
 
 One implication of using your past self (future self) as a role model for the fun (self-control) task is that you spend longer on each slide enjoying it (counting) than when you use your future (past) self as a role model.
 
@@ -659,89 +655,6 @@ kable(fit2, digits = 2, format = "html", caption = "Log Time per Trial Two-Way A
 ```
 
 There does not seem to be any interaction, although it does seem to be the case that participants in the self-control task spent slightly more time per page when role modeling their future self (potentially why they viewed fewer pages).
-
-
-
-###ROUGH (move some up to methods) Exploratory 6 -- Why was there a difference in N by condition?
-
-Why was there a difference by condition? Did time vary? 
-
-```{r Time by condition, echo = "FALSE"}
-
-#Create Data set to "check"
-d.check <- d %>%
-  filter(!((DistributionChannel == "Distribution Channel") |
-           DistributionChannel == "{\"ImportId\":\"distributionChannel\"}")) %>% 
-  mutate(subid = row_number()) %>% #create subject id column
-  select(condition, sex, Ethnicity, age, Education, Q_TotalDuration)
-
-#Make variables to be correct
-d.check$Q_TotalDuration <- as.numeric(d.check$Q_TotalDuration)
-d.check$age <- as.numeric(d.check$age)
-d.check$sex <- as.factor(d.check$sex)
-levels(d.check$sex) <- c("male", "female")
-
-#Create dataset to plot
-d.time <- d.check %>%
-  group_by(condition) %>%
-  summarise(mean_time = mean(Q_TotalDuration),
-            ci = ci(Q_TotalDuration),
-            n = n())
-
-#Plot time
-ggplot(d.time,
-       aes(x=condition,
-           y=mean_time))+
-  geom_bar(stat="identity") +
-  geom_errorbar(aes(ymin = (mean_time - ci), ymax = (mean_time + ci)),width = 0.1) +
-  labs(title = "Time by condition",
-       x = "Condition", 
-       y = "Time (seconds)",
-       caption = "95% confidence interval") +
-  ggthemes::theme_few()    
-
-```
-
-
-No, differences in time doesn't seem to explain why this happened based on the 95% confidence intervals. It could just be a random variation in the timing of when people finished.
-
-This leads to another question: Did people people vary by condition? Specifically, did they differ along gender or age?
-
-```{r}
-
-#Create columns
-d.demographics <- d.check %>%
-  group_by(condition) %>%
-  summarise(mean_age = mean(age),
-            ci_age = ci(age),
-            sex_males = sum(sex =="male"),
-            n = n(),
-            prct_males = (sex_males/n))
-
-#Plot Age
-ggplot(d.demographics,
-       aes(x=condition,
-           y=mean_age))+
-  geom_bar(stat="identity") +
-  geom_errorbar(aes(ymin = (mean_age - ci_age), ymax = (mean_age + ci_age)),width = 0.1) +
-  labs(title = "Age by condition",
-       x = "Condition", 
-       y = "Average Age (years)",
-       caption = "95% confidence interval") +
-  ggthemes::theme_few()    
-
-#Chi-squared for percentage males
-
-chisq_gender <- chisq.test(x=d.demographics$condition, y = d.demographics$prct_males)
-
-chisq_gender
-
-
-
-```
-
-
-Based on the above, there doesn't seem to need to be any corrections to the data.
 
 
 ## Discussion
