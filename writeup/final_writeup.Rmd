@@ -7,8 +7,6 @@ output:
   html_document:
     toc: yes
     toc_depth: 3
-    toc_float:
-      collapsed: false
 ---
 
 ```{r Load Packages, echo=FALSE}
@@ -337,7 +335,7 @@ I created a summarized data set to be used to plot findings:
 d.summarized <- d.tidy %>%
   group_by(task, rolemodel) %>%
   summarise(avgtrials = mean(numtrials),
-            ci = ci(numtrials),
+            sem = sem(numtrials),
             n = n())
 
 #re-orders past & future for plot
@@ -355,7 +353,7 @@ kable(head(d.summarized),digits = 2, format = "html", caption = "Summarized Data
 
 This is the original chart from the paper for the key analysis:
 
-```{r Original Main Chart, echo = FALSE, fig.width=10}
+```{r Original Main Chart, out.width="80%", echo = FALSE}
 
 include_graphics("screenshots/MainChart.png")
 
@@ -363,40 +361,39 @@ include_graphics("screenshots/MainChart.png")
 
 This is my replicated finding:
 
-```{r Main Analysis Chart, fig.width=9}
+```{r Main Analysis Chart, echo = FALSE, fig.width=7, fig.height=4.5}
 
 ggplot(data = d.summarized,
        aes(x = task, y = avgtrials, fill = rolemodel)) +
   geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
-  geom_errorbar(aes(ymin = (avgtrials - ci), ymax = (avgtrials + ci)),width = 0.07, position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = (avgtrials - sem), ymax = (avgtrials + sem)),width = 0.03, position = position_dodge(width = 0.5)) +
   scale_fill_manual(name="",
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
-                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self     ")) +
+                    labels = c("future" = "Motivated by Future Self", "past" = "Motivated by Past Self       ")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
   scale_y_continuous(breaks = 1:10)+
   coord_cartesian(ylim=c(1,8)) +
   labs(x = "Task Frame", 
        y = "Trials completed (min 1, max 10)",
-       caption = " Results of Replication. Mean number of photos viewed before opting to \nend the slideshow. Error bars are 95% confidence intervals.") +
+       caption = "\n  Results of Replication. Mean number of photo trials completed before \nopting to end the slideshow. Error bars are +/- 1 SEM.") +
   ggthemes::theme_few() +
-  theme(aspect.ratio=3/5,
-        legend.direction = "horizontal",
+  theme(legend.direction = "horizontal",
         legend.justification = c("right", "top"),
-        legend.position = c(0.8,.97),
+        legend.position = c(0.99,.97),
         legend.text = element_text(size=16),
-        plot.caption = element_text(hjust=0.05, vjust=0.1, size = 16),
+        plot.caption = element_text(hjust=0.05, vjust=0.1, size = 14),
         axis.text.y = element_text(size=14),
         axis.title.y = element_text(size = 14, face="bold"),
-        axis.text.x = element_text(size=18, colour = "black"),
-        axis.title.x = element_text(size=16))
+        axis.text.x = element_text(size=19, colour = "black"),
+        axis.title.x = element_text(size=17, face = "bold"))
 
 
 ```
 
 ####Main Finding -- Two Way Interaction
 
-First, let's look at the two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
-```{r Two-Way ANOVA for Num Trials}
+  First, let's look at the two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
+```{r Two-Way ANOVA for Num Trials, echo = FALSE}
 
 #Anova
 fit <- anova(lm(numtrials ~ task * rolemodel, d.tidy))
@@ -405,27 +402,26 @@ kable(fit, digits = 2, format = "html", caption = "ANOVA output")
 
 ```
 
-This analysis confirmed what we saw in the chart: the interaction was not signficant. Moreover, as we saw, there was a main effect by task.
 
-Even though the interaction was not signficant, and seemed to be in the opposite direction, let's look at the effect size (eta squared).
+  This analysis confirmed what we saw in the chart: the interaction was not signficant. Moreover, as we saw, there was a main effect by task. Even though the interaction was not signficant, and seemed to be in the opposite direction, let's look at the effect size (eta squared).
 
 ```{r Effect Sizes, echo = FALSE}
 
 kable(eta_sq(fit), digits = 3, format = "html", caption = "Eta Squared Values")
-
-kable(eta_sq(fit, partial = TRUE), digits = 5, format = "html", caption = "Partial Eta Squared Values")
-
 
 ```
 
 
 ---
 
-###Potential Exploratory Analyses -- Overview
+###Exploratory Analyses
 
-###Exploratory Analysis #1 -- New Analytical Approach to Confirmatory Analysis (Log of Data, Poisson Regression)
+  Please note that I have done only some of the original exploratory analyses I planned, and I have done some new ones, based on feedback from others.
 
-Let's see if the trial data was normally distributed.
+
+####Exploratory Analysis #1 -- New Analytical Approach to Confirmatory Analysis (Log of Data, Poisson Regression)
+
+  Let's see if the trial data was normally distributed.
 
 ```{r Histogram of Number of Trials, echo=FALSE}
 
@@ -437,49 +433,79 @@ ggplot(d.tidy.2,
        aes(x=numtrials)) +
   geom_histogram(binwidth = 1)+
   labs(y="Number of Participants",
-       title = "Histogram of Number of Trials Overall") +
-  scale_x_discrete("Number of Photos Viewed (1-10)", limits = c(1,2,3,4,5,6,7,8,9,10))
+       title = "Histogram of Number of Trials Completed") +
+  scale_x_discrete("Number of Photos Viewed (1-10)", limits = c(1,2,3,4,5,6,7,8,9,10))+
+  ggthemes::theme_few()
  
 ```
 
 
-From this chart, we can see that the number of trials is not normally distributed and has spikes at 1 photo (minimum) and at 10 potos (the maximium), and there was a slight bump around 3 photos.
+  From this chart, we can see that the number of trials is not normally distributed and has spikes at 1 trial (the minimum) and at 10 trials (the maximium), and there was a slight bump around 3 photos.
 
-Since this is count data, let's modeling this with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set).
+  Since this is count data, let's model this with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set).
 
-```{r Poisson Regression}
+```{r Poisson Regression, echo = FALSE}
 
 #Poisson Regression
-summary(poissonml <- glm(numtrials ~ task * rolemodel, family = "poisson"(link=log), d.tidy))
+summary(poissonmodel <- glm(numtrials ~ task * rolemodel, family = "poisson", d.tidy))
 
 ```
 
-The interaction does not seem to be significant.
+Adopting a null hypothesis significance testing approach, the interaction is not significant, again showing that the replication failed.
 
 
-###Exploratory Analysis #2 -- Covariates
+####Exploratory Analysis #2 -- Covariates
 
-What if we performed the same two-way anova, using the different covariates O'Brien (2015) used, as well as the new covariate I created? We try this below, substituting a poisson regression for a two-way anova.
-```{r}
+What if we used the different covariates O'Brien (2015) used as well as the new covariate I created, using the poisson model? 
 
-summary(poissonml_difficultcov <- glm(numtrials ~ task * rolemodel + difficult, family = "poisson"(link=log), d.tidy))
+  Here is the model using the difficulty imagining the self as a covariate:
+  
+```{r Covariate Difficulty, echo = FALSE}
 
-summary(poissonml_detailedcov <- glm(numtrials ~ task * rolemodel + detailed, family = "poisson"(link=log), d.tidy))
+poissonmodel_difficultcov <- glm(numtrials ~ task * rolemodel + difficult, family = "poisson", d.tidy)
 
-summary(poissonml_distancenowcov <- glm(numtrials ~ task * rolemodel + distancenow, family = "poisson"(link=log), d.tidy))
-
-summary(poissonml_distancetaskcov <- glm(numtrials ~ task * rolemodel + distancetask, family = "poisson"(link=log), d.tidy))
-
-
+summary(poissonmodel_difficultcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
 
 ```
+  
 
-This shows that regardless of covariate used, the criticial interaction was never significant.
+  Here is the model using the detail of the self as a covariate:
+  
+```{r Covariate Detailed, echo = FALSE}
+
+poissonmodel_detailedcov <- glm(numtrials ~ task * rolemodel + detailed, family = "poisson", d.tidy)
+
+summary(poissonmodel_detailedcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+
+```
+  
+   Here is the model using the distance of the self now as a covariate:
+  
+```{r Covariate Distance Now, echo = FALSE}
+
+poissonmodel_distancenowcov <- glm(numtrials ~ task * rolemodel + distancenow, family = "poisson", d.tidy)
+
+summary(poissonmodel_distancenowcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+
+```
+  
+   Here is the model using the distance of the self during the task as a covariate:
+  
+```{r Covariate Distance Task, echo = FALSE}
+
+poissonmodel_distancetaskcov <- glm(numtrials ~ task * rolemodel + distancetask, family = "poisson", d.tidy)
+
+summary(poissonmodel_distancetaskcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+
+```
+  
+
+   None of the interactions are significant. This shows that regardless of covariate used, the criticial interaction was never significant.
 
 
-###Exploratory Analysis #3 -- Manipulation check
+####Exploratory Analysis #3 -- Manipulation check
 
-It might be that this experiment did not "work" because people did not use their past or future self as a role model. Let's see how participants scored on the manipulation check I created:
+  It might be that this experiment did not "work" because people did not use their past or future self as a role model. Let's see how participants scored on the manipulation check I created:
 
 ```{r Manipulation Check Distribution, echo = FALSE}
 
@@ -488,11 +514,12 @@ ggplot(data =d.tidy,
   geom_histogram(stat="count")+
   labs(y="Number of Participants",
        x = "To what extent did you keep your 'other self' in mind as a guide? \n (1=did not keep in mind, 7=kept in mind)",
-       title = "Histogram of Manipulation Check")
+       title = "Histogram of Manipulation Check")+
+  ggthemes::theme_few()
 
 ```
 
-From this chart, we can see that the majority of participants scored at or above the midpoint. However, I think we really want to look at participants who actually tried to do this experiment. So, let's keep only people who scored a 5 or higher on the manipulation check.
+  From this chart, we can see that the majority of participants scored at or above the midpoint. However, I think we really want to look at participants who actually tried to do this experiment. So, let's keep only people who scored a 5 or higher on the manipulation check.
 
 How does this affect our analyses? Let's chart the data.
 
@@ -529,14 +556,14 @@ ggplot(data = d.summarized.manipcheck,
   coord_cartesian(ylim=c(1,8)) +
   labs(x = "Task Frame", 
        y = "Trials completed (min 1, max 10)",
-       title = "Number of Photos Viewed (include p's who pass manipulation check) ",
-       caption = "Mean number of photos viewed before opting to \nend the slideshow. Error bars are 95% confidence intervals.") +
+       title = "Number of Photos Viewed \nby Participants who Passed Manipulation Check",
+       caption = "Mean number of photo trials completed before opting \nto end the slideshow. Error bars are 95% confidence intervals.") +
   ggthemes::theme_few() +
   theme(legend.direction = "horizontal",
         legend.justification = c("right", "top"),
         legend.position = c(0.8,.97),
         legend.text = element_text(size=12),
-        plot.caption = element_text(hjust=0.05, vjust=0.1, size = 10),
+        plot.caption = element_text(hjust=0.05, vjust=0.1, size = 12),
         axis.text.y = element_text(size=14),
         axis.title.y = element_text(size = 14, face="bold"),
         axis.text.x = element_text(size=18, colour = "black"),
@@ -544,14 +571,14 @@ ggplot(data = d.summarized.manipcheck,
            
 ```
 
-There is no difference, even after accounting for the manipulation check.
+  Using the 95% confidence intervals as approximation, there is no interaction such that task-self matching leads to more trials. Again, we observe in the fun task, the opposite, albeit nonsignificant, trend.
 
 
-### Exploratory Analysis #4 -- Time differences by condition
+####Exploratory Analysis #4 -- Time differences by condition
 
-One implication of using your past self (future self) as a role model for the fun (self-control) task is that you spend longer on each slide enjoying it (counting) than when you use your future (past) self as a role model.
+  One implication of using your past (future) self as a role model for the fun (self-control) task is that you spend longer on each slide enjoying it (counting) than when you use your future (past) self as a role model.
 
-How much time were participants spending on each page before submitting?
+  Thus, I want to know: how much time were participants spending on each page before submitting?
 
 ```{r Time Analysis, echo=FALSE}
 
@@ -593,17 +620,17 @@ d.tidy.time <- right_join(d.tidy,d.tidy.time)
 ggplot(data = d.tidy.time,
        aes(x=avgtime))+
   geom_histogram(binwidth = 5)+
-  facet_grid(rolemodel~task)+
   labs(x="Average time per photo (seconds)",
        y="Number of participants",
-       title = "Average Time Spent on Page by Condition")
+       title = "Average Time Spent on Page by Condition")+
+  ggthemes::theme_few()
 
 ```
 
-The data is clearly not normally distributed. So, let's take the log of the data, and then look at time.
+  The data is clearly not normally distributed. So, let's take the log of the data. Does this normalize the data?
 
 
-```{r Time Data Summary, echo=FALSE}
+```{r Time Dataframe Creation, echo=FALSE}
 
 #Take log of data
 d.tidy.time <- d.tidy.time %>%
@@ -612,17 +639,22 @@ d.tidy.time <- d.tidy.time %>%
 
 ggplot(data = d.tidy.time,
        aes(x=log10avgtime))+
-  geom_histogram()+
-  facet_grid(rolemodel~task)+
-  labs(x="Average time per photo (seconds)",
+  geom_histogram(binwidth = 0.1)+
+  labs(x="Average time per photo (log seconds)",
        y="Number of participants",
-       title = "Average Time Spent on Page by Condition")
+       title = "Average Log Time Spent on Page by Condition")+
+  ggthemes::theme_few()
+```
 
+  This data set looks now nearly normally distributed (although there are still slightly fat tails). Thus, let's take an ANOVA on the log transofrmmed data. Let's also still plot the average time spent per page per condtionjust to see if there is a difference.
+
+
+```{r Time Data Summary, echo=FALSE}
 
 #Summarize data
 d.summarized.time <- d.tidy.time %>%
   group_by(task, rolemodel) %>%
-  summarise(timeduration = mean(log10avgtime),
+  summarise(timeduration = mean(avgtime),
             ci = ci(numtrials),
             n = n()) %>%
   mutate(condition = row_number())
@@ -636,14 +668,22 @@ d.summarized.time$rolemodel <- factor(d.summarized.time$rolemodel, levels = rev(
 ggplot(data = d.summarized.time,
        aes(x = task, y = timeduration, fill = rolemodel)) +
   geom_bar(stat="identity", width = 0.5, position = "dodge", colour = "black") +
+  geom_errorbar(aes(ymin = (timeduration - ci), ymax = (timeduration + ci)),width = 0.07, position = position_dodge(width = 0.5)) +
   scale_fill_manual(name="", 
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
                     labels = c("future" = "Motivated by Future Self   ", "past" = "Motivated by Past Self")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
+  coord_cartesian(ylim=c(10,43)) +
   labs(x = "Task Frame", 
-       y = "Average of Log Time Spent Per Trial",
-       title = "Log Time per Page") +
-  ggthemes::theme_few()
+       y = "Average Time Spent Per Trial (seconds)",
+       title = "Time per Page (seconds)",
+    caption = "\nError bars are 95% confidence intervals.") +
+  ggthemes::theme_few() +
+  theme(legend.text = element_text(size=10),
+        axis.text.y = element_text(size=12),
+        axis.title.y = element_text(size = 12, face="bold"),
+        axis.text.x = element_text(size=14, colour = "black"),
+        axis.title.x = element_text(size=14))
 
 #Anova
 fit2 <- anova(lm(log10avgtime ~ task * rolemodel, d.tidy.time))
@@ -654,7 +694,7 @@ kable(fit2, digits = 2, format = "html", caption = "Log Time per Trial Two-Way A
 
 ```
 
-There does not seem to be any interaction, although it does seem to be the case that participants in the self-control task spent slightly more time per page when role modeling their future self (potentially why they viewed fewer pages).
+  There does not seem to be any interaction, although it does seem to be the case that participants in the self-control task spent slightly more time per page when role modeling their future self (potentially why they viewed fewer pages).
 
 
 ## Discussion
