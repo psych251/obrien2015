@@ -247,7 +247,7 @@ prcnt_college <- round(100*(sum(d.demographics$edu_simplified == "Some college o
 number <- d.demographics %>%
   group_by(condition) %>%
   summarise(n = n()) %>%
-  kable("html", caption = "Participants Per Condition")
+  kable(caption = "Participants Per Condition")
 
 ```
   
@@ -321,11 +321,11 @@ d.tidy$distancetask <- as.factor(d.tidy$distancetask)
 d.tidy$numtrials <- as.numeric(d.tidy$numtrials)
 
 #Display data
-kable(head(d.tidy), format = "html", caption = "Tidy Data")
-
+kable(head(d.tidy), caption = "Tidy Data")
 
 
 ```
+
 
 
 I created a summarized data set to be used to plot findings:
@@ -343,7 +343,7 @@ d.summarized$rolemodel <- factor(d.summarized$rolemodel, levels = rev(levels(d.s
 
 
 #Display data
-kable(head(d.summarized),digits = 2, format = "html", caption = "Summarized Data")
+kable(head(d.summarized),digits = 1, caption = "Summarized Data")
  
 ```
 
@@ -398,7 +398,7 @@ ggplot(data = d.summarized,
 #Anova
 fit <- anova(lm(numtrials ~ task * rolemodel, d.tidy))
 
-kable(fit, digits = 2, format = "html", caption = "ANOVA output")
+kable(fit, digits = 2, caption = "ANOVA output")
 
 ```
 
@@ -407,7 +407,7 @@ kable(fit, digits = 2, format = "html", caption = "ANOVA output")
 
 ```{r Effect Sizes, echo = FALSE}
 
-kable(eta_sq(fit), digits = 3, format = "html", caption = "Eta Squared Values")
+kable(eta_sq(fit), digits = 3, caption = "Eta Squared Values")
 
 ```
 
@@ -419,7 +419,7 @@ kable(eta_sq(fit), digits = 3, format = "html", caption = "Eta Squared Values")
   Please note that I have done only some of the original exploratory analyses I planned, and I have done some new ones, based on feedback from others.
 
 
-####Exploratory Analysis #1 -- New Analytical Approach to Confirmatory Analysis (Log of Data, Poisson Regression)
+####Exploratory Analysis #1 -- New Analytical Approach to Confirmatory Analysis (Poisson Regression)
 
   Let's see if the trial data was normally distributed.
 
@@ -464,7 +464,7 @@ What if we used the different covariates O'Brien (2015) used as well as the new 
 
 poissonmodel_difficultcov <- glm(numtrials ~ task * rolemodel + difficult, family = "poisson", d.tidy)
 
-summary(poissonmodel_difficultcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+summary(poissonmodel_difficultcov)
 
 ```
   
@@ -475,7 +475,7 @@ summary(poissonmodel_difficultcov,digits = 2, format = "html", caption = "Log Ti
 
 poissonmodel_detailedcov <- glm(numtrials ~ task * rolemodel + detailed, family = "poisson", d.tidy)
 
-summary(poissonmodel_detailedcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+summary(poissonmodel_detailedcov)
 
 ```
   
@@ -485,7 +485,7 @@ summary(poissonmodel_detailedcov,digits = 2, format = "html", caption = "Log Tim
 
 poissonmodel_distancenowcov <- glm(numtrials ~ task * rolemodel + distancenow, family = "poisson", d.tidy)
 
-summary(poissonmodel_distancenowcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+summary(poissonmodel_distancenowcov)
 
 ```
   
@@ -495,7 +495,7 @@ summary(poissonmodel_distancenowcov,digits = 2, format = "html", caption = "Log 
 
 poissonmodel_distancetaskcov <- glm(numtrials ~ task * rolemodel + distancetask, family = "poisson", d.tidy)
 
-summary(poissonmodel_distancetaskcov,digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+summary(poissonmodel_distancetaskcov)
 
 ```
   
@@ -655,9 +655,8 @@ ggplot(data = d.tidy.time,
 d.summarized.time <- d.tidy.time %>%
   group_by(task, rolemodel) %>%
   summarise(timeduration = mean(avgtime),
-            ci = ci(numtrials),
-            n = n()) %>%
-  mutate(condition = row_number())
+            ci = ci(avgtime),
+            n = n())
   
 
 #re-orders past & future for plot
@@ -673,11 +672,11 @@ ggplot(data = d.summarized.time,
                     values = c("future" = "grey34","past" = "gray69"), #future is dark grey, past is light grey
                     labels = c("future" = "Motivated by Future Self   ", "past" = "Motivated by Past Self")) +
   scale_x_discrete(labels = c("Fun Task", "Self-Control Task")) +
-  coord_cartesian(ylim=c(10,43)) +
+  coord_cartesian(ylim=c(10,60)) +
   labs(x = "Task Frame", 
        y = "Average Time Spent Per Trial (seconds)",
        title = "Time per Page (seconds)",
-    caption = "\nError bars are 95% confidence intervals.") +
+       caption = "\nError bars are 95% confidence intervals.") +
   ggthemes::theme_few() +
   theme(legend.text = element_text(size=10),
         axis.text.y = element_text(size=12),
@@ -688,24 +687,32 @@ ggplot(data = d.summarized.time,
 #Anova
 fit2 <- anova(lm(log10avgtime ~ task * rolemodel, d.tidy.time))
 
-kable(fit2, digits = 2, format = "html", caption = "Log Time per Trial Two-Way ANOVA")
+kable(fit2, digits = 2, caption = "Log Time per Trial Two-Way ANOVA")
 
 
 
 ```
 
-  There does not seem to be any interaction, although it does seem to be the case that participants in the self-control task spent slightly more time per page when role modeling their future self (potentially why they viewed fewer pages).
+  There does not seem to be any interaction, per the two way anova. Looking visually at the raw means, it does seem to be the case that participants role modeling their future self spent more time in both tasks, particularly in the self-control task (not-signficant but trending).
 
 
 ## Discussion
 
 ### Summary of Replication Attempt
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+  The goal of this replication was to replicate O'Brien (2015) original finding of a self by task interaction, such that participants who role modeled their past self would choose to view more photos ("complete more trials") in the fun task than participants who role modeled their future self, and participants who role modeled their future self would choose to view more photos in the self-control task than participants who role modeled their past self. Although this was not specified ahead of time, a successful replication would lead to a significant task by self interaction as well as a comparable effect size. 
+  
+  I failed to replicate the original result. The interaction was not significant, and the effect size was nearly 0 (eta square d= 0.004, compared to original eta squared = 0.05). Moreover, it seemed like there was a trend in the opposite direction, such that participants role modeling their future self viewed more photos in the fun task than those role modeling their past self, and participants role modeling their past self in the self-control task viewed more photos in the self-control task than participants role modeling their future self.
+
 
 ### Commentary
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
-
+A The exploratory analyses largely confirmed my original findings: there was no significant interaction between task and role model, even when I used a poisson regression (as the count data was not normally distributed) (exploratory analysis #1), used the covariates the original authors used and my new covariate (exploratory analysis #2), and excluded participants based off my manipulation check (exploratory analysis #3). Moreover, I tested a new hypothesis: could it be that if you were motivated by the situationally appropriate self (e.g. past self for fun task, future self for self-control task), you would be more thorough and spend more time per trial on average? I did not find evidence for this interaction, although it did seem that potentially participants motivated by their future self spent more time on the tasks, particularly the slef-control task (exploratory analysis #4).
+  
+B What is the implication of the failed replication? The first question is: was there a problem in my design that potentially contributed to a failed replication? There were a number of minor changes, but none that would have influenced the interaction I believe. Indeed, perhaps the biggest difference was that I compensated participants in 2017 $0.85 for a study from 2+ years ago that was compensated $1.00, and this difference would only explain an overall decrease in number of trials completed (as seems to the be case, eyeballing the averages), not a change in the interaction of task and role model. Another salient difference was that my task was more demanding as I required participants to type "ok" or submit a numerical responses, and I required a minimum number of 250 characters on the response question. This would be problematic if this requirement affected trial completion rates at differential rates across the conditions, and I cannot think of why this would be the case. In all probability, this would have just tired out participants, again contributing to a lower number of trials completed, but would not have affected the interaction.
+  
+  Of course, the question is then: how are we to make sense of this failed replication? Is it the case that the past self is not viewed as emotional, and the future self is not viewed as rational? One explanation is that these selves were never viewed this way, and the original study was a fluke, though I find this unlikely given the robustness of other studies. Another explanation is that the definition of these selves have changed, which I also find unlikely as it has only been a few years. A third explanation is that the task itself -- looking at a slideshow of nature -- is only a weak manipulation of perceived emotionality or rationality, such that it is not clear how many slides one's past self would view on the fun task, or how many slides one's future self would view on the future task. Moreover, this is perhaps why the future self spent more time per trial on average on both tasks: one's future self would exhibit self-control, and so would do any task, whether it be fun or rational, more thoroughly (and this would be particularly true of a rational task).
+  
+C There were no objections or challenges reaised by the original authors.
 
 
