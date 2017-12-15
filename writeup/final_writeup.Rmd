@@ -7,6 +7,8 @@ output:
   html_document:
     toc: yes
     toc_depth: 3
+    toc_float:
+      collapsed: false
 ---
 
 ```{r Load Packages, echo=FALSE}
@@ -32,7 +34,7 @@ The goal of the replication is to replicate study 4, and specifically replicate 
 
 ###Power Analysis
 
-The goal is to replicate the main finding, that there was a significant interaction between task (fun and self-control) and role model (past or futur self).
+The goal is to replicate the main finding, that there was a significant interaction between task (fun and self-control) and role model (past or future self).
 
 The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). Given there is one outcome variable, I to use a two-way ANOVA, which I believe is a more appropriate statistical test to use.
 
@@ -75,7 +77,7 @@ The following procedures from the original article were followed precisely. Ther
 
 >*Role model manipulation.* Critically, before knowing about or completing the slideshow task, participants completed the very first part of the study. They were asked to reflect on the positive attributes of either their “past self: who you recall being over the	last few years,” or their “future self: who you imagine being over the next few years.” To get into the mind-set, they were asked to write open-ended responses to this prompt: "What do you think are the benefits to feeling connected to your future (past)? When might it actually be good for you to “act like” your future self (past self)? If you brought to mind your future self (past self) as a role model for motivating yourself today, in what types of tasks would that help? What, exactly, is your future self (past self) good at?” After writing, participants were instructed to keep this other self in mind as a guide in performing subsequent tasks in the study (e.g., “Think about what she would motivate you to do, for better or for worse”). At that point, participants were informed about the slideshow task and completed it as described. Finally, at the end of the entire study, participants rated how difficult it was to imagine their other self (1 = very easy to imagine, to 7 = very difficult to imagine), the detail level of the mental image of their other self (1 = not at all detailed, to 7 = very detailed), and how far away their other self seemed (1 = they feel very close to me now, to 7 = they feel very far from me now). 
 
-**Working Replication Links:**
+**Working Replication Link:**
 
 Link: https://stanforduniversity.qualtrics.com/jfe/form/SV_4NQmuXvZK27wPzL
 
@@ -83,9 +85,9 @@ Link: https://stanforduniversity.qualtrics.com/jfe/form/SV_4NQmuXvZK27wPzL
 
 **Overview:**
 
-The *key analysis of interest* is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
+The **key analysis of interest** is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
 
-Importantly, as noted earlier, I plan to analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed (see here for reference: http://www.statsmakemecry.com/smmctheblog/stats-soup-anova-ancova-manova-mancova).
+Importantly, as noted earlier, I plan to analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed.
 
 
 **Relevant Excerpts from Paper:**
@@ -104,7 +106,7 @@ Importantly, as noted earlier, I plan to analyze the results using a two-way ANO
 
 ###Differences from Original Study
 
-There are several slight differences from the original study, as noted below. Since all are minor, none are expected to make a difference on the two confirmatory analyses.
+There are several slight differences from the original study, as noted below. Since all are minor, none are expected to make a difference on the two confirmatory analyses. 
 
 
 **Sample differences**
@@ -118,6 +120,8 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 
 
 **Procedure differences**
+
+  Please note that there was one procedure change that I did not pre-register, namely: "I changed from "click continue" to "click the arrow" throughout."
 
 **1. New Questions**
    
@@ -185,8 +189,7 @@ As noted in the "Analysis Plan" section, I conduct a two-way ANOVA rather than a
 
 
 #### Actual Sample
-  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
-  
+
 ```{r Import data, echo = FALSE}
 
 d <- read_csv("data/obrien2015_final_December 6, 2017_16.22_numeric_deidentified.csv")
@@ -203,14 +206,14 @@ d.demographics <- d %>%
   mutate(subid = row_number()) %>%
   select(subid, condition, sex, Ethnicity, age, Education, Q_TotalDuration) %>%
   mutate(ethnicity_simplified = as.numeric(Ethnicity)) %>%
-  mutate(ethnicity_simplified = ifelse(is.na(ethnicity_simplified),9,ethnicity_simplified)) %>%
+  mutate(ethnicity_simplified = ifelse(is.na(ethnicity_simplified),9,ethnicity_simplified)) %>% #Using 9 to denote multiple ethnicities selected
   mutate(edu_simplified = as.numeric(Education)) %>%
   mutate(edu_simplified = ifelse(edu_simplified <3,0,1))
 
 
 #N
 
-d.demographics$su <- as.numeric(d.demographics$subid)
+d.demographics$subid <- as.numeric(d.demographics$subid)
 
 numberp <- sum(d.demographics$subid>0)
   
@@ -230,8 +233,6 @@ prcnt_female <- round(100*(sum(d.demographics$sex == "2") / numberp),digits = 1)
 #Summarize ethnicity
 
 d.demographics$ethnicity_simplified[(d.demographics$ethnicity_simplified==7)] <- "White"
-
-d.demographics$ethnicity_simplified <- as.factor(d.demographics$ethnicity_simplified)
 
 prcnt_white <- round(100*(sum(d.demographics$ethnicity_simplified == "White") / numberp), digits = 1)
 
@@ -397,9 +398,12 @@ ggplot(data = d.summarized,
 
 ```
 
+  Graphically, it seems that there is not a task by role model interaction. In fact, it seems that the opposite interaction (future self completes more trials on fun task, past self completes more trials on self-control task) is trending.
+
+
 ####Model of Main Finding (Two Way Interaction)
 
-  First, let's look at the two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
+  Let's conduct a two way anova, looking at the number of trials completed comparing task by role model. The main term of interest is the p-value for the task:role model condition; in other words, we want to know whether the task by role model interaction is significant.
 ```{r Two-Way ANOVA for Num Trials, echo = FALSE}
 
 #Anova
@@ -410,7 +414,7 @@ kable(fit, digits = 2, caption = "ANOVA output")
 ```
 
 
-  This analysis confirmed what we saw in the chart: the interaction was not significant. Moreover, as we saw, there was a main effect by task. Even though the interaction was not signficant, and seemed to be in the opposite direction, let's look at the effect size (eta squared).
+  This analysis confirmed what we saw in the chart: the interaction was not significant. Moreover, as we saw, there was a main effect by task. Even though the interaction was not significant, and seemed to be in the opposite direction, let's look at the effect size (eta squared).
 
 ```{r Effect Sizes, echo = FALSE}
 
@@ -420,11 +424,11 @@ kable(eta_sq(fit), digits = 3, caption = "Eta Squared Values")
 
 
   This shows that the effect size was near 0. In the original paper, eta squared = 0.05. This again shows that we did not quite replicate the finding.
----
+
 
 ###Exploratory Analyses
 
-  Please note that I have done only some of the original exploratory analyses I planned, and I have done some new ones, based on feedback from others.
+  Please note that I have done only some of the original exploratory analyses I planned, and I have also done several new ones, based on feedback from others.
 
 
 
@@ -449,7 +453,7 @@ ggplot(d.tidy.2,
 ```
 
 
-  From this chart, we can see that the number of trials is not normally distributed and has spikes at 1 trial (the minimum) and at 10 trials (the maximium), and there was a slight bump around 3 photos.
+  From this chart, we can see that the number of trials is not normally distributed and has spikes at 1 trial (the minimum) and at 10 trials (the maximum), and there was a slight bump around 3 photos.
 
   Since this is count data, let's model the interaction with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set). Here are the results of the poisson model:
 
@@ -460,7 +464,7 @@ summary(poissonmodel <- glm(numtrials ~ task * rolemodel, family = "poisson", d.
 
 ```
 
- The interaction is not significant, again, using a null hypothesis significant testing approach, showing that the replication failed.
+ The interaction between task and role model is not significant.
 
 
 ####Exploratory Analysis #2 -- Covariates
@@ -512,13 +516,13 @@ summary(poissonmodel_distancetaskcov)
 ```
   
 
-   None of the interactions are significant. This shows that regardless of covariate used, the criticial interaction was never significant.
+   None of the interactions are significant. This shows that regardless of covariate used, the critical interaction was never significant.
 
 
 
 ####Exploratory Analysis #3 -- Manipulation check
 
-  It might be that this experiment did not "work" because people did not use their past or future self as a role model. Let's see how participants scored on the manipulation check I created:
+  It might be that this experiment did not "work" because people did not use their past or future self as a role model. Let's see how participants scored on the manipulation check I created. Below, a histogram of participants' scores on the histogram is plotted.
 
 ```{r Manipulation Check Distribution, echo = FALSE}
 
@@ -527,7 +531,7 @@ ggplot(data =d.tidy,
   geom_histogram(stat="count")+
   labs(y="Number of Participants",
        x = "To what extent did you keep your 'other self' in mind as a guide \nwhen doing the slideshow? (1=did not keep in mind, 7=kept in mind)",
-       title = "Histogram of Manipulation Check")+
+       title = "Histogram of Manipulation Check Scores")+
   ggthemes::theme_few() +
   theme(plot.caption = element_text(hjust=0.05, vjust=0.1, size = 12),
         axis.text.y = element_text(size=14),
@@ -589,15 +593,15 @@ ggplot(data = d.summarized.manipcheck,
            
 ```
 
-  Using the 95% confidence intervals as approximation, there does not appear to be an interaction of task and self. Again, we observe in the fun task, the opposite, albeit nonsignificant, trend such that participants motivated by their future self completed more trials than participants motivated by their past self.
+  Using the 95% confidence intervals as approximation, there does not appear to be an interaction of task and role model. Again, we observe in the fun task, the opposite, albeit non-significant, trend such that participants motivated by their future self completed more trials than participants motivated by their past self.
 
 
 
 ####Exploratory Analysis #4 -- Time differences by condition
 
-  One implication of using your past (future) self as a role model for the fun (self-control) task is that you spend longer on each slide enjoying it (counting) than when you use your future (past) self as a role model.
+  One implication of using your past (future) self as a role model for the fun (self-control) task is that you might be more thorough and spend longer on each slide enjoying it (counting) than when you use your future (past) self as a role model.
 
-  Thus, I want to know: how much time were participants spending on each page before submitting? Below is a histogram of the average time spent per trial.
+  Thus, I want to know: how much time did participants spend on each trials before moving on to the next slide or finishing the slideshow (e.g. how much time did they spend looking at each photo)? Below is a histogram of the average time spent per trial.
 
 ```{r Time Analysis, echo=FALSE}
 
@@ -677,7 +681,7 @@ ggplot(data = d.tidy.time,
 
 ```
 
-  This data set looks now nearly normally distributed. Thus, let's use a two-way ANOVA on the log transofrmmed data. Let's also still plot the average time spent per page per condtion just to see differences.
+  This data set looks now nearly normally distributed. Thus, let's use a two-way ANOVA on the log transformed data. Let's also still plot the average time spent per page per condition just to see differences.
 
 
 ```{r Time Data Summary, echo=FALSE}
@@ -728,27 +732,27 @@ kable(fit2, digits = 2, caption = "Log Time per Trial Two-Way ANOVA")
 
 ```
 
-  The interaction is not signficant, per the two way anova. Looking visually at the raw means, it does seem to be the case that participants role modeling their future self spent more time in both tasks, particularly in the self-control task (not-signficant but trending).
+  The interaction is not significant, per the two way anova. Looking visually at the raw means, it seems that participants role modeling their future self spent more time in both tasks, particularly in the self-control task (not-significant but trending); note that these differences are not significant based on the 95% confidence intervals.
 
 
 ## Discussion
 
 ### Summary of Replication Attempt
 
-  The goal of this replication was to replicate O'Brien (2015) original finding of a self by task interaction, such that participants who role modeled their past self would choose to view more photos ("complete more trials") in the fun task than participants who role modeled their future self, and participants who role modeled their future self would choose to view more photos in the self-control task than participants who role modeled their past self. Although this was not specified ahead of time, a successful replication would lead to a significant task by self interaction as well as a comparable effect size. 
+  The goal of this replication was to replicate the original, key finding in study 4 of O'Brien (2015) in which there was a self by task interaction, such that participants who role modeled their past self completed more trials (aka viewed more photos) in the fun task than participants who role modeled their future self, and participants who role modeled their future self completed more trials in the self-control task than participants who role modeled their past self. Although this was not specified ahead of time, a successful replication would have to a significant task by self interaction as well as a comparable effect size. 
   
-  I failed to replicate the original result. The interaction was not significant, and the effect size was nearly 0 (eta square d= 0.004, compared to original eta squared = 0.05). Moreover, it seemed like there was a trend in the opposite direction, such that participants role modeling their future self viewed more photos in the fun task than those role modeling their past self, and participants role modeling their past self in the self-control task viewed more photos in the self-control task than participants role modeling their future self.
+  I failed to replicate the original result. The task by self interaction was not significant, and the effect size was nearly 0 (eta square d= 0.004, compared to original eta squared = 0.05). Moreover, it seemed like there was a trend in the opposite direction, such that participants role modeling their future self completed more trials in the fun task than those role modeling their past self, and participants role modeling their past self in the self-control task completed more trials in the self-control task than participants role modeling their future self.
 
 
 ### Commentary
 
-*A* The exploratory analyses largely confirmed my original findings: there was no significant interaction between task and role model, even when I used a poisson regression (as the count data was not normally distributed) (exploratory analysis #1), used the covariates the original authors used and my new covariate (exploratory analysis #2), and excluded participants based off my manipulation check (exploratory analysis #3). Moreover, I tested a new hypothesis: could it be that if you were motivated by the situationally appropriate self (e.g. past self for fun task, future self for self-control task), you would be more thorough and spend more time per trial on average? I did not find evidence for this interaction, although it did seem that potentially participants motivated by their future self spent more time on the tasks, particularly the slef-control task (exploratory analysis #4).
+**A** The exploratory analyses largely confirmed my confirmatory analysis finding: there was no significant interaction between task and role model, even when I used a poisson regression (as the count data was not normally distributed) (exploratory analysis #1), used the covariates the original authors used and my new covariate (exploratory analysis #2), and excluded participants based off my manipulation check (exploratory analysis #3). Moreover, I tested a new hypothesis: could it be that if you were motivated by the situationally appropriate self (e.g. past self for fun task, future self for self-control task), you would be more thorough and spend more time per trial on average (exploratory analysis #4)? I did not find evidence for this interaction, although it did seem that potentially participants motivated by their future self spent more time on the tasks, particularly the self-control task.
   
-*B* What is the implication of the failed replication? The first question is: was there a problem in my design that potentially contributed to a failed replication? There were a number of minor changes, but none that would have influenced the interaction I believe. Indeed, perhaps the biggest difference was that I compensated participants in 2017 $0.85 for a study from 2+ years ago that was compensated $1.00, and this difference would only explain an overall decrease in number of trials completed (as seems to the be case, eyeballing the averages), not a change in the interaction of task and role model. Another salient difference was that my task was more demanding as I required participants to type "ok" or submit a numerical responses, and I required a minimum number of 250 characters on the response question. This would be problematic if this requirement affected trial completion rates at differential rates across the conditions, and I cannot think of why this would be the case. In all probability, this would have just tired out participants, again contributing to a lower number of trials completed, but would not have affected the interaction.
+**B** What is the implication of the failed replication? The first question is: was there a problem in my design that potentially contributed to a failed replication? There were a number of minor changes, but none that would have influenced the interaction I believe. Indeed, perhaps the biggest difference was that I compensated participants $0.85 for a study from 2+ years ago that was compensated $1.00. However, this difference would only explain an overall decrease in number of trials completed (as seems to the be case, eyeballing the averages), not a change in the interaction of task and role model. Another salient difference was that my task was more demanding as I required participants to type "ok" or submit a numerical response, and I required a minimum number of 250 characters on the response question. This would be problematic if this requirement affected trial completion rates at differential rates across the conditions, and I cannot think of why this would be the case. In all probability, this would have just tired out participants, again contributing to a lower number of trials completed, but would not have affected the interaction.
   
-  Of course, the question is then: how are we to make sense of this failed replication? Is it the case that the past self is not viewed as emotional, and the future self is not viewed as rational? One explanation is that these selves were never viewed this way, and the original study was a fluke, though I find this unlikely given the robustness of other studies. Another explanation is that the definition of these selves have changed, which I also find unlikely as it has only been a few years. A third explanation is that the task itself -- looking at a slideshow of nature -- is only a weak manipulation of perceived emotionality or rationality, such that it is not clear how many slides one's past self would view on the fun task, or how many slides one's future self would view on the future task. Moreover, this is perhaps why the future self spent more time per trial on average on both tasks: one's future self would exhibit self-control, and so would do any task, whether it be fun or rational, more thoroughly (and this would be particularly true of a rational task).
+  Of course, the question is then: how are we to make sense of this failed replication? Is it the case that the past self is not viewed as emotional, and the future self is not viewed as rational? One explanation is that these selves were never viewed this way, and the original study was a fluke, though I find this unlikely given the robustness of the other studies in O'Brien (2015). Another explanation is that the definition of these selves have changed, such that past selves are no longer viewed as emotional and future selves are no longer viewed as rational. I also find this unlikely as it has only been a few years, and I captured a similar population. A third explanation is that the task itself -- looking at a slideshow of nature photos -- is only a weak manipulation of perceived emotionality or rationality, such that it is not clear how many slides one's past or future self would view on the fun task, or how many slides one's past or future self would view on the future task. Indeed, this ambiguity perhaps explains the trends in my exploratory analysis #4, in which the future self spent more time per trial on average on both tasks particularly the self-control task: one's future self is rational and would exhibit self-control in terms of the thoroughness of doing the task, not how much of the task is done. Thus, one's future self might do any task more thoroughly and spend more time, whether it be fun or rational; perhaps this would be particularly true of a rational task. Of course, this is speculation about a trending difference, as time differences by condition do not appear to be significant based on the chart. A final explanation is that while one's past self is viewed as emotional and one's future self is viewed as rational, this attribute is not strong enough to make a difference when using these selves as role models. Ultimately then, I believe there should be follow-up work in which the task in question is more thoroughly developed before we can make conclusions about whether using past or future selves as role models does or does not affect behavior.
   
-*C* There were no objections or challenges reaised by the original authors.
+**C** There were no objections or challenges raised by the original author. I want to thank the original author for his incredible support throughout the process.
 
 
 

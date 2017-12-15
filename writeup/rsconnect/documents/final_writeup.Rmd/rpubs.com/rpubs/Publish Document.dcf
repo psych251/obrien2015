@@ -4,7 +4,7 @@ username:
 account: rpubs
 server: rpubs.com
 hostUrl: rpubs.com
-appId: https://api.rpubs.com/api/v1/document/340829/c97df6f684b04a198480d06acbe38150
-bundleId: https://api.rpubs.com/api/v1/document/340829/c97df6f684b04a198480d06acbe38150
-url: http://rpubs.com/publish/claim/340829/c5ea98f9465e41749a6387df1c2e4e7e
-when: 1513058895.62041
+appId: https://api.rpubs.com/api/v1/document/341837/3e8d73235ddd46ddadcaf28b61bcfefe
+bundleId: https://api.rpubs.com/api/v1/document/341837/3e8d73235ddd46ddadcaf28b61bcfefe
+url: http://rpubs.com/eriksantoro/341837
+when: 1513297830.10237
