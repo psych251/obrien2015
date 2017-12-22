@@ -36,7 +36,7 @@ The goal of the replication is to replicate study 4, and specifically replicate 
 
 The goal is to replicate the main finding, that there was a significant interaction between task (fun and self-control) and role model (past or future self).
 
-The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). Given there is one outcome variable, I to use a two-way ANOVA, which I believe is a more appropriate statistical test to use.
+The original authors used a MANOVA when looking at one outcome variable (the number of trials completed) and two factors each with two levels (role model -- past or future self; task -- fun or self-control). For simplicity purposes, I used a two-way ANOVA; note that these should be equivalent.
 
 In terms of effect size, the original effect size was eta squared = 0.05, or cohen's f of 0.23 (converted partial eta squared to cohen's f using G Power; assumed that partial eta squared and eta squared were equivalent in this case). To achieve an effect size of partial eta squared of 0.05, we would need 152 participants (80% power), 202 participants (90% power), or 249 participants (95% power). The power calculations are below. 80% power is shown below. This sample size is large, given that in my pilot participants took ~ 8 minutes; achieving a power of 80%, we would need to spend ~ $130 (e.g. $0.85 per participant). 
 
@@ -87,7 +87,7 @@ Link: https://stanforduniversity.qualtrics.com/jfe/form/SV_4NQmuXvZK27wPzL
 
 The **key analysis of interest** is to replicate the significant interaction by task and role model, such that participants completed more trials in the fun task when role modeling their past self and completed more trials in the self-control task when role modeling their future self. 
 
-Importantly, as noted earlier, I plan to analyze the results using a two-way ANOVA. I believe this is the correct statistical test to use (not a MANOVA, as the original paper used) as the goal of the analysis is to look at the interaction between the two categorical factors, task (fun or self-control) and role model (past or future self), on the number of trials completed.
+As noted earlier, I plan to analyze the results using a two-way ANOVA, which should be approximately equivalent to using a MANOVA.
 
 
 **Relevant Excerpts from Paper:**
@@ -182,7 +182,7 @@ None to slight: The setting is a Qualtrics survey hosted on Amazon's Mechanical 
 
 **Analysis plan differences**
 
-As noted in the "Analysis Plan" section, I conduct a two-way ANOVA rather than a univariate MANOVA as MANOVA's are for two dependent variables typically and there is only one dependent variable.
+As noted in the "Analysis Plan" section, I conduct a two-way ANOVA rather than a univariate MANOVA.
 
 
 ### Methods Addendum (Post Data Collection)
@@ -316,10 +316,12 @@ d.tidy <- d.tidy %>%
 
 d.tidy$task <- as.factor(d.tidy$task)
 d.tidy$rolemodel <- as.factor(d.tidy$rolemodel)
-d.tidy$difficult <- as.factor(d.tidy$difficult)
-d.tidy$detailed <- as.factor(d.tidy$detailed)
-d.tidy$distancenow <- as.factor(d.tidy$distancenow)
-d.tidy$distancetask <- as.factor(d.tidy$distancetask)
+
+#Make numeric variables
+d.tidy$difficult <- as.numeric(d.tidy$difficult)
+d.tidy$detailed <- as.numeric(d.tidy$detailed)
+d.tidy$distancenow <- as.numeric(d.tidy$distancenow)
+d.tidy$distancetask <- as.numeric(d.tidy$distancetask)
 
 
 #Convert number of trials to a numeric variable
@@ -455,7 +457,7 @@ ggplot(d.tidy.2,
 
   From this chart, we can see that the number of trials is not normally distributed and has spikes at 1 trial (the minimum) and at 10 trials (the maximum), and there was a slight bump around 3 photos.
 
-  Since this is count data, let's model the interaction with poisson regression (note: zero inflated poisson regression not appropriate as there are not an excess of zeroes in the non-log-transformed data set). Here are the results of the poisson model:
+  Since this is count data, let's model the interaction with poisson regression. Here are the results of the poisson model:
 
 ```{r Poisson Regression, echo = FALSE}
 
